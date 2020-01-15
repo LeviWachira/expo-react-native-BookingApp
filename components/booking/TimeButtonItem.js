@@ -7,7 +7,6 @@ const TimeButtonItem = props => {
             <TouchableOpacity style={styles.button} onPress={() => { }}>
                 <Text style={styles.font} numberOfLines={2} >{props.time}<Text>.00</Text></Text>
             </TouchableOpacity>
-            
         </View>
     )
 }
@@ -17,17 +16,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2,
-        shadowOffset: { width: 0, height: 2 },
-        shadowColor: '#ccc',
         backgroundColor: '#4169E1',
         height: '10%',
         marginHorizontal: 10,
         paddingVertical: 4,
         paddingHorizontal: 5,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity : 0.26,
+        shadowRadius: 8,
+        elevation : 5
+
     },
     font: {
         fontSize: 16,
-        color: 'white'
+        color: 'white' ,
+        fontWeight : 'bold'
     }
 
 })

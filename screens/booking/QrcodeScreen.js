@@ -9,4 +9,8 @@ const QrcodeScreen = props => {
     )
 }
 
+QrcodeScreen.navigationOptions = {
+    headerTitle : 'Qrcode'
+}
+
 export default QrcodeScreen;

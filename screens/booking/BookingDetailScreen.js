@@ -1,7 +1,16 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
+import {
+    View,
+    Text,
+    ScrollView,
+    StyleSheet,
+    ImageBackground,
+    SafeAreaView
+} from 'react-native';
 import { useSelector } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import CustomHeaderButton from '../../components/UI/HeaderButton';
 import TimeButtonItem from '../../components/booking/TimeButtonItem';
 
 const BookingDetailScreen = props => {
@@ -17,7 +26,7 @@ const BookingDetailScreen = props => {
                     <Text style={styles.timeTitle}>{selectRooms.timeTitle} | Please help to keep it clean.</Text>
                 </View>
             </ImageBackground>
-            <ScrollView  style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View>
                     <View style={styles.headerTitle}>
                         <Text style={styles.headerTitleText}>{roomTitle}</Text>
@@ -39,9 +48,18 @@ const BookingDetailScreen = props => {
 BookingDetailScreen.navigationOptions = navData => {
     const roomTitle = navData.navigation.getParam('roomTitle');
     return {
-        headerTitle: roomTitle
+        headerTitle: roomTitle,
+        headerRight: (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title='Favourite'
+                    iconName='ios-star-outline'
+                    onPress={() => { }}
+                />
+            </HeaderButtons>
+        )
     }
-}
+};
 
 const styles = StyleSheet.create({
     screen: {
@@ -74,7 +92,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#D3D3D3'
     },
     headerTitleText: {
-        fontSize: 20,
+        fontSize: 19,
+        fontWeight: 'bold',
         color: '#4169E1'
     },
     roomDetail: {
@@ -82,11 +101,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         height: '100%',
         marginVertical: 35,
-
     },
     warningText: {
         fontSize: 15,
-        color: 'red'
+        color: 'red',
     }
 })
 
