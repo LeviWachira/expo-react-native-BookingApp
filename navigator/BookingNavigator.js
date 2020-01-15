@@ -17,9 +17,9 @@ import FavouriteScreen from '../screens/booking/FavouriteScreen';
 //handler headerTitle
 const defaultNavOptions = {
     headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? Colors.accent : ''
+        backgroundColor: Platform.OS === 'android' ? '#4169E1' : ''
     },
-    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.accent
+    headerTintColor: Platform.OS === 'android' ? 'white' : '#4169E1'
 };
 
 //handler createStackNavigator Booking Screen
@@ -28,21 +28,21 @@ const BookingNavigator = createStackNavigator({
     BookingRoom: BookingRoomScreen,
     BookingDetail: BookingDetailScreen,
 }, {
-    defaultNavigationOptoions: defaultNavOptions
+    defaultNavigationOptions: defaultNavOptions
 });
 
 //handler createBottomTabNavigator Qrcode Screen
 const QrcodeNavigator = createStackNavigator({
     Qrcodes: QrcodeScreen
 }, {
-    defaultNavigationOptoions: defaultNavOptions
+    defaultNavigationOptions: defaultNavOptions
 })
 
 //handler createBottomTabNavigator Favourite Screen
 const FavNavigator = createStackNavigator({
     Favourites: FavouriteScreen
 }, {
-    defaultNavigationOptoions: defaultNavOptions
+    defaultNavigationOptions: defaultNavOptions
 });
 
 //handler tabBottomConfig
@@ -51,7 +51,7 @@ const tabScreenConfig = {
         screen: BookingNavigator,
         navigationOptions: {
             tabBarLabel: 'Home',
-            tabBarColor: Colors.primaryColor,
+            tabBarColor: '#4169E1',
             tabBarIcon: (tabInfo) => {
                 return (
                     <Ionicons
@@ -67,7 +67,7 @@ const tabScreenConfig = {
         screen: FavNavigator,
         navigationOptions: {
             tabBarLabel: 'Favourite',
-            tabBarColor: Colors.orangeColor,
+            tabBarColor: '#4169E1',
             tabBarIcon: (tabInfo) => {
                 return (
                     <Ionicons
@@ -83,7 +83,7 @@ const tabScreenConfig = {
         screen: QrcodeNavigator,
         navigationOptions: {
             tabBarLabel: 'Qrcode',
-            tabBarColor: Colors.orangeColor,
+            tabBarColor: '#4169E1',
             tabBarIcon: (tabInfo) => {
                 return (
                     <MaterialCommunityIcons
@@ -100,7 +100,7 @@ const tabScreenConfig = {
 //handler createBottomTabNavigator
 const BookingTabNavigator = createBottomTabNavigator(tabScreenConfig, {
     tabBarOptions: {
-        activeTintColor: 'black'
+        activeTintColor: '#4169E1'
     }
 });
 
