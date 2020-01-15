@@ -9,7 +9,7 @@ const initialState = {
 const roomsReducer = (state = initialState, action) => {
     switch (action.type) {
         case TOGGLE_FAVOURITE:
-            const existingIndex = state.favouriteRooms.findIndex(room => room.favouriteRooms === action.roomId);
+            const existingIndex = state.favouriteRooms.findIndex(room => room.id === action.roomId);
             if (existingIndex >= 0) {
                 const updateFavRooms = [...state.favouriteRooms];
                 updateFavRooms.splice(existingIndex, 1);
