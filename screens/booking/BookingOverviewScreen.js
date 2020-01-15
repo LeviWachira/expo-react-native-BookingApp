@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { CATEGORYROOM } from '../../data/dummy-data';
 import CategoryRoom from '../../components/booking/CategoryRoom';
+import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 const BookingOverviewScreen = props => {
 
@@ -32,7 +34,17 @@ const BookingOverviewScreen = props => {
 };
 
 BookingOverviewScreen.navigationOptions = {
-    headerTitle: 'Booking'
+
+    headerTitle: 'Booking',
+    headerRight: (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item
+                title='Notification'
+                iconName='ios-notifications-outline'
+                onPress={() => { }}
+            />
+        </HeaderButtons>
+    )
 }
 
 const styles = StyleSheet.create({

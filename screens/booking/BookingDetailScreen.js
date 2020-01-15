@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
     View,
     Text,
     ScrollView,
     StyleSheet,
     ImageBackground,
-    SafeAreaView
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import TimeButtonItem from '../../components/booking/TimeButtonItem';
+import { toggleFavourite } from '../../store/action/room';
 
 const BookingDetailScreen = props => {
 
@@ -19,6 +19,25 @@ const BookingDetailScreen = props => {
     const roomTitle = props.navigation.getParam('roomTitle');
     const availableRoom = useSelector(state => state.rooms.rooms);
     const selectRooms = availableRoom.find(room => room.id === roomId);
+
+    const currentRoomsFavourite = useSelector(state =>
+        state.rooms.favouriteRooms.some(room => room.id === roomId)
+    );
+
+    const dispatch = useDispatch();
+
+    const toggleFavouriteHandle = useCallback(() => {
+        dispatch(toggleFavourite(roomId));
+    }, [dispatch, roomId]);
+
+    useEffect(() => {
+        props.navigation.setParams({ toggleFav: toggleFavouriteHandle })
+    }, [toggleFavouriteHandle]);
+
+    useEffect(() => {
+        props.navigation.setParams({ isFav: currentRoomsFavourite })
+    }, [currentRoomsFavourite]);
+
     return (
         <View style={styles.screen}>
             <ImageBackground style={styles.Image} source={{ uri: selectRooms.imageUri }} >
@@ -47,14 +66,17 @@ const BookingDetailScreen = props => {
 
 BookingDetailScreen.navigationOptions = navData => {
     const roomTitle = navData.navigation.getParam('roomTitle');
+    const toggleFavourite = navData.navigation.getParam('toggleFav');
+    const isFavourite = navData.navigation.getParam('isFav')
+
     return {
         headerTitle: roomTitle,
         headerRight: (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Favourite'
-                    iconName='ios-star-outline'
-                    onPress={() => { }}
+                    iconName={isFavourite ? 'ios-star' : 'ios-star-outline'}
+                    onPress={toggleFavourite}
                 />
             </HeaderButtons>
         )

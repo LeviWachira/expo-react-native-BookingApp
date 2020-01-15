@@ -12,7 +12,9 @@ import BookingOverviewScreen from '../screens/booking/BookingOverviewScreen';
 import BookingRoomScreen from '../screens/booking/BookingRoomScreen';
 import BookingDetailScreen from '../screens/booking/BookingDetailScreen';
 import QrcodeScreen from '../screens/booking/QrcodeScreen';
+import FavouriteScreen from '../screens/booking/FavouriteScreen';
 
+//handler headerTitle
 const defaultNavOptions = {
     headerStyle: {
         backgroundColor: Platform.OS === 'android' ? Colors.accent : ''
@@ -20,6 +22,7 @@ const defaultNavOptions = {
     headerTintColor: Platform.OS === 'android' ? 'white' : Colors.accent
 };
 
+//handler createStackNavigator Booking Screen
 const BookingNavigator = createStackNavigator({
     BookingOverView: BookingOverviewScreen,
     BookingRoom: BookingRoomScreen,
@@ -28,13 +31,21 @@ const BookingNavigator = createStackNavigator({
     defaultNavigationOptoions: defaultNavOptions
 });
 
+//handler createBottomTabNavigator Qrcode Screen
 const QrcodeNavigator = createStackNavigator({
     Qrcodes: QrcodeScreen
 }, {
     defaultNavigationOptoions: defaultNavOptions
 })
 
+//handler createBottomTabNavigator Favourite Screen
+const FavNavigator = createStackNavigator({
+    Favourites: FavouriteScreen
+}, {
+    defaultNavigationOptoions: defaultNavOptions
+});
 
+//handler tabBottomConfig
 const tabScreenConfig = {
     Booking: {
         screen: BookingNavigator,
@@ -45,6 +56,22 @@ const tabScreenConfig = {
                 return (
                     <Ionicons
                         name='ios-home'
+                        size={23}
+                        color={tabInfo.tintColor}
+                    />
+                );
+            }
+        }
+    },
+    Favourite: {
+        screen: FavNavigator,
+        navigationOptions: {
+            tabBarLabel: 'Favourite',
+            tabBarColor: Colors.orangeColor,
+            tabBarIcon: (tabInfo) => {
+                return (
+                    <Ionicons
+                        name='ios-star-outline'
                         size={23}
                         color={tabInfo.tintColor}
                     />
@@ -68,13 +95,14 @@ const tabScreenConfig = {
             }
         }
     }
-}
+};
 
+//handler createBottomTabNavigator
 const BookingTabNavigator = createBottomTabNavigator(tabScreenConfig, {
     tabBarOptions: {
         activeTintColor: 'black'
     }
-})
+});
 
 
 export default createAppContainer(BookingTabNavigator);

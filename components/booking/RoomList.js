@@ -3,9 +3,14 @@ import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { useSelector } from 'react-redux';
 
 import CategoryRoom from './CategoryRoom';
+
 const RoomList = props => {
 
+  const favouriteRoom = useSelector(state => state.rooms.rooms);
+
   const renderRoomItem = itemData => {
+    //isFavourite return true || false .
+    const isFavourite = favouriteRoom.some(room => room.id === itemData.item.id);
     return (
       <CategoryRoom
         title={itemData.item.title}
@@ -16,6 +21,7 @@ const RoomList = props => {
             params: {
               roomId: itemData.item.id,
               roomTitle: itemData.item.title,
+              isFav: isFavourite
             }
           });
         }} />
