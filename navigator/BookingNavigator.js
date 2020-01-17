@@ -28,10 +28,13 @@ const BookingNavigator = createStackNavigator({
     BookingOverView: BookingOverviewScreen,
     BookingRoom: BookingRoomScreen,
     BookingDetail: BookingDetailScreen,
-    // BookingCommit: BookingCommitScreen
+    BookingCommit: BookingCommitScreen
 }, {
     defaultNavigationOptions: defaultNavOptions
 });
+
+// const AdminNavigator = createStackNavigator({
+// })
 
 //handler createBottomTabNavigator Qrcode Screen
 const QrcodeNavigator = createStackNavigator({

@@ -34,18 +34,20 @@ const BookingOverviewScreen = props => {
     )
 };
 
-BookingOverviewScreen.navigationOptions = {
+BookingOverviewScreen.navigationOptions = navData => {
 
-    headerTitle: 'Booking',
-    // headerRight: (
-    //     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-    //         <Item
-    //             title='Notification'
-    //             iconName='ios-notifications-outline'
-    //             onPress={() => { }}
-    //         />
-    //     </HeaderButtons>
-    // )
+    return {
+        headerTitle: 'Booking',
+        headerRight: (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title='Notification'
+                    iconName='ios-notifications-outline'
+                    onPress={() => navData.navigation.navigate('BookingCommit')}
+                />
+            </HeaderButtons>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
