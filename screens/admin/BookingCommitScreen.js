@@ -19,7 +19,7 @@ const BookingCommit = props => {
         const tranformedBookingItems = [];
         for (const key in state.booking.booking) {
             tranformedBookingItems.push({
-                roomId: key,
+                roomId: state.booking.booking[key].id,
                 roomTitle: state.booking.booking[key].title,
                 roomTimeTitle: state.booking.booking[key].timeTitle,
                 roomtimeSteps: state.booking.booking[key].timeSteps,
@@ -27,7 +27,7 @@ const BookingCommit = props => {
         }
         return tranformedBookingItems.sort((a, b) => a.roomId > b.roomId ? 1 : -1);
     })
-    console.log(`bookingItems = ${JSON.stringify(bookingItems)}`);
+    console.log(`lv2 = ${JSON.stringify(bookingItems)}`);
 
     const dispatch = useDispatch();
 
