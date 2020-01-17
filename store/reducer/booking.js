@@ -1,5 +1,6 @@
 import { ADD_TO_BOOKING, REMOVE_FROM_BOOKING } from '../action/booking';
 import Booking from '../../models/booking';
+import moment from 'moment';
 
 const initialState = {
     booking: [],
@@ -20,10 +21,10 @@ export default (state = initialState, action) => {
                 roomId + roomTimeSteps[timeStepIndex],
                 roomTitle,
                 roomTimeTitle,
-                roomTimeSteps[timeStepIndex]
+                roomTimeSteps[timeStepIndex],
+                moment().format('MMMM Do YYYY, hh:mm:ss a')
             );
             console.log(`lv1 = ${JSON.stringify(updateOrNewBooking)}`);
-
             return {
                 ...state,
                 booking: state.booking.concat(updateOrNewBooking)
@@ -35,7 +36,6 @@ export default (state = initialState, action) => {
                 booking: state.booking.filter(room => room.id !== action.rid)
             }
 
-
     }
     return state;
-}
+};

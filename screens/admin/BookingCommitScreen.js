@@ -22,19 +22,18 @@ const BookingCommit = props => {
                 roomId: state.booking.booking[key].id,
                 roomTitle: state.booking.booking[key].title,
                 roomTimeTitle: state.booking.booking[key].timeTitle,
-                roomtimeSteps: state.booking.booking[key].timeSteps,
+                roomTimeSteps: state.booking.booking[key].timeSteps,
+                roomDate: state.booking.booking[key].date
             })
         }
-        return tranformedBookingItems.sort((a, b) => a.roomId > b.roomId ? 1 : -1);
+        return tranformedBookingItems.sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
     console.log(`lv2 = ${JSON.stringify(bookingItems)}`);
 
     const dispatch = useDispatch();
-
     const onCancelCommit = (rid) => {
         dispatch(bookingActions.removeFromBooking(rid));
     };
-
 
     return (
 
@@ -43,27 +42,32 @@ const BookingCommit = props => {
                 data={bookingItems}
                 keyExtractor={item => item.roomId}
                 renderItem={itemData => (
-                    <Card style={styles.container}>
-                        <View style={styles.textContainer}>
-                            <Text><Text style={styles.text}>Room: </Text>{itemData.item.roomTitle}</Text>
-                            <Text><Text style={styles.text}>Timelimit: </Text>{itemData.item.roomTimeTitle}</Text>
-                            <Text><Text style={styles.text}>Time: </Text>{itemData.item.roomtimeSteps}<Text>.00-{(itemData.item.roomtimeSteps) + 1}.00</Text></Text>
+                    <Card style={styles.cardContainer}>
+                        <View style={styles.container}>
+                            <View style={styles.textContainer} >
+                                <Text><Text style={styles.text}>Room: </Text>{itemData.item.roomTitle}</Text>
+                                <Text><Text style={styles.text}>Timelimit: </Text>{itemData.item.roomTimeTitle}</Text>
+                                <Text><Text style={styles.text}>Time: </Text>{itemData.item.roomTimeSteps}<Text>.00-{(itemData.item.roomTimeSteps) + 1}.00</Text></Text>
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity onPress={() => { }}>
+                                    <Ionicons
+                                        name={Platform.OS === 'android' ? 'md-checkmark-circle' : 'ios-checkmark-circle'}
+                                        size={35}
+                                        color='#4169E1'
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => { onCancelCommit(itemData.item.roomId) }}>
+                                    <Ionicons
+                                        name={Platform.OS === 'android' ? 'md-close-circle' : 'ios-close-circle'}
+                                        size={35}
+                                        color='red'
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity onPress={() => { }}>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-checkmark-circle' : 'ios-checkmark-circle'}
-                                    size={35}
-                                    color='#4169E1'
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { onCancelCommit(itemData.item.roomId) }}>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-close-circle' : 'ios-close-circle'}
-                                    size={35}
-                                    color='red'
-                                />
-                            </TouchableOpacity>
+                        <View style={styles.date}>
+                            <Text><Text>{itemData.item.roomDate}</Text></Text>
                         </View>
                     </Card>
                 )}
@@ -79,7 +83,10 @@ BookingCommit.navigationOptions = {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        marginTop: 5
+    },
+    cardContainer: {
+        marginVertical: 5,
+        marginHorizontal: 5
     },
     container: {
         flexDirection: 'row',
@@ -89,7 +96,7 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         justifyContent: 'center',
-        height: 80,
+        height: 60,
         width: 180,
         marginVertical: 10,
         marginHorizontal: 10,
@@ -107,6 +114,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center'
+    },
+    date: {
+        alignItems: 'center',
+        marginBottom: 5
     }
 
 })
