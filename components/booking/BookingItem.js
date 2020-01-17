@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import * as bookingActions from '../../store/action/booking';
@@ -8,15 +8,21 @@ const BookingItem = props => {
 
     const dispatch = useDispatch();
 
-    // const onBookingHandler = (room, timeStep) => {
-        
-    // };
+    const onBookingHandler = (room, time) => {
+        Alert.alert('Are you sure?', 'Do you really want to Booking this this time?', [
+            { text: 'No', style: 'destructive' },
+            {
+                text: 'Yes',
+                style: 'default',
+                onPress: () => {
+                    dispatch(bookingActions.addToBooking(room, time));
+                }
+            }
+        ]);
+    };
 
     return (
-        <TouchableOpacity onPress={() => {
-            dispatch(bookingActions.addToBooking(props.selectRooms, props.timeItems))
-
-        }}>
+        <TouchableOpacity onPress={() => { onBookingHandler(props.selectRooms, props.timeItems) }}>
             <View style={styles.button}>
                 <Text style={styles.font} >{props.timeItems}<Text>.00</Text></Text>
             </View>

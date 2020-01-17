@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 const BookingCommit = props => {
 
-    // state.booking.booking
     const bookingItems = useSelector(state => {
         const tranformedBookingItems = [];
         for (const key in state.booking.booking) {
