@@ -5,12 +5,13 @@ import {
     ScrollView,
     StyleSheet,
     ImageBackground,
+    FlatList
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
-import TimeButtonItem from '../../components/booking/TimeButtonItem';
+import BookingItem from '../../components/booking/BookingItem';
 import { toggleFavourite } from '../../store/action/room';
 
 const BookingDetailScreen = props => {
@@ -38,6 +39,7 @@ const BookingDetailScreen = props => {
         props.navigation.setParams({ isFav: currentRoomsFavourite })
     }, [currentRoomsFavourite]);
 
+
     return (
         <View style={styles.screen}>
             <ImageBackground style={styles.Image} source={{ uri: selectRooms.imageUri }} >
@@ -45,18 +47,24 @@ const BookingDetailScreen = props => {
                     <Text style={styles.timeTitle}>{selectRooms.timeTitle} | Please help to keep it clean.</Text>
                 </View>
             </ImageBackground>
-            <ScrollView style={styles.container}>
+            <ScrollView >
                 <View>
                     <View style={styles.headerTitle}>
                         <Text style={styles.headerTitleText}>{roomTitle}</Text>
                     </View>
                     <View style={styles.roomDetail}>
                         {selectRooms.timeSteps.map(timeItems => (
-                            <TimeButtonItem
+                            <BookingItem
                                 key={timeItems}
-                                time={timeItems}
+                                timeItems={timeItems}
+                                selectRooms={selectRooms}
                             />
                         ))}
+                    </View>
+                    <View style={styles.warningContainer}>
+                        <Text style={styles.warningText}>
+                            alert
+                        </Text>
                     </View>
                 </View>
             </ScrollView>
@@ -87,19 +95,17 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch'
     },
     Image: {
         height: 200,
-        width: '100%',
         justifyContent: 'flex-end',
     },
     timeTitleContainer: {
         backgroundColor: 'rgba(0,0,0,0.5)',
         paddingHorizontal: 12,
         paddingVertical: 5
-    },
-    container: {
-        flex: 1
     },
     timeTitle: {
         fontSize: 15,
@@ -111,7 +117,8 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         padding: 10,
         borderColor: '#D3D3D3',
-        backgroundColor: '#D3D3D3'
+        backgroundColor: '#D3D3D3',
+        height: 50
     },
     headerTitleText: {
         fontSize: 19,
@@ -121,8 +128,11 @@ const styles = StyleSheet.create({
     roomDetail: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        height: '100%',
+        height: 20,
         marginVertical: 35,
+    },
+    warningContainer: {
+        height: 200
     },
     warningText: {
         fontSize: 15,

@@ -13,6 +13,7 @@ import BookingRoomScreen from '../screens/booking/BookingRoomScreen';
 import BookingDetailScreen from '../screens/booking/BookingDetailScreen';
 import QrcodeScreen from '../screens/booking/QrcodeScreen';
 import FavouriteScreen from '../screens/booking/FavouriteScreen';
+import BookingCommitScreen from '../screens/admin/BookingCommitScreen'
 
 //handler headerTitle
 const defaultNavOptions = {
@@ -27,13 +28,14 @@ const BookingNavigator = createStackNavigator({
     BookingOverView: BookingOverviewScreen,
     BookingRoom: BookingRoomScreen,
     BookingDetail: BookingDetailScreen,
+    // BookingCommit: BookingCommitScreen
 }, {
     defaultNavigationOptions: defaultNavOptions
 });
 
 //handler createBottomTabNavigator Qrcode Screen
 const QrcodeNavigator = createStackNavigator({
-    Qrcodes: QrcodeScreen
+    Qrcodes: BookingCommitScreen
 }, {
     defaultNavigationOptions: defaultNavOptions
 })

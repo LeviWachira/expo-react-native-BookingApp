@@ -26,7 +26,8 @@ const BookingOverviewScreen = props => {
     };
 
     return (
-        <FlatList keyExtractor={(item) => item.id}
+        <FlatList
+            keyExtractor={(item) => item.id}
             data={CATEGORYROOM}
             renderItem={renderGridItem}
         />
@@ -36,15 +37,15 @@ const BookingOverviewScreen = props => {
 BookingOverviewScreen.navigationOptions = {
 
     headerTitle: 'Booking',
-    headerRight: (
-        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-            <Item
-                title='Notification'
-                iconName='ios-notifications-outline'
-                onPress={() => { }}
-            />
-        </HeaderButtons>
-    )
+    // headerRight: (
+    //     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+    //         <Item
+    //             title='Notification'
+    //             iconName='ios-notifications-outline'
+    //             onPress={() => { }}
+    //         />
+    //     </HeaderButtons>
+    // )
 }
 
 const styles = StyleSheet.create({
