@@ -22,7 +22,7 @@ const BookingItem = props => {
     };
 
     return (
-        <TouchableOpacity onPress={() => { onBookingHandler(props.selectRooms, props.timeItems) }}>
+        <TouchableOpacity onPress={() => { onBookingHandler(props.selectRooms, props.timeItems) }} >
             <View style={styles.button}>
                 <Text style={styles.font} >{props.timeItems}<Text>.00</Text></Text>
             </View>

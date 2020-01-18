@@ -5,15 +5,19 @@ import {
     FlatList,
     StyleSheet,
     TouchableOpacity,
-    Platform
+    Platform,
+    Alert
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 
 import * as bookingActions from '../../store/action/booking';
+import * as qrcodeActions from '../../store/action/qrcode';
 import Card from '../../components/UI/Card';
 
 const BookingCommit = props => {
+
+    const selectedBooking = useSelector(state => state.booking.booking);
 
     const bookingItems = useSelector(state => {
         const tranformedBookingItems = [];
@@ -28,11 +32,34 @@ const BookingCommit = props => {
         }
         return tranformedBookingItems.sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
-    console.log(`lv2 = ${JSON.stringify(bookingItems)}`);
+    // console.log(`lv2 = ${JSON.stringify(bookingItems)}`);
 
     const dispatch = useDispatch();
-    const onCancelCommit = (rid) => {
-        dispatch(bookingActions.removeFromBooking(rid));
+
+    const onAdminCommitHandler = (roomBooking, rid) => {
+        Alert.alert('Are you sure?', 'Do you really want to commit this booking?', [
+            { text: 'No', style: 'destructive' },
+            {
+                text: 'Yes',
+                style: 'default',
+                onPress: () => {
+                    dispatch(qrcodeActions.setQrcode(roomBooking, rid));
+                }
+            }
+        ]);
+    };
+
+    const onCancelCommitHandler = (rid) => {
+        Alert.alert('Are you sure?', 'Do you really want to not approved this booking?', [
+            { text: 'No', style: 'default' },
+            {
+                text: 'Yes',
+                style: 'destructive',
+                onPress: () => {
+                    dispatch(bookingActions.removeFromBooking(rid));
+                }
+            }
+        ]);
     };
 
     return (
@@ -50,14 +77,14 @@ const BookingCommit = props => {
                                 <Text><Text style={styles.text}>Time: </Text>{itemData.item.roomTimeSteps}<Text>.00-{(itemData.item.roomTimeSteps) + 1}.00</Text></Text>
                             </View>
                             <View style={styles.buttonContainer}>
-                                <TouchableOpacity onPress={() => { }}>
+                                <TouchableOpacity onPress={() => { onAdminCommitHandler(selectedBooking, itemData.item.roomId) }}>
                                     <Ionicons
                                         name={Platform.OS === 'android' ? 'md-checkmark-circle' : 'ios-checkmark-circle'}
                                         size={35}
                                         color='#4169E1'
                                     />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => { onCancelCommit(itemData.item.roomId) }}>
+                                <TouchableOpacity onPress={() => { onCancelCommitHandler(itemData.item.roomId) }}>
                                     <Ionicons
                                         name={Platform.OS === 'android' ? 'md-close-circle' : 'ios-close-circle'}
                                         size={35}
@@ -76,8 +103,13 @@ const BookingCommit = props => {
     )
 };
 
-BookingCommit.navigationOptions = {
-    headerTitle: 'Admin'
+BookingCommit.navigationOptions = navData => {
+    const roomQrcod = navData.navigation.getParam('roomQrcodeId');
+    console.log(`Lv : ${roomQrcod}`);
+
+    return {
+        headerTitle: roomQrcod
+    }
 };
 
 const styles = StyleSheet.create({

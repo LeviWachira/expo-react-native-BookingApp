@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { AntDesign } from '@expo/vector-icons';
 
 import { CATEGORYROOM } from '../../data/dummy-data';
 import CategoryRoom from '../../components/booking/CategoryRoom';
@@ -41,12 +42,21 @@ BookingOverviewScreen.navigationOptions = navData => {
         headerRight: (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
-                    title='Notification'
-                    iconName='ios-notifications-outline'
+                    title='Qrcode'
+                    iconName='qrcode-scan'
+                    onPress={() => navData.navigation.navigate('BookingQrcode')}
+                />
+            </HeaderButtons>
+        ),
+        headerLeft: (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title='Qrcode'
+                    iconName='account-box'
                     onPress={() => navData.navigation.navigate('BookingCommit')}
                 />
             </HeaderButtons>
-        )
+        ),
     }
 }
 

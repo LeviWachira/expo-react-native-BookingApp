@@ -83,7 +83,8 @@ BookingDetailScreen.navigationOptions = navData => {
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Favourite'
-                    iconName={isFavourite ? 'ios-star' : 'ios-star-outline'}
+                    iconName={isFavourite ? 'star' : 'star-outline'}
+                    // iconName={isFavourite ? 'ios-star' : 'ios-star-outline'}
                     onPress={toggleFavourite}
                 />
             </HeaderButtons>
