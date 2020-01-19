@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useSelector } from 'react-redux';
+import Card from '../../components/UI/Card';
+import Colors from '../../constants/Colors';
 
 
 const QrcodeScreen = props => {
@@ -31,15 +33,35 @@ const QrcodeScreen = props => {
                 data={selectedShowQrcode}
                 keyExtractor={(item, index) => item.toString()}
                 renderItem={itemData => (
-                    <View>
-                        <QRCode
-                            value={itemData.item.qrcode}
-                            size={240}
-                        />
-                        <Text>{itemData.item.title}</Text>
-                        <Text>{itemData.item.timeTitle}</Text>
-                        <Text>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 1}.00</Text>
-                    </View>
+                    <Card style={styles.cardContainer}>
+                        <View style={styles.ImageQrcode}>
+                            <QRCode
+                                value={itemData.item.qrcode}
+                                size={240}
+                            />
+                        </View>
+                        <View style={styles.detailContainer}>
+                            <View style={styles.detail}>
+                                <Text style={{ fontSize: 17, fontWeight: '500', color: Colors.primary }}>Detail</Text>
+                                <Text style={styles.textDetail}>room:</Text>
+                                <Text style={styles.textDetail}>duration:</Text>
+                                <Text style={styles.textDetail}>limit: </Text>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.textBooked}>{itemData.item.date}</Text>
+                                <Text style={styles.textBooked}>{itemData.item.title}</Text>
+                                <Text style={styles.textBooked}>{itemData.item.timeTitle}</Text>
+                                <Text style={styles.textBooked}>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 1}.00 am</Text>
+                            </View>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity activeOpacity={0.3} onPress={() => { }}>
+                                <View style={styles.button}>
+                                    <Text style={styles.buttonText}>Cancel</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </Card>
                 )}
             />
         </View>
@@ -47,23 +69,79 @@ const QrcodeScreen = props => {
 };
 
 QrcodeScreen.navigationOptions = navData => {
-
     return {
         headerTitle: 'Qrcode'
     }
-}
+};
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10
-    },
     centered: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    screen: {
+        flex: 1,
+        marginTop: 10,
+        justifyContent: 'flex-start',
+    },
+    cardContainer: {
+        marginVertical: 10,
+        marginHorizontal: 4,
+        paddingBottom: 10
+    },
+    ImageQrcode: {
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 5,
+        paddingBottom: 10,
+    },
+    detailContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginHorizontal: 5,
+        paddingVertical: 3
+    },
+    detail: {
+        padding: 5
+    },
+    textContainer: {
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        padding: 5,
+        paddingVertical: 3
+    },
+    textDetail: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: Colors.secendary,
+        marginVertical: 3
+    },
+    textBooked: {
+        fontSize: 15,
+        marginVertical: 3
+    },
+    buttonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        marginTop: 10
+    },
+    button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.danger,
+        height: 30,
+        width: 100,
+        borderRadius: 5,
+    },
+    buttonText: {
+        fontSize: 16,
+        color: 'white',
+        fontWeight: '500'
     }
 })
 

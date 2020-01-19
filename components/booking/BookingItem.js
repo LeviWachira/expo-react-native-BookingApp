@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform, T } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import * as bookingActions from '../../store/action/booking';
@@ -8,25 +8,31 @@ const BookingItem = props => {
 
     const dispatch = useDispatch();
 
-    const onBookingHandler = (room, time) => {
+    const onBookingHandler =  (room, time) => {
         Alert.alert('Are you sure?', 'Do you really want to Booking this this time?', [
             { text: 'No', style: 'destructive' },
             {
                 text: 'Yes',
                 style: 'default',
                 onPress: () => {
-                    dispatch(bookingActions.addToBooking(room, time));
+                    props.SetIsBooked(true);
+                     dispatch(bookingActions.addToBooking(room, time));
                 }
             }
         ]);
     };
 
     return (
-        <TouchableOpacity onPress={() => { onBookingHandler(props.selectRooms, props.timeItems) }} >
-            <View style={styles.button}>
+        <TouchableOpacity
+            onPress={() => {
+                onBookingHandler(props.selectRooms, props.timeItems);
+            }}
+            disabled={props.disabledButton}
+        >
+            <View style={{ ...styles.button, ...{ backgroundColor: props.isBooked ? '#ccc' : '#4169E1' } }}>
                 <Text style={styles.font} >{props.timeItems}<Text>.00</Text></Text>
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity >
     )
 }
 
@@ -35,7 +41,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 3,
-        backgroundColor: '#4169E1',
         height: 30,
         marginHorizontal: 10,
         paddingVertical: 4,

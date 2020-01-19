@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
     View,
     Text,
@@ -39,6 +39,19 @@ const BookingDetailScreen = props => {
         props.navigation.setParams({ isFav: currentRoomsFavourite })
     }, [currentRoomsFavourite]);
 
+    const [isBooked, SetIsBooked] = useState(false)
+    const [disabledButton, setDisabledButton] = useState(false);
+
+    const booked = useSelector(state => state.booking.booking.filter(book => book.id))
+
+    useEffect((isBooked, booked) => {
+        if (isBooked) {
+            console.log(booked);
+            if (booked > 0) {
+                setDisabledButton(true)
+            }
+        }
+    }, [isBooked, booked]);
 
     return (
         <View style={styles.screen}>
@@ -58,6 +71,9 @@ const BookingDetailScreen = props => {
                                 key={timeItems}
                                 timeItems={timeItems}
                                 selectRooms={selectRooms}
+                                isBooked={isBooked}
+                                SetIsBooked={SetIsBooked}
+                                disabledButton={disabledButton}
                             />
                         ))}
                     </View>

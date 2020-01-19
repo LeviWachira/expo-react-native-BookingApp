@@ -88,7 +88,7 @@ const BookingCommit = props => {
                                     <Ionicons
                                         name={Platform.OS === 'android' ? 'md-close-circle' : 'ios-close-circle'}
                                         size={35}
-                                        color='red'
+                                        color='#ffa500'
                                     />
                                 </TouchableOpacity>
                             </View>
