@@ -10,9 +10,11 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import * as bookingActions from '../../store/action/booking';
 import * as qrcodeActions from '../../store/action/qrcode';
+import CustomHeaderButton from '../../components/UI/HeaderButton';
 import Card from '../../components/UI/Card';
 
 const BookingCommit = props => {
@@ -116,7 +118,18 @@ BookingCommit.navigationOptions = navData => {
     console.log(`Lv : ${roomQrcod}`);
 
     return {
-        headerTitle: roomQrcod
+        headerTitle: roomQrcod,
+        headerLeft: (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item
+                title="Setting"
+                iconName='format-list-bulleted'
+                onPress={() => {
+                  navData.navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons>
+          ),
     }
 };
 

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createAppContainer } from 'react-navigation';
+import { Platform, Button, SafeAreaView, View } from 'react-native';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-// import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 import Colors from '../constants/Colors';
 import BookingOverviewScreen from '../screens/booking/BookingOverviewScreen';
@@ -13,7 +12,8 @@ import BookingRoomScreen from '../screens/booking/BookingRoomScreen';
 import BookingDetailScreen from '../screens/booking/BookingDetailScreen';
 import QrcodeScreen from '../screens/booking/QrcodeScreen';
 import FavouriteScreen from '../screens/booking/FavouriteScreen';
-import BookingCommitScreen from '../screens/admin/BookingCommitScreen'
+import AdminBookingCommitScreen from '../screens/admin/AdminBookingCommitScreen';
+import AdminCreateRoomScreen from '../screens/admin/AdminCreateRoomScreen';
 
 //handler headerTitle
 const defaultNavOptions = {
@@ -28,15 +28,20 @@ const BookingNavigator = createStackNavigator({
     BookingOverView: BookingOverviewScreen,
     BookingRoom: BookingRoomScreen,
     BookingDetail: BookingDetailScreen,
-    BookingCommit: BookingCommitScreen,
+    AdminBookingCommit: AdminBookingCommitScreen
 }, {
+    navigationOptions: {
+        drawerIcon: drawerConfig => (
+            <Ionicons
+                name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+                size={23}
+                color={drawerConfig.tintColor}
+            />
+        )
+    },
     defaultNavigationOptions: defaultNavOptions
 });
 
-// const AdminNavigator = createStackNavigator({
-// }, {
-//     defaultNavigationOptions: defaultNavOptions
-// });
 
 //handler createBottomTabNavigator Qrcode Screen
 const QrcodeNavigator = createStackNavigator({
@@ -63,11 +68,11 @@ const tabScreenConfig = {
                 return (
                     <Ionicons
                         name='ios-home'
-                        size={23}
+                        size={27}
                         color={tabInfo.tintColor}
                     />
                 );
-            }
+            },
         }
     },
     Favourite: {
@@ -79,7 +84,7 @@ const tabScreenConfig = {
                 return (
                     <Ionicons
                         name='ios-star-outline'
-                        size={23}
+                        size={27}
                         color={tabInfo.tintColor}
                     />
                 );
@@ -95,7 +100,7 @@ const tabScreenConfig = {
                 return (
                     <Ionicons
                         name='ios-notifications-outline'
-                        size={23}
+                        size={28}
                         color={tabInfo.tintColor}
                     />
                 );
@@ -120,12 +125,116 @@ const tabScreenConfig = {
     }
 };
 
+
+const AdminBookingCommitNavigator = createStackNavigator({
+    Commit: AdminBookingCommitScreen
+}, {
+    defaultNavigationOptions: defaultNavOptions
+});
+
+const AdminCreateRoomNavigator = createStackNavigator({
+    HandlerRoom: AdminCreateRoomScreen
+}, {
+    defaultNavigationOptions: defaultNavOptions
+});
+
+const AdminTabScreenConfig = {
+    Commit: {
+        screen: AdminBookingCommitNavigator,
+        navigationOptions: {
+            tabBarLabel: 'Commit',
+            tabBarColor: '#4169E1',
+            tabBarIcon: (tabInfo) => {
+                return (
+                    <MaterialCommunityIcons
+                        name='checkbox-marked-outline'
+                        size={27}
+                        color={tabInfo.tintColor}
+                    />
+                );
+            }
+        }
+    },
+    Room: {
+        screen: AdminCreateRoomNavigator,
+        navigationOptions: {
+            tabBarLabel: 'Create',
+            tabBarColor: '#4169E1',
+            tabBarIcon: (tabInfo) => {
+                return (
+                    <MaterialCommunityIcons
+                        name='home-plus'
+                        size={30}
+                        color={tabInfo.tintColor}
+                    />
+                );
+            }
+        }
+    },
+};
+
 //handler createBottomTabNavigator
 const BookingTabNavigator = createBottomTabNavigator(tabScreenConfig, {
+    swipeEnabled: true,
     tabBarOptions: {
         activeTintColor: '#4169E1'
     }
 });
 
+const AdminBookingTabNavigator = createBottomTabNavigator(AdminTabScreenConfig, {
+    swipeEnabled: true,
+    tabBarOptions: {
+        activeTintColor: '#4169E1'
+    }
+});
 
-export default createAppContainer(BookingTabNavigator);
+// const AdminNavigator = createStackNavigator(
+//     {
+//         AdminBookingCommit: AdminBookingTabNavigator,
+
+//     },
+//     {
+//         navigationOptions: {
+//             drawerIcon: drawerConfig => (
+//                 <Ionicons
+//                     name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+//                     size={23}
+//                     color={drawerConfig.tintColor}
+//                 />
+//             )
+//         },
+//         defaultNavigationOptions: defaultNavOptions
+//     }
+// );
+
+
+const MainNavigator = createDrawerNavigator(
+    {
+        Booking: BookingTabNavigator,
+        Admin: AdminBookingTabNavigator,
+    },
+    {
+        contentOptions: {
+            activeTintColor: Colors.primary
+        },
+        contentComponent: props => {
+            return (
+                <View style={{ flex: 1, paddingTop: 20 }}>
+                    <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+                        <DrawerItems {...props} />
+                        <Button
+                            title="Logout"
+                            color={Colors.primary}
+                            onPress={() => {
+                                // dispatch(authActions.logout());
+                                // props.navigation.navigate('Auth');
+                            }} />
+                    </SafeAreaView>
+                </View>
+            )
+        }
+    }
+);
+
+
+export default createAppContainer(MainNavigator, BookingTabNavigator);
