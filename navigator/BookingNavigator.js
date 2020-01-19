@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 // import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 

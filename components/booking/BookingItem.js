@@ -8,7 +8,7 @@ const BookingItem = props => {
 
     const dispatch = useDispatch();
 
-    const onBookingHandler =  (room, time) => {
+    const onBookingHandler = (room, time) => {
         Alert.alert('Are you sure?', 'Do you really want to Booking this this time?', [
             { text: 'No', style: 'destructive' },
             {
@@ -16,7 +16,8 @@ const BookingItem = props => {
                 style: 'default',
                 onPress: () => {
                     props.SetIsBooked(true);
-                     dispatch(bookingActions.addToBooking(room, time));
+                    dispatch(bookingActions.addToBooking(room, time));
+                    props.navigation.popToTop();
                 }
             }
         ]);
@@ -40,8 +41,9 @@ const styles = StyleSheet.create({
     button: {
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 3,
-        height: 30,
+        borderRadius: 5,
+        height: 40,
+        width: 60,
         marginHorizontal: 10,
         paddingVertical: 4,
         paddingHorizontal: 6,
@@ -49,7 +51,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.26,
         shadowRadius: 8,
-        elevation: 5
+        elevation: 5,
+        marginBottom: 20
     },
     font: {
         fontSize: 16,

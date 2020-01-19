@@ -48,7 +48,7 @@ BookingOverviewScreen.navigationOptions = navData => {
         //         />
         //     </HeaderButtons>
         // ),
-        headerLeft: (
+        headerRight: (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Qrcode'

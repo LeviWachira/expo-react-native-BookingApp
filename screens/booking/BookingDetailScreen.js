@@ -44,14 +44,11 @@ const BookingDetailScreen = props => {
 
     const booked = useSelector(state => state.booking.booking.filter(book => book.id))
 
-    useEffect((isBooked, booked) => {
-        if (isBooked) {
-            console.log(booked);
-            if (booked > 0) {
-                setDisabledButton(true)
-            }
+    useEffect(() => {
+        if (booked > 0) {
+            setDisabledButton(true)
         }
-    }, [isBooked, booked]);
+    }, [booked]);
 
     return (
         <View style={styles.screen}>
@@ -74,6 +71,7 @@ const BookingDetailScreen = props => {
                                 isBooked={isBooked}
                                 SetIsBooked={SetIsBooked}
                                 disabledButton={disabledButton}
+                                navigation={props.navigation}
                             />
                         ))}
                     </View>
@@ -139,16 +137,18 @@ const styles = StyleSheet.create({
     },
     headerTitleText: {
         fontSize: 19,
-        fontWeight: 'bold',
+        fontWeight: '600',
         color: '#4169E1'
     },
     roomDetail: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        flexWrap: 'wrap',
+        alignContent: 'space-between',
         height: 20,
-        marginVertical: 35,
+        marginVertical: 20,
     },
     warningContainer: {
+        marginTop: 60,
         height: 200
     },
     warningText: {
