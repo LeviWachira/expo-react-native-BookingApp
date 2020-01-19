@@ -28,7 +28,6 @@ const BookingNavigator = createStackNavigator({
     BookingOverView: BookingOverviewScreen,
     BookingRoom: BookingRoomScreen,
     BookingDetail: BookingDetailScreen,
-    BookingQrcode : QrcodeScreen,
     BookingCommit: BookingCommitScreen,
 }, {
     defaultNavigationOptions: defaultNavOptions
@@ -40,11 +39,11 @@ const BookingNavigator = createStackNavigator({
 // });
 
 //handler createBottomTabNavigator Qrcode Screen
-// const QrcodeNavigator = createStackNavigator({
-//     Qrcodes: QrcodeScreen
-// }, {
-//     defaultNavigationOptions: defaultNavOptions
-// })
+const QrcodeNavigator = createStackNavigator({
+    Qrcodes: QrcodeScreen
+}, {
+    defaultNavigationOptions: defaultNavOptions
+})
 
 //handler createBottomTabNavigator Favourite Screen
 const FavNavigator = createStackNavigator({
@@ -96,6 +95,22 @@ const tabScreenConfig = {
                 return (
                     <Ionicons
                         name='ios-notifications-outline'
+                        size={23}
+                        color={tabInfo.tintColor}
+                    />
+                );
+            }
+        }
+    },
+    Qrcode: {
+        screen: QrcodeNavigator,
+        navigationOptions: {
+            tabBarLabel: 'QRcode',
+            tabBarColor: '#4169E1',
+            tabBarIcon: (tabInfo) => {
+                return (
+                    <MaterialCommunityIcons
+                        name='qrcode-scan'
                         size={23}
                         color={tabInfo.tintColor}
                     />

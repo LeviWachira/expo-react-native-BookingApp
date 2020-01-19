@@ -17,16 +17,16 @@ export default (state = initialState, action) => {
             const roomTimeTitle = addedBooking.timeTitle;
             const roomTimeSteps = addedBooking.timeSteps;
             const timeStepIndex = roomTimeSteps.findIndex(time => time === action.bookingData.timeBooking);
-            console.log(`lv1 = ${JSON.stringify(roomId)}`);
+            console.log(`lv1 roomId = ${JSON.stringify(roomId)}`);
 
             const updateOrNewBooking = new Booking(
                 roomId + roomTimeSteps[timeStepIndex],
                 roomTitle,
                 roomTimeTitle,
                 roomTimeSteps[timeStepIndex],
-                moment().format('MMMM Do YYYY, hh:mm:ss a')
+                moment().format('D-MMM-YYYY,hh:mm:ss a')
             );
-            console.log(`lv2 = ${JSON.stringify(updateOrNewBooking)}`);
+            console.log(`lv2 updateOrNewBooking = ${JSON.stringify(updateOrNewBooking)}`);
             return {
                 ...state,
                 booking: state.booking.concat(updateOrNewBooking)
@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
         case SET_QRCODE:
             return {
                 ...state,
-                booking : state.booking.filter(room => room.id !== action.roomData.roomBookingId)
+                booking: state.booking.filter(room => room.id !== action.roomData.roomBookingId)
             };
 
     }

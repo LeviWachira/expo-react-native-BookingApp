@@ -62,6 +62,14 @@ const BookingCommit = props => {
         ]);
     };
 
+    if (selectedBooking.length === 0) {
+        return (
+            <View style={styles.centered}>
+                <Text>No , booking has been entered yet.</Text>
+            </View>
+        )
+    };
+
     return (
 
         <View style={styles.screen}>
@@ -113,6 +121,11 @@ BookingCommit.navigationOptions = navData => {
 };
 
 const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     screen: {
         flex: 1,
     },

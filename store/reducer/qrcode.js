@@ -1,4 +1,4 @@
-import { SET_QRCODE } from '../action/qrcode';
+import { SET_QRCODE, CANCEL_BOOKED } from '../action/qrcode';
 import Qrcode from '../../models/qrcode';
 
 const initialState = {
@@ -25,6 +25,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 qrcode: state.qrcode.concat(updateOrNewQrcode)
+            };
+
+        case CANCEL_BOOKED:
+            return {
+                ...state,
+                qrcode: state.qrcode.filter(room => room.id !== action.roomBookedId)
             };
 
     }

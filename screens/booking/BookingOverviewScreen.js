@@ -38,16 +38,16 @@ const BookingOverviewScreen = props => {
 BookingOverviewScreen.navigationOptions = navData => {
 
     return {
-        headerTitle: 'Booking',
-        headerRight: (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    title='Qrcode'
-                    iconName='qrcode-scan'
-                    onPress={() => navData.navigation.navigate('BookingQrcode')}
-                />
-            </HeaderButtons>
-        ),
+        // headerTitle: 'Booking',
+        // headerRight: (
+        //     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        //         <Item
+        //             title='Qrcode'
+        //             iconName='qrcode-scan'
+        //             onPress={() => navData.navigation.navigate('BookingQrcode')}
+        //         />
+        //     </HeaderButtons>
+        // ),
         headerLeft: (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item

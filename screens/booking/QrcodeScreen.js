@@ -3,12 +3,14 @@ import {
     View,
     Text,
     StyleSheet,
-    Button,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import QRCode from 'react-native-qrcode-svg';
-import { useSelector } from 'react-redux';
+import * as qrcodeActions from '../../store/action/qrcode'
+
 import Card from '../../components/UI/Card';
 import Colors from '../../constants/Colors';
 
@@ -16,8 +18,20 @@ import Colors from '../../constants/Colors';
 const QrcodeScreen = props => {
 
     const selectedShowQrcode = useSelector(state => state.qrcode.qrcode)
-
+    const dispatch = useDispatch();
     // console.log(`Lv6 : ${JSON.stringify(selectedShowQrcode)}`);
+    const onCancelBooked = (rid) => {
+        Alert.alert('Are you sure?', 'Do you really want to cancel this booked?', [
+            { text: 'No', style: 'default' },
+            {
+                text: 'Yes',
+                style: 'destructive',
+                onPress: () => {
+                    dispatch(qrcodeActions.cancelBooked(rid))
+                }
+            }
+        ]);
+    };
 
     if (selectedShowQrcode.length === 0) {
         return (
@@ -31,7 +45,7 @@ const QrcodeScreen = props => {
         <View style={styles.screen}>
             <FlatList
                 data={selectedShowQrcode}
-                keyExtractor={(item, index) => item.toString()}
+                keyExtractor={(item, index) => item.id}
                 renderItem={itemData => (
                     <Card style={styles.cardContainer}>
                         <View style={styles.ImageQrcode}>
@@ -48,14 +62,14 @@ const QrcodeScreen = props => {
                                 <Text style={styles.textDetail}>limit: </Text>
                             </View>
                             <View style={styles.textContainer}>
-                                <Text style={styles.textBooked}>{itemData.item.date}</Text>
+                                <Text style={{ fontSize: 14, marginVertical: 2 }}>{itemData.item.date}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.title}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeTitle}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 1}.00 am</Text>
                             </View>
                         </View>
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity activeOpacity={0.3} onPress={() => { }}>
+                            <TouchableOpacity activeOpacity={0.3} onPress={() => { onCancelBooked(itemData.item.id) }}>
                                 <View style={styles.button}>
                                     <Text style={styles.buttonText}>Cancel</Text>
                                 </View>
@@ -122,7 +136,7 @@ const styles = StyleSheet.create({
     },
     textBooked: {
         fontSize: 15,
-        marginVertical: 3
+        marginVertical: 4
     },
     buttonContainer: {
         justifyContent: 'center',

@@ -2,7 +2,7 @@ export const ADD_TO_BOOKING = 'ADD_TO_BOOKING';
 export const REMOVE_FROM_BOOKING = 'REMOVE_FROM_BOOKING';
 
 export const addToBooking = (room, timeBooking) => {
-    console.log(`lv0 ห้องเข้า= ${JSON.stringify(room)}`);
+    console.log(`lv0 room = ${JSON.stringify(room)}`);
     return {
         type: ADD_TO_BOOKING,
         bookingData: {
