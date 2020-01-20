@@ -12,7 +12,7 @@ import BookingRoomScreen from '../screens/booking/BookingRoomScreen';
 import BookingDetailScreen from '../screens/booking/BookingDetailScreen';
 import QrcodeScreen from '../screens/booking/QrcodeScreen';
 import FavouriteScreen from '../screens/booking/FavouriteScreen';
-import AdminBookingCommitScreen from '../screens/admin/AdminBookingCommitScreen';
+import AdminBookingApproveScreen from '../screens/admin/AdminBookingApproveScreen';
 import AdminCreateRoomScreen from '../screens/admin/AdminCreateRoomScreen';
 
 //handler headerTitle
@@ -28,7 +28,7 @@ const BookingNavigator = createStackNavigator({
     BookingOverView: BookingOverviewScreen,
     BookingRoom: BookingRoomScreen,
     BookingDetail: BookingDetailScreen,
-    AdminBookingCommit: AdminBookingCommitScreen
+    AdminBookingApprove: AdminBookingApproveScreen
 }, {
     navigationOptions: {
         drawerIcon: drawerConfig => (
@@ -57,7 +57,7 @@ const FavNavigator = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 });
 
-//handler tabBottomConfig
+//handler user mode
 const tabScreenConfig = {
     Booking: {
         screen: BookingNavigator,
@@ -125,9 +125,9 @@ const tabScreenConfig = {
     }
 };
 
-
-const AdminBookingCommitNavigator = createStackNavigator({
-    Commit: AdminBookingCommitScreen
+//handler admin mode
+const AdminBookingApproveNavigator = createStackNavigator({
+    Approve: AdminBookingApproveScreen
 }, {
     defaultNavigationOptions: defaultNavOptions
 });
@@ -139,10 +139,10 @@ const AdminCreateRoomNavigator = createStackNavigator({
 });
 
 const AdminTabScreenConfig = {
-    Commit: {
-        screen: AdminBookingCommitNavigator,
+    Approve: {
+        screen: AdminBookingApproveNavigator,
         navigationOptions: {
-            tabBarLabel: 'Commit',
+            tabBarLabel: 'Approve',
             tabBarColor: '#4169E1',
             tabBarIcon: (tabInfo) => {
                 return (
@@ -177,35 +177,20 @@ const AdminTabScreenConfig = {
 const BookingTabNavigator = createBottomTabNavigator(tabScreenConfig, {
     swipeEnabled: true,
     tabBarOptions: {
-        activeTintColor: '#4169E1'
+        activeTintColor: '#4169E1',
+        showLabel: false
     }
 });
 
 const AdminBookingTabNavigator = createBottomTabNavigator(AdminTabScreenConfig, {
     swipeEnabled: true,
+
     tabBarOptions: {
-        activeTintColor: '#4169E1'
+        activeTintColor: '#4169E1',
+        showLabel: false
+
     }
 });
-
-// const AdminNavigator = createStackNavigator(
-//     {
-//         AdminBookingCommit: AdminBookingTabNavigator,
-
-//     },
-//     {
-//         navigationOptions: {
-//             drawerIcon: drawerConfig => (
-//                 <Ionicons
-//                     name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
-//                     size={23}
-//                     color={drawerConfig.tintColor}
-//                 />
-//             )
-//         },
-//         defaultNavigationOptions: defaultNavOptions
-//     }
-// );
 
 
 const MainNavigator = createDrawerNavigator(

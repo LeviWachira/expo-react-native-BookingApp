@@ -62,7 +62,7 @@ const QrcodeScreen = props => {
                                 <Text style={styles.textDetail}>limit: </Text>
                             </View>
                             <View style={styles.textContainer}>
-                                <Text style={{ fontSize: 14, marginVertical: 2 }}>{itemData.item.date}</Text>
+                                <Text style={styles.textBooked}>{itemData.item.date}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.title}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeTitle}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 1}.00 am</Text>
@@ -131,12 +131,12 @@ const styles = StyleSheet.create({
     textDetail: {
         fontSize: 16,
         fontWeight: '500',
-        color: Colors.secendary,
         marginVertical: 3
     },
     textBooked: {
         fontSize: 15,
-        marginVertical: 4
+        marginVertical: 4,
+        color: Colors.textSecondary
     },
     buttonContainer: {
         justifyContent: 'center',
@@ -147,15 +147,16 @@ const styles = StyleSheet.create({
     button: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.danger,
+        backgroundColor: 'white',
         height: 30,
         width: 100,
         borderRadius: 5,
     },
     buttonText: {
-        fontSize: 16,
-        color: 'white',
+        fontSize: 18,
+        color: Colors.danger,
         fontWeight: '500'
+
     }
 })
 

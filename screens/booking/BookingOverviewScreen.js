@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { CATEGORYROOM } from '../../data/dummy-data';
 import CategoryRoom from '../../components/booking/CategoryRoom';
-import CustomHeaderButton from '../../components/UI/HeaderButton'
+import CustomHeaderButton from '../../components/UI/HeaderButton';
 
 const BookingOverviewScreen = props => {
 
