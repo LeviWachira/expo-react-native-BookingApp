@@ -4,20 +4,16 @@ import {
     Text,
     FlatList,
     StyleSheet,
-    TouchableOpacity,
     Platform,
-    Alert,
     Switch
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import { useSelector} from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import * as bookingActions from '../../store/action/booking';
-import * as qrcodeActions from '../../store/action/qrcode';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
-import Card from '../../components/UI/Card';
 import Colors from '../../constants/Colors';
+import AdminApproveMode from '../../components/booking/AdminApproveMode';
+
 const BookingCommit = props => {
 
     const selectedBooking = useSelector(state => state.booking.booking);
@@ -36,43 +32,8 @@ const BookingCommit = props => {
         return tranformedBookingItems.sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
     // console.log(`lv2 = ${JSON.stringify(bookingItems)}`);
+
     const [isAutoApprove, setIsAutoApprove] = useState(false);
-
-    const dispatch = useDispatch();
-
-    const onAdminCommitHandler = (roomBooking, rid) => {
-        Alert.alert('Are you sure?', 'Do you really want to commit this booking?', [
-            { text: 'No', style: 'destructive' },
-            {
-                text: 'Yes',
-                style: 'default',
-                onPress: () => {
-                    dispatch(qrcodeActions.setQrcode(roomBooking, rid));
-                }
-            }
-        ]);
-    };
-
-    const onCancelCommitHandler = (rid) => {
-        Alert.alert('Are you sure?', 'Do you really want to not approved this booking?', [
-            { text: 'No', style: 'default' },
-            {
-                text: 'Yes',
-                style: 'destructive',
-                onPress: () => {
-                    dispatch(bookingActions.removeFromBooking(rid));
-                }
-            }
-        ]);
-    };
-
-    if (isAutoApprove) {
-        console.log(`is Auto Approve Mode`);
-    }
-
-    if (!isAutoApprove) {
-        console.log(`is Manual Approve Mode`);
-    }
 
     if (selectedBooking.length === 0) {
         return (
@@ -125,35 +86,15 @@ const BookingCommit = props => {
                 data={bookingItems}
                 keyExtractor={item => item.roomId}
                 renderItem={itemData => (
-                    <Card style={styles.cardContainer}>
-                        <View style={styles.container}>
-                            <View style={styles.textContainer} >
-                                <Text style={{ ...styles.textPrimary, ...{ color: Colors.primary } }}>Detail</Text>
-                                <Text style={styles.textSecondary}><Text style={styles.textPrimary}>Room: </Text>{itemData.item.roomTitle}</Text>
-                                <Text style={styles.textSecondary}><Text style={styles.textPrimary}>Timelimit: </Text>{itemData.item.roomTimeTitle}</Text>
-                                <Text style={styles.textSecondary}><Text style={styles.textPrimary}>Time: </Text>{itemData.item.roomTimeSteps}<Text>.00-{(itemData.item.roomTimeSteps) + 1}.00</Text></Text>
-                            </View>
-                            <View style={styles.buttonContainer}>
-                                <TouchableOpacity onPress={() => { onAdminCommitHandler(selectedBooking, itemData.item.roomId) }}>
-                                    <Ionicons
-                                        name={Platform.OS === 'android' ? 'md-checkmark-circle' : 'ios-checkmark-circle'}
-                                        size={35}
-                                        color='#4169E1'
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => { onCancelCommitHandler(itemData.item.roomId) }}>
-                                    <Ionicons
-                                        name={Platform.OS === 'android' ? 'md-close-circle' : 'ios-close-circle'}
-                                        size={35}
-                                        color='#ffa500'
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <View style={styles.date}>
-                            <Text style={styles.textSecondary}><Text>{itemData.item.roomDate}</Text></Text>
-                        </View>
-                    </Card>
+                    <AdminApproveMode
+                        roomId={itemData.item.roomId}
+                        roomTitle={itemData.item.roomTitle}
+                        roomTimeTitle={itemData.item.roomTimeTitle}
+                        roomTimeSteps={itemData.item.roomTimeSteps}
+                        roomDate={itemData.item.roomDate}
+                        selectedBooking={selectedBooking}
+                        isAutoApprove={isAutoApprove}
+                    />
                 )}
             />
         </View>
@@ -199,54 +140,11 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'white',
         paddingHorizontal: 20,
-
     },
     switchText: {
         fontSize: 18
     },
-    cardContainer: {
-        marginVertical: 5,
-        marginHorizontal: 5,
-        marginTop: 15
-    },
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginVertical: 5,
-        marginHorizontal: 5
-    },
-    textContainer: {
-        justifyContent: 'center',
-        height: 60,
-        width: 180,
-        marginVertical: 10,
-        marginHorizontal: 10,
-        marginRight: 10,
-        paddingVertical: 5,
-        paddingHorizontal: 5,
-    },
-    textPrimary: {
-        fontSize: 15,
-        fontWeight: '600',
-        color: 'black'
-    },
-    textSecondary: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: Colors.textSecondary
-    },
-    buttonContainer: {
-        width: 100,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center'
-    },
-    date: {
-        alignItems: 'center',
-        marginBottom: 5
-    }
-
-})
+});
 
 
 export default BookingCommit;
