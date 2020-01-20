@@ -15,11 +15,13 @@ export default (state = initialState, action) => {
 
             const updateOrNewQrcode = new Qrcode(
                 selectedQrcode.id,
+                selectedQrcode.studentName,
+                selectedQrcode.studentId,
                 selectedQrcode.title,
                 selectedQrcode.timeTitle,
                 selectedQrcode.timeSteps,
                 selectedQrcode.date,
-                selectedQrcode.id + selectedQrcode.date
+                selectedQrcode.studentId + selectedQrcode.id + selectedQrcode.date
             );
             console.log(`LV5 = ${JSON.stringify(updateOrNewQrcode)}`);
             return {

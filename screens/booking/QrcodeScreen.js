@@ -19,7 +19,7 @@ const QrcodeScreen = props => {
 
     const selectedShowQrcode = useSelector(state => state.qrcode.qrcode)
     const dispatch = useDispatch();
-    // console.log(`Lv6 : ${JSON.stringify(selectedShowQrcode)}`);
+    console.log(`Lv6 fecthQrcode : ${JSON.stringify(selectedShowQrcode)}`);
     const onCancelBooked = (rid) => {
         Alert.alert('Are you sure?', 'Do you really want to cancel this booked?', [
             { text: 'No', style: 'default' },
@@ -51,18 +51,22 @@ const QrcodeScreen = props => {
                         <View style={styles.ImageQrcode}>
                             <QRCode
                                 value={itemData.item.qrcode}
-                                size={240}
+                                size={260}
                             />
                         </View>
                         <View style={styles.detailContainer}>
                             <View style={styles.detail}>
                                 <Text style={{ fontSize: 17, fontWeight: '500', color: Colors.primary }}>Detail</Text>
+                                <Text style={styles.textDetail}>name:</Text>
+                                <Text style={styles.textDetail}>studentId:</Text>
                                 <Text style={styles.textDetail}>room:</Text>
                                 <Text style={styles.textDetail}>duration:</Text>
                                 <Text style={styles.textDetail}>limit: </Text>
                             </View>
                             <View style={styles.textContainer}>
                                 <Text style={styles.textBooked}>{itemData.item.date}</Text>
+                                <Text style={styles.textBooked}>{itemData.item.studentName}</Text>
+                                <Text style={styles.textBooked}>{itemData.item.studentId}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.title}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeTitle}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 1}.00 am</Text>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { AntDesign } from '@expo/vector-icons';
 
 import { CATEGORYROOM } from '../../data/dummy-data';
 import CategoryRoom from '../../components/booking/CategoryRoom';
@@ -38,18 +37,18 @@ const BookingOverviewScreen = props => {
 BookingOverviewScreen.navigationOptions = navData => {
 
     return {
-        headerLeft: (
-          <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-            <Item
-              title="Setting"
-              iconName='format-list-bulleted'
-              onPress={() => {
-                navData.navigation.toggleDrawer();
-              }}
-            />
-          </HeaderButtons>
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title="Setting"
+                    iconName='format-list-bulleted'
+                    onPress={() => {
+                        navData.navigation.toggleDrawer();
+                    }}
+                />
+            </HeaderButtons>
         ),
-        headerRight: (
+        headerRight: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Qrcode'

@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Platform,
     Alert,
+    Button
 } from 'react-native'
 import { useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -51,14 +52,24 @@ const AdminApproveMode = props => {
         console.log(`is Manual Approve Mode`);
     };
 
+    const [isMoreDetail, setIsMoreDetail] = useState(false);
+
     return (
         <Card style={styles.cardContainer}>
-            <View style={styles.container}>
+            <View style={{ ...styles.container, ...{ height: isMoreDetail ? 110 : 48} }}>
                 <View style={styles.textContainer} >
-                    <Text style={{ ...styles.textPrimary, ...{ color: Colors.primary } }}>Detail</Text>
-                    <Text style={styles.textSecondary}><Text style={styles.textPrimary}>Room: </Text>{props.roomTitle}</Text>
-                    <Text style={styles.textSecondary}><Text style={styles.textPrimary}>Timelimit: </Text>{props.roomTimeTitle}</Text>
-                    <Text style={styles.textSecondary}><Text style={styles.textPrimary}>Time: </Text>{props.roomTimeSteps}<Text>.00-{(props.roomTimeSteps) + 1}.00</Text></Text>
+                    <Text style={styles.textSecondary}><Text style={styles.textPrimary}>room: </Text>{props.roomTitle}</Text>
+                    <Text style={styles.textSecondary}><Text style={styles.textPrimary}>time: </Text>{props.roomTimeSteps}
+                        <Text>.00-{(props.roomTimeSteps) + 1}.00</Text></Text>
+
+                    {isMoreDetail && (
+                        <View>
+                            <Text style={styles.textSecondary}><Text style={styles.textPrimary}>name: </Text>{props.roomStudentName}</Text>
+                            <Text style={styles.textSecondary}><Text style={styles.textPrimary}>stdId: </Text>{props.roomStudentId}</Text>
+                            <Text style={styles.textSecondary}><Text style={styles.textPrimary}>timelimit: </Text>{props.roomTimeTitle}</Text>
+                        </View>
+                    )}
+
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity onPress={() => { onAdminCommitHandler(props.selectedBooking, props.roomId) }}>
@@ -76,6 +87,13 @@ const AdminApproveMode = props => {
                         />
                     </TouchableOpacity>
                 </View>
+            </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Button
+                    title={isMoreDetail ? 'hide details' : 'more details'}
+                    onPress={() => { setIsMoreDetail(prev => !prev) }}
+                    color={Colors.primary}
+                />
             </View>
             <View style={styles.date}>
                 <Text style={styles.textSecondary}><Text>{props.roomDate}</Text></Text>
@@ -98,10 +116,9 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         justifyContent: 'center',
-        height: 60,
         width: 180,
         marginVertical: 10,
-        marginHorizontal: 10,
+        marginHorizontal: 5,
         marginRight: 10,
         paddingVertical: 5,
         paddingHorizontal: 5,

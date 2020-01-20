@@ -21,12 +21,14 @@ export default (state = initialState, action) => {
 
             const updateOrNewBooking = new Booking(
                 roomId + roomTimeSteps[timeStepIndex],
+                "Wachira Winitchai",
+                "59523206044-1",
                 roomTitle,
                 roomTimeTitle,
                 roomTimeSteps[timeStepIndex],
                 moment().format('D-MMM-YYYY,hh:mm:ss a')
             );
-            console.log(`lv2 updateOrNewBooking = ${JSON.stringify(updateOrNewBooking)}`);
+            console.log(`lv2 updateBooking = ${JSON.stringify(updateOrNewBooking)}`);
             return {
                 ...state,
                 booking: state.booking.concat(updateOrNewBooking)

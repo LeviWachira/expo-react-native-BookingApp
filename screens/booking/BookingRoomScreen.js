@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { CATEGORYROOM } from '../../data/dummy-data';
 import RoomList from '../../components/booking/RoomList';
@@ -29,7 +29,7 @@ BookingRoomScreen.navigationOptions = navData => {
 }
 
 const styles = StyleSheet.create({
-    
+
 })
 
 export default BookingRoomScreen;

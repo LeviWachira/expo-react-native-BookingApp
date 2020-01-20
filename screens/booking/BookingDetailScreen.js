@@ -5,7 +5,6 @@ import {
     ScrollView,
     StyleSheet,
     ImageBackground,
-    FlatList
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -93,7 +92,7 @@ BookingDetailScreen.navigationOptions = navData => {
 
     return {
         headerTitle: roomTitle,
-        headerRight: (
+        headerRight: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Favourite'

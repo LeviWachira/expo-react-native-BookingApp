@@ -1,8 +1,10 @@
 // import moment from 'moment';
 
 class Booking {
-    constructor(id, title, timeTitle, timeSteps, date) {
+    constructor(id, studentName, studentId, title, timeTitle, timeSteps, date) {
         this.id = id;
+        this.studentName = studentName;
+        this.studentId = studentId;
         this.title = title;
         this.timeTitle = timeTitle;
         this.timeSteps = timeSteps;

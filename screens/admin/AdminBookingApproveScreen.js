@@ -7,7 +7,7 @@ import {
     Platform,
     Switch
 } from 'react-native';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
@@ -23,6 +23,8 @@ const BookingCommit = props => {
         for (const key in state.booking.booking) {
             tranformedBookingItems.push({
                 roomId: state.booking.booking[key].id,
+                roomStudentName: state.booking.booking[key].studentName,
+                roomStudentId: state.booking.booking[key].studentId,
                 roomTitle: state.booking.booking[key].title,
                 roomTimeTitle: state.booking.booking[key].timeTitle,
                 roomTimeSteps: state.booking.booking[key].timeSteps,
@@ -31,7 +33,7 @@ const BookingCommit = props => {
         }
         return tranformedBookingItems.sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
-    // console.log(`lv2 = ${JSON.stringify(bookingItems)}`);
+    console.log(`lv3 fecthBooking = ${JSON.stringify(bookingItems)}`);
 
     const [isAutoApprove, setIsAutoApprove] = useState(false);
 
@@ -53,14 +55,15 @@ const BookingCommit = props => {
                 {isAutoApprove ?
                     (
                         <View style={styles.centeredText}>
-                            <Text>No ,booking from user yet.</Text>
+                            <Text>Auto approve mode.</Text>
                         </View>
                     ) :
                     (
                         <View style={styles.centeredText}>
-                            <Text>Auto approve mode.</Text>
+                            <Text>No ,booking from users yet.</Text>
                         </View>
                     )
+
                 }
             </View>
         )
@@ -71,7 +74,7 @@ const BookingCommit = props => {
 
         <View style={styles.screen}>
             <View style={{ marginVertical: 10, marginLeft: 20 }}>
-                <Text style={{ color: Colors.textSecondary, fontSize: 13 }}>APPROVE</Text>
+                <Text style={{ color: Colors.textSecondary, fontSize: 13 }}>APPROVE MODE</Text>
             </View>
             <View style={styles.switchContainer}>
                 <Text style={styles.switchText}>Auto</Text>
@@ -88,6 +91,8 @@ const BookingCommit = props => {
                 renderItem={itemData => (
                     <AdminApproveMode
                         roomId={itemData.item.roomId}
+                        roomStudentName={itemData.item.roomStudentName}
+                        roomStudentId={itemData.item.roomStudentId}
                         roomTitle={itemData.item.roomTitle}
                         roomTimeTitle={itemData.item.roomTimeTitle}
                         roomTimeSteps={itemData.item.roomTimeSteps}
@@ -102,12 +107,9 @@ const BookingCommit = props => {
 };
 
 BookingCommit.navigationOptions = navData => {
-    const roomQrcod = navData.navigation.getParam('roomQrcodeId');
-    console.log(`Lv : ${roomQrcod}`);
 
     return {
-        headerTitle: roomQrcod,
-        headerLeft: (
+        headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title="Setting"
