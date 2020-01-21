@@ -30,6 +30,7 @@ const RoomList = props => {
 
   return (
     <View style={styles.list}>
+      {props.children}
       <FlatList keyExtractor={(item, index) => item.id}
         data={props.listData}
         renderItem={renderRoomItem}

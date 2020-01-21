@@ -23,7 +23,7 @@ export const ROOM = [
 
     //study room 
     new Room(
-        'm1',
+        Math.random().toString(),
         'c1',
         'Study Room1',
         'https://library.tu.ac.th/sites/default/files/styles/punsarn_image_style/public/2018-10/03Room1-1.JPG?itok=qlNQqd3-',
@@ -38,7 +38,7 @@ export const ROOM = [
     ),
 
     new Room(
-        'm2',
+        Math.random().toString(),
         'c1',
         'Study Room2',
         'https://library.tu.ac.th/sites/default/files/styles/punsarn_image_style/public/2018-10/03Room1-1.JPG?itok=qlNQqd3-',
@@ -53,7 +53,7 @@ export const ROOM = [
     ),
 
     new Room(
-        'm3',
+        Math.random().toString(),
         'c1',
         'Study Room3',
         'https://library.tu.ac.th/sites/default/files/styles/punsarn_image_style/public/2018-10/03Room1-1.JPG?itok=qlNQqd3-',

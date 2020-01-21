@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
                 selectedQrcode.timeTitle,
                 selectedQrcode.timeSteps,
                 selectedQrcode.date,
-                selectedQrcode.studentId + selectedQrcode.id + selectedQrcode.date
+                selectedQrcode.studentId + '/' + selectedQrcode.id + '/' + selectedQrcode.date
             );
             console.log(`LV5 = ${JSON.stringify(updateOrNewQrcode)}`);
             return {

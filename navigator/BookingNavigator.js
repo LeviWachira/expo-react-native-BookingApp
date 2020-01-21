@@ -155,7 +155,7 @@ const AdminTabScreenConfig = {
             }
         }
     },
-    Room: {
+    Creat: {
         screen: AdminCreateRoomNavigator,
         navigationOptions: {
             tabBarLabel: 'Create',
