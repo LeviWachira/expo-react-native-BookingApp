@@ -151,14 +151,14 @@ const styles = StyleSheet.create({
     button: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: Colors.danger,
         height: 30,
         width: 100,
         borderRadius: 5,
     },
     buttonText: {
         fontSize: 18,
-        color: Colors.danger,
+        color: 'white',
         fontWeight: '500'
 
     }

@@ -6,14 +6,18 @@ import {
     Platform,
     TouchableOpacity,
     ActivityIndicator,
-    FlatList
+    FlatList,
+    Alert,
+    Modal
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import CreateRooms from '../../components/booking/CreateRooms';
 import Colors from '../../constants/Colors';
+import ModalCreate from '../../components/booking/ModalCreate';
 
 const AdminCreateRoom = props => {
 
@@ -24,6 +28,7 @@ const AdminCreateRoom = props => {
     const [activeStudyRoomButton, setActiveStudyRoomButton] = useState(false);
     const [activeComputerRoomButton, setActiveComputerRoomButton] = useState(false);
     const [activeTheatorRoomButton, setActiveTheatorRoomButton] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     console.log(selectedButton);
 
@@ -66,13 +71,24 @@ const AdminCreateRoom = props => {
         );
     }
 
+    if (isModalVisible) {
+        console.log(` isModalVisible === true`);
+
+    }
+
+    const onHandleModeVisible = () => {
+        setIsModalVisible(false)
+      }
+
 
     return (
 
         <View style={styles.screen}>
+
             <View style={{ marginRight: 240, marginVertical: 10 }}>
                 <Text style={{ color: Colors.textSecondary, fontSize: 13 }}>MODE</Text>
             </View>
+
             <View style={styles.container}>
                 <TouchableOpacity onPress={onHandlerActiveStudyRoomButton} activeOpacity={0.5}>
                     <View style={{
@@ -108,6 +124,29 @@ const AdminCreateRoom = props => {
                     </View>
                 </TouchableOpacity>
             </View>
+
+            <TouchableOpacity onPress={() => { setIsModalVisible(prevState => !prevState) }}>
+                <View style={styles.createButton}>
+
+                    <View>
+                        <Text style={{ color: Colors.primary }}>
+                            Create
+                        </Text>
+                    </View>
+                    <View>
+                        <MaterialCommunityIcons
+                            name='plus'
+                            size={20}
+                            color={Colors.primary}
+                        />
+                    </View>
+                </View>
+            </TouchableOpacity>
+            <ModalCreate
+                isModalVisible={isModalVisible}
+                setIsModalVisible={onHandleModeVisible}
+            />
+
             <FlatList
                 data={selectCategoryRooms}
                 keyExtractor={item => item.id}
@@ -184,6 +223,9 @@ const styles = StyleSheet.create({
     },
     textButton: {
         fontWeight: '400'
+    },
+    createButton: {
+        flexDirection: 'row'
     }
 })
 

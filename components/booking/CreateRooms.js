@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 
 import Card from '../UI/Card';
 import Colors from '../../constants/Colors';
-
+import Button from '../UI/Button';
 
 
 const CreateRooms = props => {
@@ -18,11 +18,14 @@ const CreateRooms = props => {
                     resizeMode='contain'
                     source={{ uri: props.imageUri }}
                 />
-                <Button
-                    title='delete'
-                    onPress={() => { }}
-                    color={Colors.danger}
-                />
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style={{ backgroundColor: Colors.danger }}
+                        onPress={() => { }}
+                    >
+                        <Text style={styles.buttonText}>Delete</Text>
+                    </Button>
+                </View>
             </Card>
         </View>
     )
@@ -37,8 +40,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         overflow: 'hidden',
-        borderColor : '#ccc' ,
-        borderWidth : 1
+        borderColor: '#ccc',
+        borderWidth: 1
     },
     image: {
         height: 200,
@@ -50,9 +53,17 @@ const styles = StyleSheet.create({
         paddingVertical: 10
     },
     textTitle: {
-        fontSize: 17 ,
-        color : Colors.textSecondary
+        fontSize: 17,
+        color: Colors.textSecondary
     },
+    buttonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    buttonText: {
+        fontSize: 16,
+        color: 'white'
+    }
 })
 
 export default CreateRooms;
