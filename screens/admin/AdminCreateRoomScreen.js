@@ -28,7 +28,7 @@ const AdminCreateRoom = props => {
     const [activeStudyRoomButton, setActiveStudyRoomButton] = useState(false);
     const [activeComputerRoomButton, setActiveComputerRoomButton] = useState(false);
     const [activeTheatorRoomButton, setActiveTheatorRoomButton] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     console.log(selectedButton);
 
@@ -62,6 +62,20 @@ const AdminCreateRoom = props => {
         setIsLoading(false);
     };
 
+    const onHandlerCreatRoom = async () => {
+        if (selectedButton === '') {
+            Alert.alert('Warning!!', 'Please ,Select mode before push creat room.', [
+                { text: 'ok', style: 'default' },
+            ]);
+        }
+        else {
+            setIsModalVisible(prev => !prev);
+        }
+    };
+
+    const onHandleModeVisible = () => {
+        setIsModalVisible(false)
+    };
 
     if (isLoading) {
         return (
@@ -71,14 +85,13 @@ const AdminCreateRoom = props => {
         );
     }
 
+
+
     if (isModalVisible) {
         console.log(` isModalVisible === true`);
 
     }
 
-    const onHandleModeVisible = () => {
-        setIsModalVisible(false)
-      }
 
 
     return (
@@ -125,7 +138,7 @@ const AdminCreateRoom = props => {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity onPress={() => { setIsModalVisible(prevState => !prevState) }}>
+            <TouchableOpacity onPress={onHandlerCreatRoom}>
                 <View style={styles.createButton}>
 
                     <View>
@@ -145,6 +158,7 @@ const AdminCreateRoom = props => {
             <ModalCreate
                 isModalVisible={isModalVisible}
                 setIsModalVisible={onHandleModeVisible}
+                selectedButton={selectedButton}
             />
 
             <FlatList

@@ -10,7 +10,6 @@ class Room {
         this.id = id;
         this.categoryIds = categoryIds;
         this.title = title;
-        this.title
         this.imageUri = imageUri;
         this.timeTitle = timeTitle;
         this.timeSteps = timeSteps;

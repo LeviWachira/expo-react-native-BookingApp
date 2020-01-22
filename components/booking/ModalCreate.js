@@ -1,11 +1,15 @@
-import React from 'react';
-import { View, Text, Modal, TouchableOpacity, Alert, StyleSheet, TextInput } from 'react-native';
-import Colors from '../../constants/Colors';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Modal, TouchableOpacity, Alert, StyleSheet, TextInput, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 
+import Colors from '../../constants/Colors';
 import Button from '../UI/Button';
+import { CATEGORYROOM } from '../../data/dummy-data';
 
 const ModalCreate = props => {
 
+
+    const selectedMode = CATEGORYROOM.find(room => room.id === props.selectedButton);
 
     return (
         <Modal
@@ -21,10 +25,13 @@ const ModalCreate = props => {
 
                 <View style={styles.textInputContainer}>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.text}>Name :</Text>
-                        <TextInput
-                            style={styles.inputTextContainer}
-                        />
+                        <Text style={styles.text}>Mode :</Text>
+                        <View style={{ marginTop: 5 }}>
+                            {/* <Text style={{ color: Colors.textSecondary }}>{JSON.stringify(selectedMode.title).split('"')}</Text> */}
+                            <Text>
+                                {selectedMode && JSON.stringify(selectedMode.title).split('"')}
+                            </Text>
+                        </View>
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.text}>Title :</Text>
@@ -56,10 +63,12 @@ const ModalCreate = props => {
                         </Button>
                     </View>
                 </View>
-
-
             </View>
+
         </Modal>
+
+
+
     )
 }
 
@@ -79,7 +88,7 @@ const styles = StyleSheet.create({
         borderWidth: 1
     },
     headerTitle: {
-        marginTop: 20,
+        marginTop: 15,
         alignItems: 'center'
     },
     textInputContainer: {
@@ -96,15 +105,15 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     inputContainer: {
-        marginVertical: 12
+        marginVertical: 10
     },
     text: {
-        fontSize: 16
+        fontSize: 17
     },
     inputTextContainer: {
         borderColor: 'black',
         borderBottomWidth: 1,
-        marginTop: 5
+        marginTop: 3
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -113,7 +122,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontSize: 17
+        fontSize: 18
     }
 
 })
