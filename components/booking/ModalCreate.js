@@ -1,15 +1,102 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Modal, TouchableOpacity, Alert, StyleSheet, TextInput, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState, useReducer, useCallback } from 'react';
+import {
+    View,
+    Text,
+    Modal,
+    Alert,
+    StyleSheet,
+    TextInput,
+    ScrollView,
+    KeyboardAvoidingView
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Colors from '../../constants/Colors';
 import Button from '../UI/Button';
+import Input from '../UI/Input';
 import { CATEGORYROOM } from '../../data/dummy-data';
+import * as roomActions from '../../store/action/room';
+
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+
+const formReducer = (state, action) => {
+    if (action.type === FORM_INPUT_UPDATE) {
+        const updatedValues = {
+            ...state.inputValues,
+            [action.input]: action.value
+        };
+        const updatedValidities = {
+            ...state.inputValidities,
+            [action.input]: action.isValid
+        };
+        let updatedFormIsValid = true;
+        for (const key in updatedValidities) {
+            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+        }
+        return {
+            formIsValid: updatedFormIsValid,
+            inputValidities: updatedValidities,
+            inputValues: updatedValues
+        };
+    }
+    return state;
+};
 
 const ModalCreate = props => {
 
-
     const selectedMode = CATEGORYROOM.find(room => room.id === props.selectedButton);
+    const dispatch = useDispatch();
+
+    const [formState, dispatchFormState] = useReducer(formReducer, {
+        inputValues: {
+            title: '',
+            imageUrl: '',
+        },
+        inputValidities: {
+            title: false,
+            imageUrl: false,
+        },
+        formIsValid: false
+    });
+
+    const submitHandler = useCallback(async () => {
+
+        if (!formState.formIsValid) {
+            Alert.alert('Wrong input!', 'Please check the errors in the form.', [
+                { text: 'Okay' }
+            ]);
+            return;
+        }
+
+        console.log(`create succes`);
+        dispatch(roomActions.createRoom(
+            Math.random().toString(),
+            props.selectedButton,
+            formState.inputValues.title,
+            JSON.stringify(selectedMode.imageUri).split('"'),
+            '120 mins',
+            [
+                8.00,
+                10.00,
+                12.00,
+                14.00,
+                16.00
+            ]
+        ))
+        props.setIsModalVisible()
+    }, [formState, dispatch]);
+
+    const inputChangeHandler = useCallback(
+        (inputIdentifier, inputValue, inputValidity) => {
+            dispatchFormState({
+                type: FORM_INPUT_UPDATE,
+                value: inputValue,
+                isValid: inputValidity,
+                input: inputIdentifier
+            });
+        },
+        [dispatchFormState]
+    );
 
     return (
         <Modal
@@ -17,75 +104,93 @@ const ModalCreate = props => {
             animationType='slide'
             transparent={true}
         >
-            <View style={styles.screen}>
+            <KeyboardAvoidingView
+                behavior="padding"
+                keyboardVerticalOffset={15}
+            >
+                <ScrollView >
+                    <View style={{ ...styles.screen, ...props.style }}>
 
-                <View style={styles.headerTitle}>
-                    <Text style={styles.headerText}>Create Room</Text>
-                </View>
+                        <View style={styles.headerTitle}>
+                            <Text style={styles.headerText}>Create Room</Text>
+                        </View>
 
-                <View style={styles.textInputContainer}>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.text}>Mode :</Text>
-                        <View style={{ marginTop: 5 }}>
-                            {/* <Text style={{ color: Colors.textSecondary }}>{JSON.stringify(selectedMode.title).split('"')}</Text> */}
-                            <Text>
-                                {selectedMode && JSON.stringify(selectedMode.title).split('"')}
-                            </Text>
+                        <View style={styles.textInputContainer}>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.textTitle}>Mode :</Text>
+                                <View style={{ marginTop: 5 }}>
+                                    <Text style={{ color: Colors.textSecondary }}>
+                                        {selectedMode && JSON.stringify(selectedMode.title).split('"')}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.textTitle}>Title :</Text>
+                                <Input
+                                    id="title"
+                                    placeholder='Study Room1'
+                                    errorText="Please enter a valid title!"
+                                    keyboardType="default"
+                                    autoCapitalize="sentences"
+                                    autoCorrect
+                                    returnKeyType="next"
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={''}
+                                    initiallyValid={false}
+                                    required
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.textTitle}>ImageUrl :</Text>
+                                <Input
+                                    id="imageUrl"
+                                    placeholder='link url'
+                                    errorText="Please enter a valid image url!"
+                                    keyboardType="default"
+                                    returnKeyType="next"
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={''}
+                                    initiallyValid={false}
+                                    required
+                                />
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    style={{ backgroundColor: Colors.primary }}
+                                    onSelect={submitHandler}
+                                >
+                                    <Text style={styles.buttonText}>Save</Text>
+                                </Button>
+                                <Button
+                                    style={{ backgroundColor: Colors.danger }}
+                                    onSelect={props.setIsModalVisible}
+                                >
+                                    <Text style={styles.buttonText}>Cancel</Text>
+                                </Button>
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.text}>Title :</Text>
-                        <TextInput
-                            style={styles.inputTextContainer}
-                            placeholder='Study Room1'
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.text}>ImageUrl :</Text>
-                        <TextInput
-                            style={styles.inputTextContainer}
-                            placeholder={`'https://*****'`}
-                        />
-                    </View>
-
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            style={{ backgroundColor: Colors.primary }}
-                            onSelect={props.setIsModalVisible}
-                        >
-                            <Text style={styles.buttonText}>Save</Text>
-                        </Button>
-                        <Button
-                            style={{ backgroundColor: Colors.danger }}
-                            onSelect={props.setIsModalVisible}
-                        >
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </Button>
-                    </View>
-                </View>
-            </View>
-
+                </ScrollView>
+            </KeyboardAvoidingView>
         </Modal>
-
-
-
     )
-}
+};
 
 const styles = StyleSheet.create({
     screen: {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        height: 340,
+        height: 400,
         backgroundColor: 'white',
-        marginTop: 100,
+        marginTop: 80,
         borderRadius: 15,
         shadowColor: 'black',
         shadowOffset: { height: 2, width: 0 },
         shadowOpacity: 0.26,
         borderColor: Colors.primary,
-        borderWidth: 1
+        borderWidth: 1,
     },
     headerTitle: {
         marginTop: 15,
@@ -94,6 +199,7 @@ const styles = StyleSheet.create({
     textInputContainer: {
         borderColor: '#ccc',
         borderWidth: 1,
+        height: 330,
         width: 280,
         borderRadius: 10,
         marginVertical: 10,
@@ -107,8 +213,9 @@ const styles = StyleSheet.create({
     inputContainer: {
         marginVertical: 10
     },
-    text: {
-        fontSize: 17
+    textTitle: {
+        fontSize: 17,
+        marginBottom: 7
     },
     inputTextContainer: {
         borderColor: 'black',
@@ -118,13 +225,13 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginVertical: 5
+        marginTop: 15,
+        marginBottom: 10
     },
     buttonText: {
         color: 'white',
         fontSize: 18
     }
-
-})
+});
 
 export default ModalCreate

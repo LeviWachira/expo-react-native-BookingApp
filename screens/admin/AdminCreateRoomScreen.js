@@ -62,6 +62,10 @@ const AdminCreateRoom = props => {
         setIsLoading(false);
     };
 
+    const onHandleModeVisible = () => {
+        setIsModalVisible(false)
+    };
+
     const onHandlerCreatRoom = async () => {
         if (selectedButton === '') {
             Alert.alert('Warning!!', 'Please ,Select mode before push creat room.', [
@@ -73,9 +77,6 @@ const AdminCreateRoom = props => {
         }
     };
 
-    const onHandleModeVisible = () => {
-        setIsModalVisible(false)
-    };
 
     if (isLoading) {
         return (
@@ -85,13 +86,9 @@ const AdminCreateRoom = props => {
         );
     }
 
-
-
     if (isModalVisible) {
         console.log(` isModalVisible === true`);
-
-    }
-
+    };
 
 
     return (
@@ -102,6 +99,7 @@ const AdminCreateRoom = props => {
                 <Text style={{ color: Colors.textSecondary, fontSize: 13 }}>MODE</Text>
             </View>
 
+            {/* handler button group */}
             <View style={styles.container}>
                 <TouchableOpacity onPress={onHandlerActiveStudyRoomButton} activeOpacity={0.5}>
                     <View style={{
@@ -138,6 +136,7 @@ const AdminCreateRoom = props => {
                 </TouchableOpacity>
             </View>
 
+            {/* handler button create room  */}
             <TouchableOpacity onPress={onHandlerCreatRoom}>
                 <View style={styles.createButton}>
 
@@ -155,12 +154,15 @@ const AdminCreateRoom = props => {
                     </View>
                 </View>
             </TouchableOpacity>
+
+            {/* handler modal create room */}
             <ModalCreate
                 isModalVisible={isModalVisible}
                 setIsModalVisible={onHandleModeVisible}
                 selectedButton={selectedButton}
             />
 
+            {/* handler list item by category */}
             <FlatList
                 data={selectCategoryRooms}
                 keyExtractor={item => item.id}
