@@ -21,15 +21,19 @@ const CategoryRoom = props => {
     }
 
     return (
-        <Card style={styles.room}>
-
+        <Card style={{ ...styles.room, ...props.style }}>
             <View style={styles.touchable}>
-                <TouchableComponent onPress={props.onSelect} useForeground>
+                <TouchableComponent
+                    onPress={props.onSelect}
+                    useForeground
+                    disabled={props.roomDisableStatus}
+                >
                     <View style={styles.imageContainer}>
                         <Image style={styles.image} source={{ uri: props.imageUri }} />
                     </View>
                     <View style={styles.details}>
                         <Text style={styles.title}>{props.title}</Text>
+                        {props.children}
                     </View>
                 </TouchableComponent>
             </View>
@@ -39,7 +43,7 @@ const CategoryRoom = props => {
 
 const styles = StyleSheet.create({
     room: {
-        height: 300,
+        height: 320,
         margin: 20
     },
     touchable: {

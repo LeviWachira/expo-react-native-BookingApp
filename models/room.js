@@ -5,7 +5,8 @@ class Room {
         title,
         imageUri,
         timeTitle,
-        timeSteps
+        timeSteps,
+        roomDisableStatus
     ) {
         this.id = id;
         this.categoryIds = categoryIds;
@@ -13,6 +14,7 @@ class Room {
         this.imageUri = imageUri;
         this.timeTitle = timeTitle;
         this.timeSteps = timeSteps;
+        this.roomDisableStatus = roomDisableStatus;
     }
 }
 

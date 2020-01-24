@@ -81,10 +81,11 @@ const ModalCreate = props => {
                 12.00,
                 14.00,
                 16.00
-            ]
+            ],
+            
         ))
         props.setIsModalVisible()
-    }, [formState, dispatch]);
+    }, [formState]);
 
     const inputChangeHandler = useCallback(
         (inputIdentifier, inputValue, inputValidity) => {

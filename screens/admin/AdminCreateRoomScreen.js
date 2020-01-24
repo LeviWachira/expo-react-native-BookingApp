@@ -137,11 +137,14 @@ const AdminCreateRoom = props => {
             </View>
 
             {/* handler button create room  */}
-            <TouchableOpacity onPress={onHandlerCreatRoom}>
-                <View style={styles.createButton}>
+            <TouchableOpacity onPress={onHandlerCreatRoom} activeOpacity={0.5}>
+                <View style={{
+                    ...styles.computerRoomButton,
+                    ...{ backgroundColor: Colors.primary, flexDirection: 'row', borderRadius: 5, paddingLeft: 10, marginVertical: 5 }
+                }}>
 
-                    <View>
-                        <Text style={{ color: Colors.primary }}>
+                    <View style={{}}>
+                        <Text style={{ color: 'white', fontSize: 15 }}>
                             Create
                         </Text>
                     </View>
@@ -149,7 +152,7 @@ const AdminCreateRoom = props => {
                         <MaterialCommunityIcons
                             name='plus'
                             size={20}
-                            color={Colors.primary}
+                            color='white'
                         />
                     </View>
                 </View>
@@ -184,6 +187,17 @@ AdminCreateRoom.navigationOptions = navData => {
 
     return {
         headerTitle: 'Create',
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title="Setting"
+                    iconName='format-list-bulleted'
+                    onPress={() => {
+                        navData.navigation.toggleDrawer();
+                    }}
+                />
+            </HeaderButtons>
+        ),
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item

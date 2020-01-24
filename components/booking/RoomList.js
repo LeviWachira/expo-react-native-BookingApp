@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { useSelector } from 'react-redux';
 
 import CategoryRoom from './CategoryRoom';
+import Colors from '../../constants/Colors';
 
 const RoomList = props => {
 
@@ -13,6 +14,8 @@ const RoomList = props => {
     const isFavourite = favouriteRoom.some(room => room.id === itemData.item.id);
     return (
       <CategoryRoom
+        roomDisableStatus={itemData.item.roomDisableStatus}
+        style={styles.roomStatusContainer}
         title={itemData.item.title}
         imageUri={itemData.item.imageUri}
         onSelect={() => {
@@ -24,7 +27,18 @@ const RoomList = props => {
               isFav: isFavourite
             }
           });
-        }} />
+        }} >
+        <View style={styles.roomStatusContainer}>
+          <Text>Status : {itemData.item.roomDisableStatus ?
+            (
+              <Text style={{ color: Colors.danger, fontWeight: 'bold' }}>Close</Text>
+            ) :
+            (
+              <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>Open</Text>
+            )}
+          </Text>
+        </View>
+      </CategoryRoom>
     );
   };
 
@@ -44,6 +58,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  roomStatusContainer: {
+    paddingBottom: 10,
   }
 })
 
