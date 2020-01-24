@@ -168,6 +168,7 @@ const AdminCreateRoom = props => {
                 keyExtractor={item => item.id}
                 renderItem={itemData => (
                     <CreateRooms
+                        rid={itemData.item.id}
                         title={itemData.item.title}
                         imageUri={itemData.item.imageUri}
                     />

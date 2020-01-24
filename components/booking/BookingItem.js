@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform, T } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform, ActivityIndicator } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import * as bookingActions from '../../store/action/booking';
+import Colors from '../../constants/Colors';
 
 const BookingItem = props => {
 
+    const [disabledButton, setDisabledButton] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+    const checkTimeHours = new Date().getHours();
+    console.log(`checktime = ${checkTimeHours}`);
+
+    useEffect(() => {
+
+        if (checkTimeHours >= props.timeItems) {
+            setDisabledButton(true);
+            console.log(`เลยเวลาแล้ว`);
+        }
+        else if (checkTimeHours < props.timeItems) {
+            setDisabledButton(false);
+            console.log(`ยังไมถึงเวลาโว้ย`);
+        }
+    })
 
     const onBookingHandler = (room, time) => {
         Alert.alert('Are you sure?', 'Do you really want to Booking this this time?', [
@@ -15,7 +32,6 @@ const BookingItem = props => {
                 text: 'Yes',
                 style: 'default',
                 onPress: () => {
-                    props.SetIsBooked(true);
                     dispatch(bookingActions.addToBooking(room, time));
                     props.navigation.popToTop();
                 }
@@ -23,14 +39,15 @@ const BookingItem = props => {
         ]);
     };
 
+
     return (
         <TouchableOpacity
             onPress={() => {
                 onBookingHandler(props.selectRooms, props.timeItems);
             }}
-            disabled={props.disabledButton}
+            disabled={disabledButton}
         >
-            <View style={{ ...styles.button, ...{ backgroundColor: props.isBooked ? '#ccc' : '#4169E1' } }}>
+            <View style={{ ...styles.button, ...{ backgroundColor: disabledButton ? '#ccc' : '#4169E1' } }}>
                 <Text style={styles.font} >{props.timeItems}<Text>.00</Text></Text>
             </View>
         </TouchableOpacity >

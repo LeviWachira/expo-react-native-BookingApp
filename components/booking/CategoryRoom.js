@@ -8,6 +8,7 @@ import {
     Platform,
     Image
 } from 'react-native';
+
 import Card from '../UI/Card';
 
 
@@ -20,8 +21,8 @@ const CategoryRoom = props => {
     }
 
     return (
-
         <Card style={styles.room}>
+
             <View style={styles.touchable}>
                 <TouchableComponent onPress={props.onSelect} useForeground>
                     <View style={styles.imageContainer}>
@@ -30,7 +31,6 @@ const CategoryRoom = props => {
                     <View style={styles.details}>
                         <Text style={styles.title}>{props.title}</Text>
                     </View>
-
                 </TouchableComponent>
             </View>
         </Card>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         marginVertical: 2,
-        fontWeight : 'bold'
+        fontWeight: 'bold'
     },
     actions: {
         flexDirection: 'row',

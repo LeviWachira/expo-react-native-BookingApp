@@ -60,7 +60,7 @@ const AdminApproveMode = props => {
                 <View style={styles.textContainer} >
                     <Text style={styles.textSecondary}><Text style={styles.textPrimary}>room: </Text>{props.roomTitle}</Text>
                     <Text style={styles.textSecondary}><Text style={styles.textPrimary}>time: </Text>{props.roomTimeSteps}
-                        <Text>.00-{(props.roomTimeSteps) + 1}.00</Text></Text>
+                        <Text>.00-{(props.roomTimeSteps) + 2}.00</Text></Text>
 
                     {isMoreDetail && (
                         <View>

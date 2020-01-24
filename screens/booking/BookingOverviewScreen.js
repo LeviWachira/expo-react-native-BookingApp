@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { CATEGORYROOM } from '../../data/dummy-data';
@@ -7,6 +8,7 @@ import CategoryRoom from '../../components/booking/CategoryRoom';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 
 const BookingOverviewScreen = props => {
+
 
     const renderGridItem = (itemData) => {
         return (

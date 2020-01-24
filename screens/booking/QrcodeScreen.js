@@ -69,7 +69,7 @@ const QrcodeScreen = props => {
                                 <Text style={styles.textBooked}>{itemData.item.studentId}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.title}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeTitle}</Text>
-                                <Text style={styles.textBooked}>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 1}.00 am</Text>
+                                <Text style={styles.textBooked}>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 2}.00 am</Text>
                             </View>
                         </View>
                         <View style={styles.buttonContainer}>

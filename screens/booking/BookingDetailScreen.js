@@ -38,17 +38,7 @@ const BookingDetailScreen = props => {
         props.navigation.setParams({ isFav: currentRoomsFavourite })
     }, [currentRoomsFavourite]);
 
-    const [isBooked, SetIsBooked] = useState(false)
-    const [disabledButton, setDisabledButton] = useState(false);
-
-    const booked = useSelector(state => state.booking.booking.filter(book => book.id))
-
-    useEffect(() => {
-        if (booked > 0) {
-            setDisabledButton(true)
-        }
-    }, [booked]);
-
+   
     return (
         <View style={styles.screen}>
             <ImageBackground style={styles.Image} source={{ uri: selectRooms.imageUri }} >
@@ -67,9 +57,6 @@ const BookingDetailScreen = props => {
                                 key={timeItems}
                                 timeItems={timeItems}
                                 selectRooms={selectRooms}
-                                isBooked={isBooked}
-                                SetIsBooked={SetIsBooked}
-                                disabledButton={disabledButton}
                                 navigation={props.navigation}
                             />
                         ))}

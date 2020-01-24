@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Card from '../UI/Card';
 import Colors from '../../constants/Colors';
 import Button from '../UI/Button';
+import * as roomActions from '../../store/action/room';
 
 
 const CreateRooms = props => {
+    const dispatch = useDispatch();
     return (
         <View style={styles.list}>
             <Card style={styles.cardContainer}>
@@ -21,7 +24,9 @@ const CreateRooms = props => {
                 <View style={styles.buttonContainer}>
                     <Button
                         style={{ backgroundColor: Colors.danger }}
-                        onPress={() => { }}
+                        onSelect={() => {
+                            dispatch(roomActions.deleteRoom(props.rid))
+                        }}
                     >
                         <Text style={styles.buttonText}>Delete</Text>
                     </Button>

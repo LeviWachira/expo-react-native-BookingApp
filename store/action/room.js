@@ -16,8 +16,6 @@ export const createRoom = (
     console.log(`imageUri = ${imageUri}`);
     console.log(`timeTitle = ${timeTitle}`);
     console.log(`timeSteps = ${timeSteps}`);
-
-    
     return {
         type: CREATE_ROOM,
         roomData: {
@@ -32,7 +30,8 @@ export const createRoom = (
 };
 
 export const deleteRoom = (rid) => {
-    return { type: CREATE_ROOM, roomId: rid }
+    console.log(`delete roomId = ${JSON.stringify(rid)}`);
+    return { type: DELETE_ROOM, roomId: rid }
 };
 
 export const toggleFavourite = (id) => {
