@@ -65,7 +65,7 @@ const CreateRooms = props => {
                     >
                         <MaterialIcons
                             name='cancel'
-                            size={35}
+                            size={30}
                             color={Colors.danger}
                         />
                     </Button>

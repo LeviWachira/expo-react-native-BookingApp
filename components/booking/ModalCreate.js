@@ -76,7 +76,7 @@ const ModalCreate = props => {
             'https://library.tu.ac.th/sites/default/files/styles/punsarn_image_style/public/2018-10/03Room1-1.JPG?itok=qlNQqd3-',
             '120 mins',
             [
-                1.00,
+                25.00,
                 10.00,
                 12.00,
                 14.00,

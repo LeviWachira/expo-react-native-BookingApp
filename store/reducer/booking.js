@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
             const roomTimeTitle = addedBooking.timeTitle;
             const roomTimeSteps = addedBooking.timeSteps;
             const timeStepIndex = roomTimeSteps.findIndex(time => time === action.bookingData.timeBooking);
-            console.log(`lv1 roomId = ${JSON.stringify(roomId)}`);
+            console.log(`BK1 roomId = ${JSON.stringify(roomId)}`);
 
             const updateOrNewBooking = new Booking(
                 roomId + roomTimeSteps[timeStepIndex],
@@ -26,9 +26,9 @@ export default (state = initialState, action) => {
                 roomTitle,
                 roomTimeTitle,
                 roomTimeSteps[timeStepIndex],
-                moment().format('D-MMM-YYYY,hh:mm:ss a')
+                moment().format('D-MMM-YYYY,hh:mm:ss a'),
             );
-            console.log(`lv2 updateBooking = ${JSON.stringify(updateOrNewBooking)}`);
+            console.log(`BK2 updateBooking = ${JSON.stringify(updateOrNewBooking)}`);
             return {
                 ...state,
                 booking: state.booking.concat(updateOrNewBooking)

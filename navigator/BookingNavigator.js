@@ -14,6 +14,7 @@ import QrcodeScreen from '../screens/booking/QrcodeScreen';
 import FavouriteScreen from '../screens/booking/FavouriteScreen';
 import AdminBookingApproveScreen from '../screens/admin/AdminBookingApproveScreen';
 import AdminCreateRoomScreen from '../screens/admin/AdminCreateRoomScreen';
+import AdminHistoryScreen from '../screens/admin/AdminHistoryScreen';
 
 //handler headerTitle
 const defaultNavOptions = {
@@ -132,11 +133,18 @@ const AdminBookingApproveNavigator = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 });
 
+const AdminHistoryStatusNavigator = createStackNavigator({
+    ListStatus: AdminHistoryScreen
+}, {
+    defaultNavigationOptions: defaultNavOptions
+})
+
 const AdminCreateRoomNavigator = createStackNavigator({
     HandlerRoom: AdminCreateRoomScreen
 }, {
     defaultNavigationOptions: defaultNavOptions
 });
+
 
 const AdminTabScreenConfig = {
     Approve: {
@@ -149,6 +157,22 @@ const AdminTabScreenConfig = {
                     <MaterialCommunityIcons
                         name='checkbox-marked-outline'
                         size={27}
+                        color={tabInfo.tintColor}
+                    />
+                );
+            }
+        }
+    },
+    History: {
+        screen: AdminHistoryStatusNavigator,
+        navigationOptions: {
+            tabBarLabel: 'History',
+            tabBarColor: '#4169E1',
+            tabBarIcon: (tabInfo) => {
+                return (
+                    <MaterialCommunityIcons
+                        name='format-list-bulleted'
+                        size={30}
                         color={tabInfo.tintColor}
                     />
                 );

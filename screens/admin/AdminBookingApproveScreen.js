@@ -33,7 +33,7 @@ const BookingCommit = props => {
         }
         return tranformedBookingItems.sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
-    console.log(`lv3 fecthBooking = ${JSON.stringify(bookingItems)}`);
+    console.log(`fecthBooking = ${JSON.stringify(bookingItems)}`);
 
     const [isAutoApprove, setIsAutoApprove] = useState(false);
 

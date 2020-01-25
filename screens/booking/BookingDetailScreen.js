@@ -38,7 +38,7 @@ const BookingDetailScreen = props => {
         props.navigation.setParams({ isFav: currentRoomsFavourite })
     }, [currentRoomsFavourite]);
 
-   
+
     return (
         <View style={styles.screen}>
             <ImageBackground style={styles.Image} source={{ uri: selectRooms.imageUri }} >

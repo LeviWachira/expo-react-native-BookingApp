@@ -43,22 +43,22 @@ BookingOverviewScreen.navigationOptions = navData => {
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title="Setting"
-                    iconName='format-list-bulleted'
+                    iconName='account-box'
                     onPress={() => {
                         navData.navigation.toggleDrawer();
                     }}
                 />
             </HeaderButtons>
         ),
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    title='Qrcode'
-                    iconName='account-box'
-                    onPress={() => navData.navigation.navigate('BookingCommit')}
-                />
-            </HeaderButtons>
-        ),
+        // headerRight: () => (
+        //     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        //         <Item
+        //             title='Qrcode'
+        //             iconName='account-box'
+        //             onPress={() => navData.navigation.navigate('BookingCommit')}
+        //         />
+        //     </HeaderButtons>
+        // ),
     }
 }
 
