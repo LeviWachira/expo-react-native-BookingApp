@@ -16,7 +16,7 @@ export default function App() {
     rooms: roomsReducer,
     booking: bookingReducer,
     qrcode: qrcodeReducer,
-    history: historyReducer
+    // history: historyReducer
   });
 
   const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

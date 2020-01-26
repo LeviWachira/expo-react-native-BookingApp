@@ -1,37 +1,84 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Button } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import AdminHistoryStatus from '../../components/admin/AdminHistoryStatus';
+import * as bookingActions from '../../store/action/booking';
+import Colors from '../../constants/Colors';
 
 const AdminHistoryScreen = props => {
 
-    const checkEmptyHistoryItems = useSelector(state => state.history.history);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+    const dispatch = useDispatch();
 
+    const loadedBookingHistory = useCallback(async () => {
+        setError(null);
+        setIsLoading(true);
+        try {
+            await dispatch(bookingActions.fetchBooking());
+        } catch (err) {
+            setError(err.message)
+        }
+        setIsLoading(false);
+    }, [dispatch, setError, setIsLoading])
+
+    useEffect(() => {
+        const willFocusSub = props.navigation.addListener('willFocus', loadedBookingHistory)
+
+        return () => {
+            willFocusSub.remove();
+        }
+    }, [loadedBookingHistory]);
+
+    useEffect(() => {
+        loadedBookingHistory();
+    }, [dispatch]);
+
+    const historyItems = useSelector(state => state.booking.booking);
     const selectedHistoryItems = useSelector(state => {
         const tranfromedHistoryItems = [];
-        for (const key in state.history.history) {
+        for (const key in state.booking.booking) {
             tranfromedHistoryItems.push({
-                roomHistoryId: state.history.history[key].id,
-                roomHistoryStudentName: state.history.history[key].studentName,
-                roomHistoryStudentId: state.history.history[key].studentId,
-                roomHistoryTitle: state.history.history[key].title,
-                roomHistoryTimeTitle: state.history.history[key].timeTitle,
-                roomHistorytimeSteps: state.history.history[key].timeSteps,
-                roomHistoryDate: state.history.history[key].date,
-                roomHistoryApprovalStatus: state.history.history[key].approvalStatus,
+                roomHistoryId: state.booking.booking[key].id,
+                roomHistoryStudentName: state.booking.booking[key].studentName,
+                roomHistoryStudentId: state.booking.booking[key].studentId,
+                roomHistoryTitle: state.booking.booking[key].title,
+                roomHistoryTimeTitle: state.booking.booking[key].timeTitle,
+                roomHistoryTimeUserSelected: state.booking.booking[key].timeUserSelected,
+                roomHistoryDate: state.booking.booking[key].date,
+                roomHistoryApprovalStatus: state.booking.booking[key].userBookingStatus,
             })
         }
         return tranfromedHistoryItems.sort((a, b) => a.roomHistoryDate < b.roomHistoryDate ? 1 : -1);
     });
 
-    if (checkEmptyHistoryItems.length === 0) {
+    if (error) {
         return (
-            <View style={styles.centered}>
+            <View style={styles.centeredText}>
+                <Text>An error ocurred!</Text>
+                <Button
+                    title='Try again'
+                    onPress={loadedBooking}
+                    color={Colors.primary}
+                />
+            </View>
+        )
+    };
+
+    if (isLoading) {
+        <View style={styles.centeredText}>
+            <ActivityIndicator color={Colors.primary} size='large' />
+        </View>
+    };
+
+    if (historyItems.length === 0) {
+        return (
+            <View style={styles.centeredText}>
                 <Text>No ,history data from booking yet. </Text>
             </View>
         )
-    }
+    };
 
     return (
         <View style={StyleSheet.screen}>
@@ -40,13 +87,13 @@ const AdminHistoryScreen = props => {
                 keyExtractor={item => item.roomHistoryId}
                 renderItem={itemData => (
                     <AdminHistoryStatus
-                        checkEmptyHistoryItems={checkEmptyHistoryItems}
+                        historyItems={historyItems}
                         roomHistoryId={itemData.item.roomHistoryId}
                         roomHistoryStudentName={itemData.item.roomHistoryStudentName}
                         roomHistoryStudentId={itemData.item.roomHistoryStudentId}
                         roomHistoryTitle={itemData.item.roomHistoryTitle}
                         roomHistoryTimeTitle={itemData.item.roomHistoryTimeTitle}
-                        roomHistorytimeSteps={itemData.item.roomHistorytimeSteps}
+                        roomHistoryTimeUserSelected={itemData.item.roomHistoryTimeUserSelected}
                         roomHistoryDate={itemData.item.roomHistoryDate}
                         roomHistoryApprovalStatus={itemData.item.roomHistoryApprovalStatus}
                     />
@@ -65,6 +112,8 @@ AdminHistoryScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
     centered: {
         flex: 1,
+    },
+    centeredText: {
         justifyContent: 'center',
         alignItems: 'center',
     },

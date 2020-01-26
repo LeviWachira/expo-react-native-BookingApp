@@ -56,8 +56,15 @@ const BookingDetailScreen = props => {
                             <BookingItem
                                 key={timeItems}
                                 timeItems={timeItems}
-                                selectRooms={selectRooms}
                                 navigation={props.navigation}
+                                selectRooms={selectRooms}
+                                id={selectRooms.id}
+                                categoryIds={selectRooms.categoryIds}
+                                title={selectRooms.title}
+                                imageUri={selectRooms.imageUri}
+                                timeTitle={selectRooms.timeTitle}
+                                timeSteps={selectRooms.timeSteps}
+                                roomDisableStatus={selectRooms.roomDisableStatus}
                             />
                         ))}
                     </View>

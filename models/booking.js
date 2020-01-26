@@ -1,15 +1,15 @@
 // import moment from 'moment';
 
 class Booking {
-    constructor(id, studentName, studentId, title, timeTitle, timeSteps, date, approvalStatus) {
+    constructor(id, studentName, studentId, title, timeTitle, timeUserSelected, date , userBookingStatus) {
         this.id = id;
         this.studentName = studentName;
         this.studentId = studentId;
         this.title = title;
         this.timeTitle = timeTitle;
-        this.timeSteps = timeSteps;
+        this.timeUserSelected = timeUserSelected;
         this.date = date;
-        this.approvalStatus = approvalStatus;
+        this.userBookingStatus = userBookingStatus;
     }
 
     // get readableDate() {

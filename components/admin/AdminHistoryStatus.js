@@ -20,8 +20,8 @@ const AdminHistoryStatus = props => {
             <View style={{ ...styles.container, ...{ height: isMoreDetail ? 110 : 48 } }}>
                 <View style={styles.textContainer} >
                     <Text style={styles.textSecondary}><Text style={styles.textPrimary}>room: </Text>{props.roomHistoryTitle}</Text>
-                    <Text style={styles.textSecondary}><Text style={styles.textPrimary}>time: </Text>{props.roomHistorytimeSteps}
-                        <Text>.00-{(props.roomHistorytimeSteps) + 2}.00</Text></Text>
+                    <Text style={styles.textSecondary}><Text style={styles.textPrimary}>time: </Text>{props.roomHistoryTimeUserSelected}
+                        <Text>.00-{(props.roomHistoryTimeUserSelected) + 2}.00</Text></Text>
 
                     {isMoreDetail && (
                         <View>

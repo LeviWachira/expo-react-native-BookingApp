@@ -48,7 +48,6 @@ export const createRoom = (
     timeTitle,
     timeSteps,
 ) => {
-    console.log(`id = ${id}`);
     console.log(`categoryIds = ${categoryIds}`);
     console.log(`title = ${title}`);
     console.log(`imageUri = ${imageUri}`);
@@ -144,7 +143,7 @@ export const disableRoom = (rid, roomStatus) => {
 export const deleteRoom = (rid) => {
     console.log(`delete roomId = ${JSON.stringify(rid)}`);
     return async dispatch => {
-        
+
         await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms/${rid}.json`, {
             method: 'DELETE',
         });

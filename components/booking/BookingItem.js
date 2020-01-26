@@ -11,7 +11,8 @@ const BookingItem = props => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const checkTimeHours = new Date().getHours();
-    console.log(`checktime = ${checkTimeHours}`);
+    // console.log(`checktime = ${checkTimeHours}`);
+    // console.log(`BOOKING_START = ${JSON.stringify(props.selectRooms)}`);
 
     useEffect(() => {
 
@@ -25,14 +26,24 @@ const BookingItem = props => {
         }
     })
 
-    const onBookingHandler = (room, time) => {
+    const onBookingHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to Booking this this time?', [
             { text: 'No', style: 'destructive' },
             {
                 text: 'Yes',
                 style: 'default',
                 onPress: () => {
-                    dispatch(bookingActions.addToBooking(room, time));
+                    dispatch(bookingActions.addToBooking(
+                        props.id,
+                        props.categoryIds,
+                        props.title,
+                        props.imageUri,
+                        props.timeTitle,
+                        props.timeSteps,
+                        props.roomDisableStatus,
+                        props.timeItems,
+                        props.selectRooms
+                    ));
                     props.navigation.popToTop();
                 }
             }
@@ -42,9 +53,7 @@ const BookingItem = props => {
 
     return (
         <TouchableOpacity
-            onPress={() => {
-                onBookingHandler(props.selectRooms, props.timeItems);
-            }}
+            onPress={onBookingHandler}
             disabled={disabledButton}
         >
             <View style={{ ...styles.button, ...{ backgroundColor: disabledButton ? '#ccc' : '#4169E1' } }}>

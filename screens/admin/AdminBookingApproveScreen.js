@@ -1,23 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
     FlatList,
     StyleSheet,
     Platform,
-    Switch
+    Switch,
+    ActivityIndicator,
+    Button
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import * as bookingActions from '../../store/action/booking';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
 import AdminApproveMode from '../../components/booking/AdminApproveMode';
 
 const BookingCommit = props => {
 
-    const selectedBooking = useSelector(state => state.booking.booking);
+    const [isAutoApprove, setIsAutoApprove] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+    const dispatch = useDispatch();
 
+    const loadedBooking = useCallback(async () => {
+        setError(null);
+        setIsLoading(true);
+        try {
+            await dispatch(bookingActions.fetchBooking());
+        } catch (err) {
+            setError(err.message)
+        }
+        setIsLoading(false);
+    }, [dispatch, setError, setIsLoading])
+
+    useEffect(() => {
+        const willFocusSub = props.navigation.addListener('willFocus', loadedBooking)
+
+        return () => {
+            willFocusSub.remove();
+        }
+    }, [loadedBooking])
+
+    useEffect(() => {
+        loadedBooking();
+    }, [dispatch]);
+
+    const selectedBooking = useSelector(state => state.booking.booking);
     const bookingItems = useSelector(state => {
         const tranformedBookingItems = [];
         for (const key in state.booking.booking) {
@@ -27,17 +57,36 @@ const BookingCommit = props => {
                 roomStudentId: state.booking.booking[key].studentId,
                 roomTitle: state.booking.booking[key].title,
                 roomTimeTitle: state.booking.booking[key].timeTitle,
-                roomTimeSteps: state.booking.booking[key].timeSteps,
+                roomTimeUserSelected: state.booking.booking[key].timeUserSelected,
                 roomDate: state.booking.booking[key].date
             })
         }
         return tranformedBookingItems.sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
-    console.log(`fecthBooking = ${JSON.stringify(bookingItems)}`);
+    console.log(`ADMINBOOKING = ${JSON.stringify(bookingItems)}`);
 
-    const [isAutoApprove, setIsAutoApprove] = useState(false);
+    if (error) {
+        return (
+            <View style={styles.centeredText}>
+                <Text>An error ocurred!</Text>
+                <Button
+                    title='Try again'
+                    onPress={loadedBooking}
+                    color={Colors.primary}
+                />
+            </View>
+        )
+    };
 
-    if (selectedBooking.length === 0) {
+    if (isLoading) {
+        return (
+            <View style={styles.centeredText}>
+                <ActivityIndicator color={Colors.primary} size='large' />
+            </View>
+        )
+    };
+
+    if (!isLoading && selectedBooking.length === 0) {
         return (
             <View style={styles.centered}>
                 <View style={{ marginVertical: 10, marginLeft: 20 }}>
@@ -95,7 +144,7 @@ const BookingCommit = props => {
                         roomStudentId={itemData.item.roomStudentId}
                         roomTitle={itemData.item.roomTitle}
                         roomTimeTitle={itemData.item.roomTimeTitle}
-                        roomTimeSteps={itemData.item.roomTimeSteps}
+                        roomTimeUserSelected={itemData.item.roomTimeUserSelected}
                         roomDate={itemData.item.roomDate}
                         selectedBooking={selectedBooking}
                         isAutoApprove={isAutoApprove}
