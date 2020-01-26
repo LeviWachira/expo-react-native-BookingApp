@@ -12,6 +12,9 @@ const RoomList = props => {
   const renderRoomItem = itemData => {
     //isFavourite return true || false .
     const isFavourite = favouriteRoom.some(room => room.id === itemData.item.id);
+
+    // console.log(`LV1 CHECK roomDisableStatus = ${JSON.stringify(itemData.item.roomDisableStatus)}`);
+
     return (
       <CategoryRoom
         roomDisableStatus={itemData.item.roomDisableStatus}

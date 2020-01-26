@@ -15,6 +15,10 @@ const BookingRoomScreen = props => {
     const displayedRooms = availableRooms.filter(room => room.categoryIds.indexOf(catId) >= 0);
     const dispatch = useDispatch();
 
+    // console.log(`CHECK LV-1 availableRooms = ${JSON.stringify(availableRooms)}`);
+    // console.log(`CHECK LV-2 displayedRooms = ${JSON.stringify(displayedRooms)}`);
+
+    
     const loadRooms = useCallback(async () => {
         setError(null);
         setIsLoading(true);

@@ -20,6 +20,9 @@ const CategoryRoom = props => {
         TouchableComponent = TouchableNativeFeedback;
     }
 
+    // console.log(`Status Cat = ${JSON.stringify(props.roomDisableStatus)}`);
+
+
     return (
         <Card style={{ ...styles.room, ...props.style }}>
             <View style={styles.touchable}>

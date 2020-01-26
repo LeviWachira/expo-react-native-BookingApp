@@ -20,7 +20,7 @@ const CreateRooms = props => {
                 text: 'Yes',
                 style: 'destructive',
                 onPress: () => {
-                    dispatch(roomActions.enableRoom(rid, isDisableRoom));
+                    dispatch(roomActions.disableRoom(rid, isDisableRoom));
                 }
             }
         ]);
@@ -34,7 +34,7 @@ const CreateRooms = props => {
                 text: 'Yes',
                 style: 'destructive',
                 onPress: () => {
-                    dispatch(roomActions.disableRoom(rid, isEnableRoom));
+                    dispatch(roomActions.enableRoom(rid, isEnableRoom));
 
                 }
             }
