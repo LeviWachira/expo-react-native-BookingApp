@@ -6,13 +6,14 @@ import Colors from '../../constants/Colors';
 
 const AdminHistoryStatus = props => {
     const [isMoreDetail, setIsMoreDetail] = useState(false);
-   
+
     let selectedColorStatus = Colors.textSecondary;
     if (props.roomHistoryApprovalStatus === "Approved") {
         selectedColorStatus = Colors.primary;
     } else if (props.roomHistoryApprovalStatus === "Denied!!") {
         selectedColorStatus = Colors.danger;
     }
+
 
     return (
         <Card style={styles.cardContainer}>
@@ -50,6 +51,15 @@ const AdminHistoryStatus = props => {
 };
 
 const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+
+    },
+    centeredText: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 19
+    },
     cardContainer: {
         marginVertical: 5,
         marginHorizontal: 5,

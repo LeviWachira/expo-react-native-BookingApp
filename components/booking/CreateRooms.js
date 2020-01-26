@@ -54,6 +54,7 @@ const CreateRooms = props => {
         ]);
     }
 
+
     return (
         <View style={styles.list}>
             <Card style={styles.cardContainer}>
@@ -114,6 +115,11 @@ const CreateRooms = props => {
 }
 
 const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     list: {
         flex: 1,
     },

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import AdminHistoryStatus from '../../components/admin/AdminHistoryStatus';
 
 const AdminHistoryScreen = props => {
+
+    const checkEmptyHistoryItems = useSelector(state => state.history.history);
 
     const selectedHistoryItems = useSelector(state => {
         const tranfromedHistoryItems = [];
@@ -23,6 +25,14 @@ const AdminHistoryScreen = props => {
         return tranfromedHistoryItems.sort((a, b) => a.roomHistoryDate < b.roomHistoryDate ? 1 : -1);
     });
 
+    if (checkEmptyHistoryItems.length === 0) {
+        return (
+            <View style={styles.centered}>
+                <Text>No ,history data from booking yet. </Text>
+            </View>
+        )
+    }
+
     return (
         <View style={StyleSheet.screen}>
             <FlatList
@@ -30,6 +40,7 @@ const AdminHistoryScreen = props => {
                 keyExtractor={item => item.roomHistoryId}
                 renderItem={itemData => (
                     <AdminHistoryStatus
+                        checkEmptyHistoryItems={checkEmptyHistoryItems}
                         roomHistoryId={itemData.item.roomHistoryId}
                         roomHistoryStudentName={itemData.item.roomHistoryStudentName}
                         roomHistoryStudentId={itemData.item.roomHistoryStudentId}
@@ -51,7 +62,7 @@ AdminHistoryScreen.navigationOptions = navData => {
     }
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     centered: {
         flex: 1,
         justifyContent: 'center',
