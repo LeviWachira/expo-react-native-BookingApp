@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
     View,
     Text,
@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Platform,
     Alert,
-    Button
+    Button,
+    ActivityIndicator
 } from 'react-native'
 import { useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,45 +19,77 @@ import Colors from '../../constants/Colors';
 
 const AdminApproveMode = props => {
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [isMoreDetail, setIsMoreDetail] = useState(false);
     const dispatch = useDispatch();
-    const onAdminCommitHandler = (roomBooking, rid) => {
+
+    useEffect(() => {
+        loadedRefresh();
+    }, [dispatch, loadedRefresh])
+
+    const loadedRefresh = useCallback(async () => {
+        setIsLoading(true)
+        await dispatch(bookingActions.fetchBooking());
+        setIsLoading(false);
+    }, [onAdminCommitHandler]);
+
+    const onAdminCommitHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to commit this booking?', [
             { text: 'No', style: 'destructive' },
             {
                 text: 'Yes',
                 style: 'default',
-                onPress: () => {
-                    dispatch(qrcodeActions.setQrcode(roomBooking, rid));
+                onPress: async () => {
+                    await dispatch(qrcodeActions.setQrcode(
+                        props.roomId,
+                        `${props.roomId}/${props.roomStudentId}/${props.roomTitle}/${props.roomTimeUserSelected}/${props.roomDate}`,
+                    ));
+                    loadedRefresh();
                 }
             }
         ]);
     };
-    const onCancelCommitHandler = (rid) => {
+
+    const onCancelCommitHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to not approved this booking?', [
             { text: 'No', style: 'default' },
             {
                 text: 'Yes',
                 style: 'destructive',
-                onPress: () => {
-                    dispatch(bookingActions.removeFromBooking(rid));
+                onPress: async () => {
+                    await dispatch(bookingActions.removeFromBooking(props.roomId));
+                    loadedRefresh();
                 }
             }
         ]);
     };
 
+    const adminAutoApproved = async () => {
+        await dispatch(qrcodeActions.setQrcode(
+            props.roomId,
+            `${props.roomId}/${props.roomStudentId}/${props.roomTitle}/${props.roomTimeUserSelected}/${props.roomDate}`,
+        ));
+        loadedRefresh();
+    };
+
+    if (isLoading) {
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+            <ActivityIndicator color={Colors.primary} size='large' />
+        </View >
+    }
+
     if (props.isAutoApprove) {
         console.log(`is Auto Approve Mode`);
-        dispatch(qrcodeActions.setQrcode(props.selectedBooking, props.roomId));
+        adminAutoApproved();
     };
     if (!props.isAutoApprove) {
         console.log(`is Manual Approve Mode`);
     };
 
-    const [isMoreDetail, setIsMoreDetail] = useState(false);
 
     return (
         <Card style={styles.cardContainer}>
-            <View style={{ ...styles.container, ...{ height: isMoreDetail ? 110 : 48} }}>
+            <View style={{ ...styles.container, ...{ height: isMoreDetail ? 110 : 48 } }}>
                 <View style={styles.textContainer} >
                     <Text style={styles.textSecondary}><Text style={styles.textPrimary}>room: </Text>{props.roomTitle}</Text>
                     <Text style={styles.textSecondary}><Text style={styles.textPrimary}>time: </Text>{props.roomTimeUserSelected}
@@ -72,14 +105,14 @@ const AdminApproveMode = props => {
 
                 </View>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => { onAdminCommitHandler(props.selectedBooking, props.roomId) }}>
+                    <TouchableOpacity onPress={onAdminCommitHandler}>
                         <Ionicons
                             name={Platform.OS === 'android' ? 'md-checkmark-circle' : 'ios-checkmark-circle'}
                             size={35}
                             color='#4169E1'
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { onCancelCommitHandler(props.roomId) }}>
+                    <TouchableOpacity onPress={onCancelCommitHandler}>
                         <Ionicons
                             name={Platform.OS === 'android' ? 'md-close-circle' : 'ios-close-circle'}
                             size={35}

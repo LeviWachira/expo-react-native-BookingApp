@@ -58,11 +58,14 @@ const BookingCommit = props => {
                 roomTitle: state.booking.booking[key].title,
                 roomTimeTitle: state.booking.booking[key].timeTitle,
                 roomTimeUserSelected: state.booking.booking[key].timeUserSelected,
-                roomDate: state.booking.booking[key].date
+                roomDate: state.booking.booking[key].date,
+                roomUserBookingStatus: state.booking.booking[key].userBookingStatus,
             })
         }
-        return tranformedBookingItems.sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
+        return tranformedBookingItems.filter(booking => booking.roomUserBookingStatus === "...Waiting")
+            .sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
+    console.log(`SELECTING_BOOKING = ${JSON.stringify(selectedBooking)}`);
     console.log(`ADMINBOOKING = ${JSON.stringify(bookingItems)}`);
 
     if (error) {
@@ -146,6 +149,7 @@ const BookingCommit = props => {
                         roomTimeTitle={itemData.item.roomTimeTitle}
                         roomTimeUserSelected={itemData.item.roomTimeUserSelected}
                         roomDate={itemData.item.roomDate}
+                        roomUserBookingStatus={itemData.item.roomUserBookingStatus}
                         selectedBooking={selectedBooking}
                         isAutoApprove={isAutoApprove}
                     />

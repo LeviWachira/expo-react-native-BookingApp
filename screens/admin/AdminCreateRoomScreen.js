@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
@@ -18,19 +18,45 @@ import CustomHeaderButton from '../../components/UI/HeaderButton';
 import CreateRooms from '../../components/booking/CreateRooms';
 import Colors from '../../constants/Colors';
 import ModalCreate from '../../components/booking/ModalCreate';
+import * as roomActions from '../../store/action/room';
 
 const AdminCreateRoom = props => {
 
     const [selectedButton, setSelectedButton] = useState('');
     const availableRooms = useSelector(state => state.rooms.rooms);
     const selectCategoryRooms = availableRooms.filter(room => room.categoryIds === selectedButton);
+    const dispatch = useDispatch();
 
     const [activeStudyRoomButton, setActiveStudyRoomButton] = useState(false);
     const [activeComputerRoomButton, setActiveComputerRoomButton] = useState(false);
     const [activeTheatorRoomButton, setActiveTheatorRoomButton] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
     console.log(selectedButton);
+
+    const loadedRooms = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            await dispatch(roomActions.fetchRooms());
+
+        } catch (err) {
+
+        }
+        setIsLoading(false)
+    } , [ onHandlerActiveStudyRoomButton , onHandlerActiveComputerRoomButton , onHandlerActiveTheatorRoomButton]);
+
+    useEffect(() => {
+        const willFocusSub = props.navigation.addListener('willFocus', loadedRooms)
+
+        return () => {
+            willFocusSub.remove();
+        }
+    }, [loadedRooms]);
+
+    useEffect(() => {
+        loadedRooms();
+    }, [dispatch]);
 
     const onHandlerActiveStudyRoomButton = async () => {
         setIsLoading(true);
@@ -40,6 +66,7 @@ const AdminCreateRoom = props => {
         console.log(`StudyRoomButton`);
         setSelectedButton('c1')
         setIsLoading(false);
+        loadedRooms();
     };
 
     const onHandlerActiveComputerRoomButton = async () => {
@@ -50,6 +77,7 @@ const AdminCreateRoom = props => {
         console.log(`ComputerRoomButton`);
         setSelectedButton('c2')
         setIsLoading(false);
+        loadedRooms();
     };
 
     const onHandlerActiveTheatorRoomButton = async () => {
@@ -60,6 +88,7 @@ const AdminCreateRoom = props => {
         console.log(`TheatorRoomButton`);
         setSelectedButton('c3')
         setIsLoading(false);
+        loadedRooms();
     };
 
     const onHandleModeVisible = () => {

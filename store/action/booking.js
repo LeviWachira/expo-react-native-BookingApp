@@ -15,7 +15,7 @@ export const fetchBooking = () => {
             }
 
             const resData = await response.json();
-            console.log(`FETCH_BOOKING = ${JSON.stringify(resData)}`);
+            // console.log(`FETCH_BOOKING = ${JSON.stringify(resData)}`);
             const loadedBooking = [];
             for (const key in resData) {
                 loadedBooking.push(
@@ -32,7 +32,7 @@ export const fetchBooking = () => {
                 );
             }
 
-            console.log(`SET_BOOKING = ${JSON.stringify(loadedBooking)}`);
+            // console.log(`SET_BOOKING = ${JSON.stringify(loadedBooking)}`);
             dispatch({ type: SET_BOOKINGS, bookings: loadedBooking });
         } catch (err) {
             throw err;
@@ -90,7 +90,7 @@ export const addToBooking = (
             })
         });
         const resData = await response.json();
-        console.log(`BK1 FECTH_BOOKING = ${JSON.stringify(resData)}`);
+        // console.log(`BK1 FECTH_BOOKING = ${JSON.stringify(resData)}`);
 
         dispatch({
             type: ADD_TO_BOOKING,

@@ -16,7 +16,7 @@ export const fetchRooms = () => {
                 throw new Error('Something went wrong');
             }
             const resData = await response.json();
-            console.log(`FETCHR = ${JSON.stringify(resData)}`);
+            // console.log(`FETCHR = ${JSON.stringify(resData)}`);
             const loadedRooms = [];
             for (const key in resData) {
                 loadedRooms.push(
@@ -32,7 +32,7 @@ export const fetchRooms = () => {
                 );
             }
 
-            console.log(`SETR = ${JSON.stringify(loadedRooms)}`);
+            // console.log(`SETR = ${JSON.stringify(loadedRooms)}`);
             dispatch({ type: SET_ROOMS, rooms: loadedRooms });
         } catch (err) {
             throw err;
@@ -48,11 +48,11 @@ export const createRoom = (
     timeTitle,
     timeSteps,
 ) => {
-    console.log(`categoryIds = ${categoryIds}`);
-    console.log(`title = ${title}`);
-    console.log(`imageUri = ${imageUri}`);
-    console.log(`timeTitle = ${timeTitle}`);
-    console.log(`timeSteps = ${timeSteps}`);
+    // console.log(`categoryIds = ${categoryIds}`);
+    // console.log(`title = ${title}`);
+    // console.log(`imageUri = ${imageUri}`);
+    // console.log(`timeTitle = ${timeTitle}`);
+    // console.log(`timeSteps = ${timeSteps}`);
     return async dispatch => {
 
         const response = await fetch('https://rn-bookingapp-guide.firebaseio.com/rooms.json', {
@@ -69,24 +69,24 @@ export const createRoom = (
             })
         });
         const resData = await response.json();
-        console.log(`CR0 createRooms = ${JSON.stringify(resData)}`);
+        // console.log(`CR0 createRooms = ${JSON.stringify(resData)}`);
 
-        dispatch({
-            type: CREATE_ROOM,
-            roomData: {
-                id: resData.name,
-                categoryIds: categoryIds,
-                title: title,
-                imageUri: imageUri,
-                timeTitle: timeTitle,
-                timeSteps: timeSteps,
-            }
-        })
+        // dispatch({
+        //     type: CREATE_ROOM,
+        //     roomData: {
+        //         id: resData.name,
+        //         categoryIds: categoryIds,
+        //         title: title,
+        //         imageUri: imageUri,
+        //         timeTitle: timeTitle,
+        //         timeSteps: timeSteps,
+        //     }
+        // })
     }
 };
 
 export const enableRoom = (rid, roomStatus) => {
-    console.log(`ENBR0 enable= ${roomStatus}`);
+    // console.log(`ENBR0 enable= ${roomStatus}`);
 
     return async dispatch => {
 
@@ -100,20 +100,20 @@ export const enableRoom = (rid, roomStatus) => {
             })
         });
         const resData = await response.json();
-        console.log(`ENBR1 enable= ${JSON.stringify(resData)}`);
+        // console.log(`ENBR1 enable= ${JSON.stringify(resData)}`);
 
-        dispatch({
-            type: ENABLE_ROOM,
-            roomData: {
-                roomId: rid,
-                roomStatus: roomStatus
-            }
-        })
+        // dispatch({
+        //     type: ENABLE_ROOM,
+        //     roomData: {
+        //         roomId: rid,
+        //         roomStatus: roomStatus
+        //     }
+        // })
     }
 };
 
 export const disableRoom = (rid, roomStatus) => {
-    console.log(`DSBR0 disable= ${roomStatus}`);
+    // console.log(`DSBR0 disable= ${roomStatus}`);
 
     return async dispatch => {
 
@@ -127,28 +127,28 @@ export const disableRoom = (rid, roomStatus) => {
             })
         });
         const resData = await response.json();
-        console.log(`DSBR0 disable= ${JSON.stringify(resData)}`);
+        // console.log(`DSBR0 disable= ${JSON.stringify(resData)}`);
 
-        dispatch({
-            type: DISABLE_ROOM,
-            roomData: {
-                roomDisableId: rid,
-                roomDisableStatus: roomStatus
-            }
-        })
+        // dispatch({
+        //     type: DISABLE_ROOM,
+        //     roomData: {
+        //         roomDisableId: rid,
+        //         roomDisableStatus: roomStatus
+        //     }
+        // })
     }
 };
 
 
 export const deleteRoom = (rid) => {
-    console.log(`delete roomId = ${JSON.stringify(rid)}`);
+    // console.log(`delete roomId = ${JSON.stringify(rid)}`);
     return async dispatch => {
 
         await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms/${rid}.json`, {
             method: 'DELETE',
         });
 
-        dispatch({ type: DELETE_ROOM, roomId: rid })
+        // dispatch({ type: DELETE_ROOM, roomId: rid })
     }
 };
 

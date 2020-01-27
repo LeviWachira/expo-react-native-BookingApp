@@ -1,12 +1,12 @@
 
 class Qrcode {
-    constructor(id, studentName, studentId, title, timeTitle, timeSteps, date, qrcode) {
+    constructor(id, studentName, studentId, title, timeTitle, timeUserSelected, date, qrcode) {
         this.id = id;
         this.studentName = studentName;
         this.studentId = studentId;
         this.title = title;
         this.timeTitle = timeTitle;
-        this.timeSteps = timeSteps;
+        this.timeUserSelected = timeUserSelected;
         this.date = date;
         this.qrcode = qrcode;
     }

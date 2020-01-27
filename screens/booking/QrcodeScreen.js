@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     FlatList,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import QRCode from 'react-native-qrcode-svg';
@@ -17,8 +18,44 @@ import Colors from '../../constants/Colors';
 
 const QrcodeScreen = props => {
 
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
     const selectedShowQrcode = useSelector(state => state.qrcode.qrcode)
     const dispatch = useDispatch();
+    console.log(`QRCODE_SCREEN = ${JSON.stringify(selectedShowQrcode)}`);
+
+    const loadedQrcode = useCallback(async () => {
+        setError(null);
+        setIsLoading(true);
+        try {
+            await dispatch(qrcodeActions.fetchQrcode());
+        } catch (err) {
+            setError(err.message)
+        }
+        setIsLoading(false);
+    }, [dispatch, setIsLoading, onUserCancelBooked])
+
+    useEffect(() => {
+        const willFocusSub = props.navigation.addListener('willFocus', loadedQrcode)
+
+        return () => {
+            willFocusSub.remove();
+        }
+    }, [loadedQrcode])
+
+    useEffect(() => {
+        loadedQrcode();
+    }, [dispatch])
+
+    const onUserCancelBooked = async (roomId) => {
+        try {
+            await dispatch(qrcodeActions.cancelBooked(roomId))
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     console.log(`Lv6 fecthQrcode : ${JSON.stringify(selectedShowQrcode)}`);
     const onCancelBooked = (rid) => {
         Alert.alert('Are you sure?', 'Do you really want to cancel this booked?', [
@@ -26,11 +63,20 @@ const QrcodeScreen = props => {
             {
                 text: 'Yes',
                 style: 'destructive',
-                onPress: () => {
-                    dispatch(qrcodeActions.cancelBooked(rid))
+                onPress: async () => {
+                    setIsLoading(true);
+                    await onUserCancelBooked(rid);
+                    await loadedQrcode();
+                    setIsLoading(false);
                 }
             }
         ]);
+    };
+
+    if (isLoading) {
+        <View style={styles.centered}>
+            <ActivityIndicator color={Colors.primary} size='large' />
+        </View>
     };
 
     if (selectedShowQrcode.length === 0) {
@@ -69,7 +115,7 @@ const QrcodeScreen = props => {
                                 <Text style={styles.textBooked}>{itemData.item.studentId}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.title}</Text>
                                 <Text style={styles.textBooked}>{itemData.item.timeTitle}</Text>
-                                <Text style={styles.textBooked}>{itemData.item.timeSteps}.00-{(itemData.item.timeSteps) + 2}.00 am</Text>
+                                <Text style={styles.textBooked}>{itemData.item.timeUserSelected}.00-{(itemData.item.timeUserSelected) + 2}.00 am</Text>
                             </View>
                         </View>
                         <View style={styles.buttonContainer}>

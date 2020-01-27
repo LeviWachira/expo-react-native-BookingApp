@@ -21,7 +21,7 @@ const AdminHistoryScreen = props => {
             setError(err.message)
         }
         setIsLoading(false);
-    }, [dispatch, setError, setIsLoading])
+    }, [dispatch, setError, setIsLoading, selectedHistoryItems])
 
     useEffect(() => {
         const willFocusSub = props.navigation.addListener('willFocus', loadedBookingHistory)
@@ -55,7 +55,7 @@ const AdminHistoryScreen = props => {
 
     if (error) {
         return (
-            <View style={styles.centeredText}>
+            <View style={styles.centered}>
                 <Text>An error ocurred!</Text>
                 <Button
                     title='Try again'
@@ -67,15 +67,15 @@ const AdminHistoryScreen = props => {
     };
 
     if (isLoading) {
-        <View style={styles.centeredText}>
+        <View style={styles.centered}>
             <ActivityIndicator color={Colors.primary} size='large' />
         </View>
     };
 
     if (historyItems.length === 0) {
         return (
-            <View style={styles.centeredText}>
-                <Text>No ,history data from booking yet. </Text>
+            <View style={styles.centered}>
+                <Text >No ,history data from booking yet. </Text>
             </View>
         )
     };
@@ -112,6 +112,8 @@ AdminHistoryScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
     centered: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     centeredText: {
         justifyContent: 'center',
