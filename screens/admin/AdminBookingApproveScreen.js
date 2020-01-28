@@ -33,7 +33,7 @@ const BookingCommit = props => {
             setError(err.message)
         }
         setIsLoading(false);
-    }, [dispatch, setError, setIsLoading])
+    }, [dispatch, setError, setIsLoading, loadedBooking])
 
     useEffect(() => {
         const willFocusSub = props.navigation.addListener('willFocus', loadedBooking)
@@ -152,6 +152,7 @@ const BookingCommit = props => {
                         roomUserBookingStatus={itemData.item.roomUserBookingStatus}
                         selectedBooking={selectedBooking}
                         isAutoApprove={isAutoApprove}
+                        loadedBooking={loadedBooking}
                     />
                 )}
             />

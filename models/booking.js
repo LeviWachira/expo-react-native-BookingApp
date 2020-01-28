@@ -1,4 +1,3 @@
-// import moment from 'moment';
 
 class Booking {
     constructor(id, studentName, studentId, title, timeTitle, timeUserSelected, date , userBookingStatus) {

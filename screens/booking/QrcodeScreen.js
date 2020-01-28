@@ -34,7 +34,7 @@ const QrcodeScreen = props => {
             setError(err.message)
         }
         setIsLoading(false);
-    }, [dispatch, setIsLoading, onUserCancelBooked])
+    }, [dispatch, setIsLoading, setError])
 
     useEffect(() => {
         const willFocusSub = props.navigation.addListener('willFocus', loadedQrcode)

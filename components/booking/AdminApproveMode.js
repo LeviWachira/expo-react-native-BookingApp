@@ -20,18 +20,9 @@ import Colors from '../../constants/Colors';
 const AdminApproveMode = props => {
 
     const [isLoading, setIsLoading] = useState(false);
+    // const [error, setError] = useState();
     const [isMoreDetail, setIsMoreDetail] = useState(false);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        loadedRefresh();
-    }, [dispatch, loadedRefresh])
-
-    const loadedRefresh = useCallback(async () => {
-        setIsLoading(true)
-        await dispatch(bookingActions.fetchBooking());
-        setIsLoading(false);
-    }, [onAdminCommitHandler]);
 
     const onAdminCommitHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to commit this booking?', [
@@ -40,11 +31,13 @@ const AdminApproveMode = props => {
                 text: 'Yes',
                 style: 'default',
                 onPress: async () => {
+                    setIsLoading(true);
                     await dispatch(qrcodeActions.setQrcode(
                         props.roomId,
                         `${props.roomId}/${props.roomStudentId}/${props.roomTitle}/${props.roomTimeUserSelected}/${props.roomDate}`,
                     ));
-                    loadedRefresh();
+                    props.loadedBooking();
+                    setIsLoading(false);
                 }
             }
         ]);
@@ -57,20 +50,26 @@ const AdminApproveMode = props => {
                 text: 'Yes',
                 style: 'destructive',
                 onPress: async () => {
+                    setIsLoading(true);
                     await dispatch(bookingActions.removeFromBooking(props.roomId));
-                    loadedRefresh();
+                    props.loadedBooking();
+                    setIsLoading(false);
                 }
             }
         ]);
     };
 
-    const adminAutoApproved = async () => {
+    const { loadedBooking, isAutoApprove } = props;
+
+    const adminAutoApproved = useCallback(async () => {
+        setIsLoading(true);
         await dispatch(qrcodeActions.setQrcode(
             props.roomId,
             `${props.roomId}/${props.roomStudentId}/${props.roomTitle}/${props.roomTimeUserSelected}/${props.roomDate}`,
         ));
-        loadedRefresh();
-    };
+        props.loadedBooking();
+        setIsLoading(false);
+    }, [dispatch, setIsLoading, isAutoApprove, loadedBooking])
 
     if (isLoading) {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
@@ -82,6 +81,7 @@ const AdminApproveMode = props => {
         console.log(`is Auto Approve Mode`);
         adminAutoApproved();
     };
+
     if (!props.isAutoApprove) {
         console.log(`is Manual Approve Mode`);
     };

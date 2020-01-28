@@ -12,7 +12,6 @@ export const fetchQrcode = () => {
             if (!response.ok) {
                 throw new Error('Something went wrong');
             }
-
             const resData = await response.json();
             console.log(`QRCODE_FETCH = ${JSON.stringify(resData)}`);
             const loadedQrcode = [];
@@ -67,7 +66,7 @@ export const setQrcode = (roomId, roomUserQrcode) => {
 
 export const cancelBooked = (rid) => {
     return async dispatch => {
-        
+
         try {
             await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${rid}.json`, {
                 method: 'DELETE',

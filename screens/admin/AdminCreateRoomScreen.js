@@ -44,7 +44,7 @@ const AdminCreateRoom = props => {
 
         }
         setIsLoading(false)
-    } , [ onHandlerActiveStudyRoomButton , onHandlerActiveComputerRoomButton , onHandlerActiveTheatorRoomButton]);
+    }, [dispatch, setIsLoading]);
 
     useEffect(() => {
         const willFocusSub = props.navigation.addListener('willFocus', loadedRooms)
