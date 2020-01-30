@@ -5,6 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import BookingOverviewScreen from '../screens/booking/BookingOverviewScreen';
@@ -15,6 +16,10 @@ import FavouriteScreen from '../screens/booking/FavouriteScreen';
 import AdminBookingApproveScreen from '../screens/admin/AdminBookingApproveScreen';
 import AdminCreateRoomScreen from '../screens/admin/AdminCreateRoomScreen';
 import AdminHistoryScreen from '../screens/admin/AdminHistoryScreen';
+import AuthenScreen from '../screens/user/AuthenScreen';
+import StartupScreen from '../screens/user/StartupScreen';
+import * as authActions from '../store/action/auth';
+
 
 //handler headerTitle
 const defaultNavOptions = {
@@ -216,7 +221,6 @@ const AdminBookingTabNavigator = createBottomTabNavigator(AdminTabScreenConfig, 
     }
 });
 
-
 const MainNavigator = createDrawerNavigator(
     {
         Booking: BookingTabNavigator,
@@ -227,6 +231,7 @@ const MainNavigator = createDrawerNavigator(
             activeTintColor: Colors.primary
         },
         contentComponent: props => {
+            const dispatch = useDispatch();
             return (
                 <View style={{ flex: 1, paddingTop: 20 }}>
                     <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -235,8 +240,8 @@ const MainNavigator = createDrawerNavigator(
                             title="Logout"
                             color={Colors.primary}
                             onPress={() => {
-                                // dispatch(authActions.logout());
-                                // props.navigation.navigate('Auth');
+                                dispatch(authActions.logout());
+                                props.navigation.navigate('Auth');
                             }} />
                     </SafeAreaView>
                 </View>
@@ -245,5 +250,17 @@ const MainNavigator = createDrawerNavigator(
     }
 );
 
+const AuthNavigator = createStackNavigator({
+    Auth: AuthenScreen
+}, {
+    defaultNavigationOptions: defaultNavOptions
+});
 
-export default createAppContainer(MainNavigator, BookingTabNavigator);
+const BookingAppMainNavigator = createSwitchNavigator({
+    Startup: StartupScreen,
+    Auth: AuthNavigator,
+    Booking: MainNavigator,
+})
+
+
+export default createAppContainer(BookingAppMainNavigator, BookingTabNavigator);
