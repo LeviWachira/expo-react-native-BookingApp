@@ -14,7 +14,6 @@ const RoomList = props => {
     const isFavourite = favouriteRoom.some(room => room.id === itemData.item.id);
 
     // console.log(`LV1 CHECK roomDisableStatus = ${JSON.stringify(itemData.item.roomDisableStatus)}`);
-
     return (
       <CategoryRoom
         roomDisableStatus={itemData.item.roomDisableStatus}
@@ -31,15 +30,22 @@ const RoomList = props => {
             }
           });
         }} >
-        <View style={styles.roomStatusContainer}>
+        {/* <View style={styles.roomStatusContainer}>
           <Text>Status : {itemData.item.roomDisableStatus ?
             (
-              <Text style={{ color: Colors.danger, fontWeight: 'bold' }}>Close</Text>
+              <Text style={{ color: Colors.danger }}>Close</Text>
             ) :
             (
-              <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>Open</Text>
+              <Text style={{ color: Colors.primary }}>Open</Text>
             )}
           </Text>
+        </View> */}
+        <View style={{ flexDirection : 'row' }}>
+          {itemData.item.timeSteps.map(timeItems =>
+            (
+              <Text key={timeItems}>{timeItems}.00 </Text>
+            )
+          )}
         </View>
       </CategoryRoom>
     );

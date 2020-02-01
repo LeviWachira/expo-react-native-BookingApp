@@ -5,10 +5,10 @@ export const SET_QRCODE = 'SET_QRCODE';
 export const CANCEL_BOOKED = 'CANCEL_BOOKED';
 
 export const fetchQrcode = () => {
-    return async dispatch => {
-
+    return async (dispatch, getState) => {
+        // const userId = getState().auth.userId;
         try {
-            const response = await fetch('https://rn-bookingapp-guide.firebaseio.com/bookings.json');
+            const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings.json`);
             if (!response.ok) {
                 throw new Error('Something went wrong');
             }
@@ -26,6 +26,7 @@ export const fetchQrcode = () => {
                         resData[key].timeUserSelected,
                         resData[key].date,
                         resData[key].userQrcode,
+                        resData[key].userId
                     )
                 )
             };
@@ -37,17 +38,19 @@ export const fetchQrcode = () => {
     }
 }
 
-export const setQrcode = (roomId, roomUserQrcode) => {
-    return async dispatch => {
+export const setQrcode = (roomUserId, roomId, roomUserQrcode) => {
+    return async (dispatch, getState) => {
         console.log(`QR0 FECTH_QRCODE_BOOKING = ${JSON.stringify(roomId)}`);
+        const token = getState().auth.token;
+        // const userId = getState().auth.userId;
         try {
-            const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${roomId}.json`, {
+            const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${roomId}.json?auth=${token}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userBookingStatus: "Approved",
+                    userBookingStatus: "APPROVED",
                     userQrcode: roomUserQrcode
                 })
             });
@@ -64,13 +67,15 @@ export const setQrcode = (roomId, roomUserQrcode) => {
     };
 };
 
-export const cancelBooked = (rid) => {
-    return async dispatch => {
-
+export const cancelBooked = (roomId) => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        // const userId = getState().auth.userId;
         try {
-            await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${rid}.json`, {
+            await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${roomId}.json?auth=${token}`, {
                 method: 'DELETE',
             });
+
         } catch (err) {
             throw err;
         }

@@ -8,9 +8,9 @@ const AdminHistoryStatus = props => {
     const [isMoreDetail, setIsMoreDetail] = useState(false);
 
     let selectedColorStatus = Colors.textSecondary;
-    if (props.roomHistoryApprovalStatus === "Approved") {
+    if (props.roomHistoryApprovalStatus === "APPROVED") {
         selectedColorStatus = Colors.primary;
-    } else if (props.roomHistoryApprovalStatus === "Denied!!") {
+    } else if (props.roomHistoryApprovalStatus === "DENIDE!!") {
         selectedColorStatus = Colors.danger;
     }
 

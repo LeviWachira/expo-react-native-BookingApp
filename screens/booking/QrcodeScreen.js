@@ -21,7 +21,8 @@ const QrcodeScreen = props => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
-    const selectedShowQrcode = useSelector(state => state.qrcode.qrcode)
+    const selectedUserId = useSelector(state => state.auth.userId)
+    const selectedShowQrcode = useSelector(state => state.qrcode.qrcode.filter(selectQr => selectQr.userId === selectedUserId))
     const dispatch = useDispatch();
     console.log(`QRCODE_SCREEN = ${JSON.stringify(selectedShowQrcode)}`);
 
@@ -50,24 +51,24 @@ const QrcodeScreen = props => {
 
     const onUserCancelBooked = async (roomId) => {
         try {
+            setIsLoading(true);
             await dispatch(qrcodeActions.cancelBooked(roomId))
+            await loadedQrcode();
+            setIsLoading(false);
         } catch (err) {
             setError(err.message);
         }
     };
 
     console.log(`Lv6 fecthQrcode : ${JSON.stringify(selectedShowQrcode)}`);
-    const onCancelBooked = (rid) => {
+    const onCancelBooked = (roomId) => {
         Alert.alert('Are you sure?', 'Do you really want to cancel this booked?', [
             { text: 'No', style: 'default' },
             {
                 text: 'Yes',
                 style: 'destructive',
-                onPress: async () => {
-                    setIsLoading(true);
-                    await onUserCancelBooked(rid);
-                    await loadedQrcode();
-                    setIsLoading(false);
+                onPress: () => {
+                    onUserCancelBooked(roomId);
                 }
             }
         ]);

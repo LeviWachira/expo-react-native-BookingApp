@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import CustomHeaderButton from '../../components/UI/HeaderButton';
 import AdminHistoryStatus from '../../components/admin/AdminHistoryStatus';
 import * as bookingActions from '../../store/action/booking';
 import Colors from '../../constants/Colors';
@@ -105,7 +107,19 @@ const AdminHistoryScreen = props => {
 
 AdminHistoryScreen.navigationOptions = navData => {
     return {
-        headerTitle: 'History'
+        headerTitle: 'History',
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title="Back"
+                    iconName='ios-arrow-back'
+                    onPress={() => {
+                        // navData.navigation.toggleDrawer();
+                        navData.navigation.navigate('Booking');
+                    }}
+                />
+            </HeaderButtons>
+        ),
     }
 };
 

@@ -1,6 +1,6 @@
 
 class Booking {
-    constructor(id, studentName, studentId, title, timeTitle, timeUserSelected, date , userBookingStatus) {
+    constructor(id, studentName, studentId, title, timeTitle, timeUserSelected, date, userBookingStatus , userId) {
         this.id = id;
         this.studentName = studentName;
         this.studentId = studentId;
@@ -9,6 +9,7 @@ class Booking {
         this.timeUserSelected = timeUserSelected;
         this.date = date;
         this.userBookingStatus = userBookingStatus;
+        this.userId = userId;
     }
 
     // get readableDate() {

@@ -14,17 +14,19 @@ import BookingItem from '../../components/booking/BookingItem';
 import { toggleFavourite } from '../../store/action/room';
 
 const BookingDetailScreen = props => {
+    const dispatch = useDispatch();
 
+    /* Handler Category Room */
     const roomId = props.navigation.getParam('roomId');
     const roomTitle = props.navigation.getParam('roomTitle');
     const availableRoom = useSelector(state => state.rooms.rooms);
     const selectRooms = availableRoom.find(room => room.id === roomId);
 
+
+    /* Handler Favourite Room */
     const currentRoomsFavourite = useSelector(state =>
         state.rooms.favouriteRooms.some(room => room.id === roomId)
     );
-
-    const dispatch = useDispatch();
 
     const toggleFavouriteHandle = useCallback(() => {
         dispatch(toggleFavourite(roomId));
@@ -90,7 +92,7 @@ BookingDetailScreen.navigationOptions = navData => {
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Favourite'
-                    iconName={isFavourite ? 'star' : 'star-outline'}
+                    iconName={isFavourite ? 'ios-star' : 'ios-star-outline'}
                     // iconName={isFavourite ? 'ios-star' : 'ios-star-outline'}
                     onPress={toggleFavourite}
                 />

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import CreateRooms from '../../components/booking/CreateRooms';
@@ -178,8 +178,8 @@ const AdminCreateRoom = props => {
                         </Text>
                     </View>
                     <View>
-                        <MaterialCommunityIcons
-                            name='plus'
+                        <Ionicons 
+                            name='ios-add'
                             size={20}
                             color='white'
                         />
@@ -219,23 +219,24 @@ AdminCreateRoom.navigationOptions = navData => {
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
-                    title="Setting"
-                    iconName='format-list-bulleted'
+                    title="Back"
+                    iconName='ios-arrow-back'
                     onPress={() => {
-                        navData.navigation.toggleDrawer();
+                        // navData.navigation.toggleDrawer();
+                        navData.navigation.navigate('Booking');
                     }}
                 />
             </HeaderButtons>
         ),
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    title='Create'
-                    iconName='plus'
-                    onPress={() => { }}
-                />
-            </HeaderButtons>
-        ),
+        // headerRight: () => (
+        //     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        //         <Item
+        //             title='Create'
+        //             iconName='plus'
+        //             onPress={() => { }}
+        //         />
+        //     </HeaderButtons>
+        // ),
     }
 };
 

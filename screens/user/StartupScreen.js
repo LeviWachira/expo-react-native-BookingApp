@@ -30,6 +30,14 @@ const StartupScreen = props => {
         };
 
         const expirationTime = expirationDate.getTime() - new Date().getTime();
+        // console.log(`LOGIN = ${userId}`);
+        // console.log(`JASON LOGIN = ${JSON.stringify(userId)}`);
+
+
+        // if (JSON.stringify(userId) == "no1kvaHVbLeK3sg63De7S3uTSym2") {
+        //     props.navigation.navigate('Admin');
+        //     dispatch(authActions.authenticate(userId, token, expirationTime));
+        // };
 
         props.navigation.navigate('Booking');
         dispatch(authActions.authenticate(userId, token, expirationTime));

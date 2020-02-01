@@ -46,7 +46,7 @@ const CategoryRoom = props => {
 
 const styles = StyleSheet.create({
     room: {
-        height: 320,
+        height: 345,
         margin: 20
     },
     touchable: {
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: '100%',
-        height: '85%',
+        height: '80%',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         overflow: 'hidden'

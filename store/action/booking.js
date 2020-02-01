@@ -6,16 +6,17 @@ export const REMOVE_FROM_BOOKING = 'REMOVE_FROM_BOOKING';
 
 
 export const fetchBooking = () => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        // const userId = getState().auth.userId;
         try {
-            const response = await fetch('https://rn-bookingapp-guide.firebaseio.com/bookings.json');
+            const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings.json`);
 
             if (!response.ok) {
                 throw new Error('Something went wrong');
             }
 
             const resData = await response.json();
-            // console.log(`FETCH_BOOKING = ${JSON.stringify(resData)}`);
+            console.log(`FETCH_BOOKING!! = ${JSON.stringify(resData)}`);
             const loadedBooking = [];
             for (const key in resData) {
                 loadedBooking.push(
@@ -27,7 +28,8 @@ export const fetchBooking = () => {
                         resData[key].timeTitle,
                         resData[key].timeUserSelected,
                         resData[key].date,
-                        resData[key].userBookingStatus
+                        resData[key].userBookingStatus,
+                        resData[key].userId
                     )
                 );
             }
@@ -52,15 +54,7 @@ export const addToBooking = (
     roomBookedItems,
 
 ) => {
-    // console.log(`BK0 id = ${JSON.stringify(id)}`);
-    // console.log(`BK0 categoryIds = ${JSON.stringify(categoryIds)}`);
-    // console.log(`BK0 title = ${JSON.stringify(title)}`);
-    // console.log(`BK0 timeTitle = ${JSON.stringify(timeTitle)}`);
-    // console.log(`BK0 timeSteps = ${JSON.stringify(timeSteps)}`);
-    // console.log(`BK0 roomDisableStatus = ${JSON.stringify(roomDisableStatus)}`);
-    // console.log(`BK0 timeUserSelected = ${JSON.stringify(timeUserSelected)}`);
-
-    return async dispatch => {
+    return async (dispatch, getState) => {
         const date = new Date();
 
         // this.id = id;
@@ -72,9 +66,11 @@ export const addToBooking = (
         // this.approvalStatus = approvalStatus;
         // timeUserSelected
         // this.date = date;
+        console.log(`USER-GETSTATE = ${JSON.stringify(getState())}`);
 
-
-        const response = await fetch('https://rn-bookingapp-guide.firebaseio.com/bookings.json', {
+        const token = getState().auth.token;
+        const userId = getState().auth.userId;
+        const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings.json?auth=${token}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -87,6 +83,7 @@ export const addToBooking = (
                 timeUserSelected,
                 date: date.toISOString(),
                 userBookingStatus: "...Waiting",
+                userId: userId
             })
         });
         const resData = await response.json();
@@ -102,13 +99,31 @@ export const addToBooking = (
     }
 };
 
-export const removeFromBooking = rid => {
-    return async dispatch => {
+export const removeFromBooking = (roomUserId, roomId) => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const userId = getState().auth.userId;
+        // await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${roomId}.json?auth=${token}`, {
+        //     method: 'DELETE',
+        // });
+        try {
+            const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${roomId}.json?auth=${token}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userBookingStatus: "DENIDE!!",
+                })
+            });
 
-        await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${rid}.json`, {
-            method: 'DELETE',
-        });
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+        } catch (err) {
+            throw (err);
+        }
 
-        dispatch({ type: REMOVE_FROM_BOOKING, rid: rid })
+        // dispatch({ type: REMOVE_FROM_BOOKING, rid: rid })
     }
 };

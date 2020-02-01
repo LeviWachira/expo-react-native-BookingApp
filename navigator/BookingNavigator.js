@@ -184,7 +184,7 @@ const AdminTabScreenConfig = {
             }
         }
     },
-    Creat: {
+    Create: {
         screen: AdminCreateRoomNavigator,
         navigationOptions: {
             tabBarLabel: 'Create',
@@ -207,24 +207,22 @@ const BookingTabNavigator = createBottomTabNavigator(tabScreenConfig, {
     swipeEnabled: true,
     tabBarOptions: {
         activeTintColor: '#4169E1',
-        showLabel: false
+        showLabel: false,
+    
     }
 });
 
 const AdminBookingTabNavigator = createBottomTabNavigator(AdminTabScreenConfig, {
     swipeEnabled: true,
-
     tabBarOptions: {
         activeTintColor: '#4169E1',
         showLabel: false
-
     }
 });
 
 const MainNavigator = createDrawerNavigator(
     {
-        Booking: BookingTabNavigator,
-        Admin: AdminBookingTabNavigator,
+        BookingTab: BookingTabNavigator,
     },
     {
         contentOptions: {
@@ -242,7 +240,8 @@ const MainNavigator = createDrawerNavigator(
                             onPress={() => {
                                 dispatch(authActions.logout());
                                 props.navigation.navigate('Auth');
-                            }} />
+                            }}
+                        />
                     </SafeAreaView>
                 </View>
             )
@@ -256,11 +255,12 @@ const AuthNavigator = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 });
 
-const BookingAppMainNavigator = createSwitchNavigator({
+const MainBookingAppNavigator = createSwitchNavigator({
     Startup: StartupScreen,
     Auth: AuthNavigator,
     Booking: MainNavigator,
-})
+    Admin: AdminBookingTabNavigator,
+});
 
 
-export default createAppContainer(BookingAppMainNavigator, BookingTabNavigator);
+export default createAppContainer(MainBookingAppNavigator);

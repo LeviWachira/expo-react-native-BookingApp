@@ -33,6 +33,7 @@ const AdminApproveMode = props => {
                 onPress: async () => {
                     setIsLoading(true);
                     await dispatch(qrcodeActions.setQrcode(
+                        props.roomUserId,
                         props.roomId,
                         `${props.roomId}/${props.roomStudentId}/${props.roomTitle}/${props.roomTimeUserSelected}/${props.roomDate}`,
                     ));
@@ -51,7 +52,7 @@ const AdminApproveMode = props => {
                 style: 'destructive',
                 onPress: async () => {
                     setIsLoading(true);
-                    await dispatch(bookingActions.removeFromBooking(props.roomId));
+                    await dispatch(bookingActions.removeFromBooking(props.roomUserId, props.roomId));
                     props.loadedBooking();
                     setIsLoading(false);
                 }
@@ -64,6 +65,7 @@ const AdminApproveMode = props => {
     const adminAutoApproved = useCallback(async () => {
         setIsLoading(true);
         await dispatch(qrcodeActions.setQrcode(
+            props.roomUserId,
             props.roomId,
             `${props.roomId}/${props.roomStudentId}/${props.roomTitle}/${props.roomTimeUserSelected}/${props.roomDate}`,
         ));
@@ -73,7 +75,7 @@ const AdminApproveMode = props => {
 
     if (isLoading) {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-            <ActivityIndicator color={Colors.primary} size='large' />
+            <ActivityIndicator color={Colors.primary} size='small' />
         </View >
     }
 

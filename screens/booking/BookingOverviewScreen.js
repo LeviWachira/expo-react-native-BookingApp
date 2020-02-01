@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -8,7 +8,12 @@ import CategoryRoom from '../../components/booking/CategoryRoom';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 
 const BookingOverviewScreen = props => {
+    // let selectedAdmin
+    const selectedCheckAdmin = useSelector(state => state.auth.userId === "no1kvaHVbLeK3sg63De7S3uTSym2")
 
+    useEffect(() => {
+        props.navigation.setParams({ isAdmin: selectedCheckAdmin })
+    }, [selectedCheckAdmin])
 
     const renderGridItem = (itemData) => {
         return (
@@ -37,28 +42,33 @@ const BookingOverviewScreen = props => {
 };
 
 BookingOverviewScreen.navigationOptions = navData => {
+    const isAdmin = navData.navigation.getParam('isAdmin')
 
     return {
+        headerTitle: 'Booking',
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title="Setting"
-                    iconName='account-box'
+                    iconName='ios-settings'
                     onPress={() => {
                         navData.navigation.toggleDrawer();
                     }}
                 />
             </HeaderButtons>
         ),
-        // headerRight: () => (
-        //     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        //         <Item
-        //             title='Qrcode'
-        //             iconName='account-box'
-        //             onPress={() => navData.navigation.navigate('BookingCommit')}
-        //         />
-        //     </HeaderButtons>
-        // ),
+        headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                {isAdmin &&
+                    <Item
+                        title='Qrcode'
+                        iconName='ios-contact'
+                        onPress={() => navData.navigation.navigate('Admin')}
+                    />
+                }
+            </HeaderButtons>
+
+        ),
     }
 }
 

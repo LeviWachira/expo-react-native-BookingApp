@@ -1,6 +1,6 @@
 
 class Qrcode {
-    constructor(id, studentName, studentId, title, timeTitle, timeUserSelected, date, qrcode) {
+    constructor(id, studentName, studentId, title, timeTitle, timeUserSelected, date, qrcode, userId) {
         this.id = id;
         this.studentName = studentName;
         this.studentId = studentId;
@@ -9,6 +9,7 @@ class Qrcode {
         this.timeUserSelected = timeUserSelected;
         this.date = date;
         this.qrcode = qrcode;
+        this.userId = userId;
     }
 }
 

@@ -60,13 +60,14 @@ const BookingCommit = props => {
                 roomTimeUserSelected: state.booking.booking[key].timeUserSelected,
                 roomDate: state.booking.booking[key].date,
                 roomUserBookingStatus: state.booking.booking[key].userBookingStatus,
+                roomUserId: state.booking.booking[key].userId
             })
         }
         return tranformedBookingItems.filter(booking => booking.roomUserBookingStatus === "...Waiting")
             .sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
     console.log(`SELECTING_BOOKING = ${JSON.stringify(selectedBooking)}`);
-    console.log(`ADMINBOOKING = ${JSON.stringify(bookingItems)}`);
+    // console.log(`ADMINBOOKING = ${JSON.stringify(bookingItems)}`);
 
     if (error) {
         return (
@@ -150,6 +151,7 @@ const BookingCommit = props => {
                         roomTimeUserSelected={itemData.item.roomTimeUserSelected}
                         roomDate={itemData.item.roomDate}
                         roomUserBookingStatus={itemData.item.roomUserBookingStatus}
+                        roomUserId={itemData.item.roomUserId}
                         selectedBooking={selectedBooking}
                         isAutoApprove={isAutoApprove}
                         loadedBooking={loadedBooking}
@@ -166,10 +168,10 @@ BookingCommit.navigationOptions = navData => {
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
-                    title="Setting"
-                    iconName='format-list-bulleted'
+                    title="Back"
+                    iconName='ios-arrow-back'
                     onPress={() => {
-                        navData.navigation.toggleDrawer();
+                        navData.navigation.navigate('Booking');
                     }}
                 />
             </HeaderButtons>

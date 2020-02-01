@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform, ActivityIndicator } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as bookingActions from '../../store/action/booking';
 import Colors from '../../constants/Colors';
@@ -14,8 +14,33 @@ const BookingItem = props => {
     // console.log(`checktime = ${checkTimeHours}`);
     // console.log(`BOOKING_START = ${JSON.stringify(props.selectRooms)}`);
 
-    useEffect(() => {
+    const seletedUserId = useSelector(state => state.auth.userId);
+    // console.log(`USER-ID = ${seletedUserId}`);
+    console.log(`JASON-USER-ID = ${JSON.stringify(seletedUserId)}`);
 
+    const selectedBooked = useSelector(state => state.booking.booking );
+    const [disabledb, setDisabled] = useState(false);
+
+    console.log(`USER_BOOKED = ${JSON.stringify(selectedBooked)}`);
+
+
+    // const checkBooked = () => {
+    //     if (selectedBooked) {
+    //         setDisabled(true);
+    //         console.log('จองแล้ว');
+
+    //     } else {
+    //         setDisabled(false);
+    //         console.log('ยังไม่ได้จอง');
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     checkBooked();
+    // }, [dispatch])
+
+    /*Handler disable button */
+    useEffect(() => {
         if (checkTimeHours >= props.timeItems) {
             setDisabledButton(true);
             console.log(`เลยเวลาแล้ว`);
@@ -26,6 +51,7 @@ const BookingItem = props => {
         }
     })
 
+    /*Handler user press booking*/
     const onBookingHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to Booking this this time?', [
             { text: 'No', style: 'destructive' },
