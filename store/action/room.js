@@ -1,11 +1,15 @@
 import Room from '../../models/room';
 
+export const SET_ROOMS = 'SET_ROOMS';
 export const CREATE_ROOM = 'CREATE_ROOM';
 export const DELETE_ROOM = 'DELETE_ROOM';
 export const ENABLE_ROOM = 'ENABLE_ROOM';
 export const DISABLE_ROOM = 'DISABLE_ROOM';
+export const UPDATE_STATUS_ROOM = 'UPDATE_STATUS_ROOM';
+// export const ADMIN_DENIDE_BOOKING = 'ADMIN_DENIDE_BOOKING';
+// export const USER_CANCEL_BOOKING_ROOM = 'USER_BOOKING_ROOM';
+
 export const TOGGLE_FAVOURITE = 'TOGGLE_FAVOURITE';
-export const SET_ROOMS = 'SET_ROOMS';
 
 export const fetchRooms = () => {
     return async dispatch => {
@@ -16,7 +20,7 @@ export const fetchRooms = () => {
                 throw new Error('Something went wrong');
             }
             const resData = await response.json();
-            // console.log(`FETCHR = ${JSON.stringify(resData)}`);
+            console.log(`FETCHR **1 = ${JSON.stringify(resData)}`);
             const loadedRooms = [];
             for (const key in resData) {
                 loadedRooms.push(
@@ -32,7 +36,7 @@ export const fetchRooms = () => {
                 );
             }
 
-            // console.log(`SETR = ${JSON.stringify(loadedRooms)}`);
+            console.log(`SETR **2 = ${JSON.stringify(loadedRooms)}`);
             dispatch({ type: SET_ROOMS, rooms: loadedRooms });
         } catch (err) {
             throw err;
@@ -57,7 +61,7 @@ export const createRoom = (
 
         console.log(`GET-STATE = ${JSON.stringify(getState())}`);
         const token = getState().auth.token;
-        const adminId = getState().auth.token;
+        const adminId = getState().auth.userId;
         const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms.json?auth=${token}`, {
             method: 'POST',
             headers: {
@@ -77,7 +81,7 @@ export const createRoom = (
             throw new Error('Something went wrong!');
         }
         const resData = await response.json();
-        // console.log(`CR0 createRooms = ${JSON.stringify(resData)}`);
+        // console.log(`CR0 createRooms************ = ${JSON.stringify(resData)}`);
 
         // dispatch({
         //     type: CREATE_ROOM,
@@ -92,6 +96,29 @@ export const createRoom = (
         // })
     }
 };
+
+
+export const updateStatusRoom = (roomId, roomUpdateStatus) => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        console.log(`ENABLE-TOKEN = ${JSON.stringify(token)}`);
+        const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms/${roomId}.json?auth=${token}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                roomUpdateStatus,
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Something went wrong!');
+        }
+        const resData = await response.json();
+    }
+};
+
 
 export const enableRoom = (roomId, roomStatus) => {
     // console.log(`ENBR0 enable= ${roomStatus}`);
@@ -159,13 +186,16 @@ export const disableRoom = (roomId, roomStatus) => {
 };
 
 
-export const deleteRoom = (rid) => {
-    // console.log(`delete roomId = ${JSON.stringify(rid)}`);
-    return async dispatch => {
+export const deleteRoom = (roomId) => {
+    console.log(`delete roomId = ${JSON.stringify(roomId)}`);
+    return async (dispatch, getState) => {
         const token = getState().auth.token;
-        const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms/${rid}.json?auth=${token}`, {
-            method: 'DELETE',
-        });
+        const response = await fetch(
+            `https://rn-bookingapp-guide.firebaseio.com/rooms/${roomId}.json?auth=${token}`,
+            {
+                method: 'DELETE',
+            }
+        );
 
         if (!response.ok) {
             throw new Error('Something went wrong!');

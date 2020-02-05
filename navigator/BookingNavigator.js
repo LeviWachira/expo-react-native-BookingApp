@@ -207,7 +207,7 @@ const BookingTabNavigator = createBottomTabNavigator(tabScreenConfig, {
     swipeEnabled: true,
     tabBarOptions: {
         activeTintColor: '#4169E1',
-        showLabel: false,
+        // showLabel: false,
     
     }
 });
@@ -216,7 +216,7 @@ const AdminBookingTabNavigator = createBottomTabNavigator(AdminTabScreenConfig, 
     swipeEnabled: true,
     tabBarOptions: {
         activeTintColor: '#4169E1',
-        showLabel: false
+        // showLabel: false
     }
 });
 

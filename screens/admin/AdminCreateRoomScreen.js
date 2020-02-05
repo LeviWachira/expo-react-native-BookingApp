@@ -63,7 +63,7 @@ const AdminCreateRoom = props => {
         setActiveStudyRoomButton(true);
         setActiveComputerRoomButton(false);
         setActiveTheatorRoomButton(false);
-        console.log(`StudyRoomButton`);
+        // console.log(`StudyRoomButton`);
         setSelectedButton('c1')
         setIsLoading(false);
         loadedRooms();
@@ -74,7 +74,7 @@ const AdminCreateRoom = props => {
         setActiveComputerRoomButton(true);
         setActiveStudyRoomButton(false);
         setActiveTheatorRoomButton(false);
-        console.log(`ComputerRoomButton`);
+        // console.log(`ComputerRoomButton`);
         setSelectedButton('c2')
         setIsLoading(false);
         loadedRooms();
@@ -85,7 +85,7 @@ const AdminCreateRoom = props => {
         setActiveTheatorRoomButton(true);
         setActiveStudyRoomButton(false);
         setActiveComputerRoomButton(false);
-        console.log(`TheatorRoomButton`);
+        // console.log(`TheatorRoomButton`);
         setSelectedButton('c3')
         setIsLoading(false);
         loadedRooms();
@@ -178,7 +178,7 @@ const AdminCreateRoom = props => {
                         </Text>
                     </View>
                     <View>
-                        <Ionicons 
+                        <Ionicons
                             name='ios-add'
                             size={20}
                             color='white'
@@ -192,6 +192,7 @@ const AdminCreateRoom = props => {
                 isModalVisible={isModalVisible}
                 setIsModalVisible={onHandleModeVisible}
                 selectedButton={selectedButton}
+                loadedRooms={loadedRooms}
             />
 
             {/* handler list item by category */}
@@ -203,6 +204,7 @@ const AdminCreateRoom = props => {
                         rid={itemData.item.id}
                         title={itemData.item.title}
                         imageUri={itemData.item.imageUri}
+                        loadedRooms={loadedRooms}
                     />
                 )}
             />

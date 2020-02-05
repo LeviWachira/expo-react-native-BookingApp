@@ -19,8 +19,9 @@ const CreateRooms = props => {
             {
                 text: 'Yes',
                 style: 'destructive',
-                onPress: () => {
-                    dispatch(roomActions.disableRoom(rid, isDisableRoom));
+                onPress: async () => {
+                    await dispatch(roomActions.disableRoom(rid, isDisableRoom));
+                    await props.loadedRooms();
                 }
             }
         ]);
@@ -33,9 +34,9 @@ const CreateRooms = props => {
             {
                 text: 'Yes',
                 style: 'destructive',
-                onPress: () => {
-                    dispatch(roomActions.enableRoom(rid, isEnableRoom));
-
+                onPress: async () => {
+                    await dispatch(roomActions.enableRoom(rid, isEnableRoom));
+                    await props.loadedRooms();
                 }
             }
         ]);
@@ -47,8 +48,9 @@ const CreateRooms = props => {
             {
                 text: 'Yes',
                 style: 'destructive',
-                onPress: () => {
-                    dispatch(roomActions.deleteRoom(rid));
+                onPress: async () => {
+                    await dispatch(roomActions.deleteRoom(rid));
+                    await props.loadedRooms();
                 }
             }
         ]);

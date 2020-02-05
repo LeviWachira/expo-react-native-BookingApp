@@ -46,7 +46,7 @@ const CategoryRoom = props => {
 
 const styles = StyleSheet.create({
     room: {
-        height: 345,
+        height: 400,
         margin: 20
     },
     touchable: {

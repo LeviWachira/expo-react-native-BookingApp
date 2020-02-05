@@ -67,24 +67,23 @@ const ModalCreate = props => {
             ]);
             return;
         }
-
-        console.log(`create succes`);
-        dispatch(roomActions.createRoom(
+        // console.log(`create succes`);
+        await dispatch(roomActions.createRoom(
             Math.random().toString(),
             props.selectedButton,
             formState.inputValues.title,
             'https://library.tu.ac.th/sites/default/files/styles/punsarn_image_style/public/2018-10/03Room1-1.JPG?itok=qlNQqd3-',
             '120 mins',
             [
-                25.00,
-                10.00,
-                12.00,
-                14.00,
-                16.00
+                { number: 25, status: true },
+                { number: 26, status: true },
+                { number: 12, status: true },
+                { number: 14, status: true },
+                { number: 16, status: true }
             ],
-            
         ))
-        props.setIsModalVisible()
+        await props.loadedRooms();
+        props.setIsModalVisible();
     }, [formState]);
 
     const inputChangeHandler = useCallback(

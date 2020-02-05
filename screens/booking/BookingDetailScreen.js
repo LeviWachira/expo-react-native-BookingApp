@@ -5,6 +5,7 @@ import {
     ScrollView,
     StyleSheet,
     ImageBackground,
+    FlatList
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -12,6 +13,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import BookingItem from '../../components/booking/BookingItem';
 import { toggleFavourite } from '../../store/action/room';
+import Colors from '../../constants/Colors';
 
 const BookingDetailScreen = props => {
     const dispatch = useDispatch();
@@ -41,6 +43,9 @@ const BookingDetailScreen = props => {
     }, [currentRoomsFavourite]);
 
 
+
+    console.log(` LV *3 = ${JSON.stringify(selectRooms.timeSteps)}`);
+
     return (
         <View style={styles.screen}>
             <ImageBackground style={styles.Image} source={{ uri: selectRooms.imageUri }} >
@@ -48,35 +53,38 @@ const BookingDetailScreen = props => {
                     <Text style={styles.timeTitle}>{selectRooms.timeTitle} | Please help to keep it clean.</Text>
                 </View>
             </ImageBackground>
-            <ScrollView >
-                <View>
-                    <View style={styles.headerTitle}>
-                        <Text style={styles.headerTitleText}>{roomTitle}</Text>
-                    </View>
-                    <View style={styles.roomDetail}>
-                        {selectRooms.timeSteps.map(timeItems => (
+            <View>
+                <View style={styles.headerTitle}>
+                    <Text style={styles.headerTitleText}>{roomTitle}</Text>
+                </View>
+                <View style={styles.roomDetail}>
+                    <FlatList
+                        data={selectRooms.timeSteps}
+                        keyExtractor={item => item.number.toString()}
+                        horizontal={true}
+                        renderItem={itemData => (
                             <BookingItem
-                                key={timeItems}
-                                timeItems={timeItems}
+                                timeShowId={itemData.item.id}
                                 navigation={props.navigation}
-                                selectRooms={selectRooms}
                                 id={selectRooms.id}
                                 categoryIds={selectRooms.categoryIds}
                                 title={selectRooms.title}
                                 imageUri={selectRooms.imageUri}
                                 timeTitle={selectRooms.timeTitle}
-                                timeSteps={selectRooms.timeSteps}
+                                timeShowValues={itemData.item.number}
+                                timeShowStatus={itemData.item.status}
                                 roomDisableStatus={selectRooms.roomDisableStatus}
                             />
-                        ))}
-                    </View>
-                    <View style={styles.warningContainer}>
-                        <Text style={styles.warningText}>
-                            alert
-                        </Text>
-                    </View>
+                        )}
+                    />
+
                 </View>
-            </ScrollView>
+                <View style={styles.warningContainer}>
+                    <Text style={styles.warningText}>
+                        alert
+                        </Text>
+                </View>
+            </View>
         </View>
     )
 }
@@ -139,8 +147,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignContent: 'space-between',
-        height: 20,
-        marginVertical: 20,
+        height: 10,
+        marginTop: 30,
     },
     warningContainer: {
         marginTop: 60,
@@ -148,7 +156,7 @@ const styles = StyleSheet.create({
     },
     warningText: {
         fontSize: 15,
-        color: 'red',
+        color: Colors.danger,
     }
 })
 
