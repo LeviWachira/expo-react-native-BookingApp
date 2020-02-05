@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import * as bookingActions from '../../store/action/booking';
+import * as roomActions from '../../store/action/room';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
 import AdminApproveMode from '../../components/booking/AdminApproveMode';
@@ -24,11 +25,15 @@ const BookingCommit = props => {
     const [error, setError] = useState();
     const dispatch = useDispatch();
 
+    /*
+    * this callback funtion When first render and after handler dispatch.
+    */
     const loadedBooking = useCallback(async () => {
         setError(null);
         setIsLoading(true);
         try {
             await dispatch(bookingActions.fetchBooking());
+            await dispatch(roomActions.fetchRooms());
         } catch (err) {
             setError(err.message)
         }
@@ -47,6 +52,11 @@ const BookingCommit = props => {
         loadedBooking();
     }, [dispatch]);
 
+    /* selectedRoom for handler update admin denided timeShow status */
+    const selectedRoom = useSelector(state => state.rooms.rooms);
+    // console.log(`ADMIN *0 = ${selectedRoom}`);
+
+    /* selectedBooking for handler update admin update status */
     const selectedBooking = useSelector(state => state.booking.booking);
     const bookingItems = useSelector(state => {
         const tranformedBookingItems = [];
@@ -122,7 +132,41 @@ const BookingCommit = props => {
         )
     };
 
+    /*
+     * this render bookingItems data of flatlist and pass values props to AdminApproveMode component.
+     */
+    const renderBookingItems = (itemData) => {
 
+        const resultSelectedRoom = selectedRoom.find(room => room.title === itemData.item.roomTitle);
+        console.log(`ADMIN *1 = ${JSON.stringify(resultSelectedRoom.timeSteps)}`);
+        console.log(`ADMIN *1.1 = ${JSON.stringify(resultSelectedRoom.id)}`);
+
+        return (
+            <AdminApproveMode
+                /* handler user booking and dispatch */
+                roomId={itemData.item.roomId}
+                roomStudentName={itemData.item.roomStudentName}
+                roomStudentId={itemData.item.roomStudentId}
+                roomTitle={itemData.item.roomTitle}
+                roomTimeTitle={itemData.item.roomTimeTitle}
+                roomTimeUserSelected={itemData.item.roomTimeUserSelected}
+                roomDate={itemData.item.roomDate}
+                roomUserBookingStatus={itemData.item.roomUserBookingStatus}
+                roomUserId={itemData.item.roomUserId}
+                isAutoApprove={isAutoApprove}
+                loadedBooking={loadedBooking}
+                selectedBooking={selectedBooking}
+
+                /* handler update timeSteps status when admin is denided  booking form user */
+                resultUpdateRoomStatusId={resultSelectedRoom.id}
+                resultUpdateRoomStatusTime={resultSelectedRoom.timeSteps}
+            />
+        )
+    };
+
+    /*
+    *this is parent component of AdminApproveMode component.
+     */
     return (
 
         <View style={styles.screen}>
@@ -141,22 +185,7 @@ const BookingCommit = props => {
             <FlatList
                 data={bookingItems}
                 keyExtractor={item => item.roomId}
-                renderItem={itemData => (
-                    <AdminApproveMode
-                        roomId={itemData.item.roomId}
-                        roomStudentName={itemData.item.roomStudentName}
-                        roomStudentId={itemData.item.roomStudentId}
-                        roomTitle={itemData.item.roomTitle}
-                        roomTimeTitle={itemData.item.roomTimeTitle}
-                        roomTimeUserSelected={itemData.item.roomTimeUserSelected}
-                        roomDate={itemData.item.roomDate}
-                        roomUserBookingStatus={itemData.item.roomUserBookingStatus}
-                        roomUserId={itemData.item.roomUserId}
-                        selectedBooking={selectedBooking}
-                        isAutoApprove={isAutoApprove}
-                        loadedBooking={loadedBooking}
-                    />
-                )}
+                renderItem={renderBookingItems}
             />
         </View>
     )

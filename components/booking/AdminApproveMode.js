@@ -14,6 +14,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 import * as bookingActions from '../../store/action/booking';
 import * as qrcodeActions from '../../store/action/qrcode';
+import * as roomActions from '../../store/action/room';
+
 import Card from '../../components/UI/Card';
 import Colors from '../../constants/Colors';
 
@@ -24,6 +26,9 @@ const AdminApproveMode = props => {
     const [isMoreDetail, setIsMoreDetail] = useState(false);
     const dispatch = useDispatch();
 
+    /*
+ * this function handler admin is commit booking from user .
+ */
     const onAdminCommitHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to commit this booking?', [
             { text: 'No', style: 'destructive' },
@@ -44,6 +49,9 @@ const AdminApproveMode = props => {
         ]);
     };
 
+    /*
+   * this function handler admin is cancel booking from user and update room status.
+   */
     const onCancelCommitHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to not approved this booking?', [
             { text: 'No', style: 'default' },
@@ -53,6 +61,12 @@ const AdminApproveMode = props => {
                 onPress: async () => {
                     setIsLoading(true);
                     await dispatch(bookingActions.removeFromBooking(props.roomUserId, props.roomId));
+                    await dispatch(roomActions.updateStatusRoom(
+                        props.resultUpdateRoomStatusId,
+                        props.roomTimeUserSelected,
+                        true,
+                        props.resultUpdateRoomStatusTime
+                    ));
                     props.loadedBooking();
                     setIsLoading(false);
                 }
@@ -60,8 +74,12 @@ const AdminApproveMode = props => {
         ]);
     };
 
+
     const { loadedBooking, isAutoApprove } = props;
 
+    /*
+    * this function callback When admin toggle switch for Auto Approve Mode
+    */
     const adminAutoApproved = useCallback(async () => {
         setIsLoading(true);
         await dispatch(qrcodeActions.setQrcode(
@@ -88,7 +106,9 @@ const AdminApproveMode = props => {
         console.log(`is Manual Approve Mode`);
     };
 
-
+    /* 
+    *this is children component of AdminApproveScreen.
+    */
     return (
         <Card style={styles.cardContainer}>
             <View style={{ ...styles.container, ...{ height: isMoreDetail ? 110 : 48 } }}>

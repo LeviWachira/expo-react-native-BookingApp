@@ -25,6 +25,7 @@ export const fetchQrcode = () => {
                         resData[key].timeTitle,
                         resData[key].timeUserSelected,
                         resData[key].date,
+                        resData[key].userBookingStatus,
                         resData[key].userQrcode,
                         resData[key].userId
                     )

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { useSelector } from 'react-redux';
 
@@ -18,6 +18,7 @@ const RoomList = props => {
     console.log(`LV *0 = ${JSON.stringify(isTimeShow.timeSteps)}`);
 
     return (
+
       <CategoryRoom
         roomDisableStatus={itemData.item.roomDisableStatus}
         style={styles.roomStatusContainer}
@@ -34,7 +35,7 @@ const RoomList = props => {
           });
         }} >
         <View style={styles.roomStatusContainer}>
-          <Text>Status : {itemData.item.roomDisableStatus ?
+          <Text style={styles.roomStatusText}>{itemData.item.roomDisableStatus ?
             (
               <Text style={{ color: Colors.danger }}>Close</Text>
             ) :
@@ -42,6 +43,7 @@ const RoomList = props => {
               <Text style={{ color: Colors.primary }}>Open</Text>
             )}
           </Text>
+          
           {/* 
           *callback and pass value renderIsTimeShow to Roomlist*
           */}
@@ -54,7 +56,9 @@ const RoomList = props => {
     );
   };
 
-
+  /*
+     * this component is children of BookingRoomScreen.
+     */
   return (
     <View style={styles.list}>
       {props.children}
@@ -96,6 +100,10 @@ const styles = StyleSheet.create({
   },
   roomStatusContainer: {
     paddingBottom: 10,
+  },
+  roomStatusText: {
+    textAlign: 'center',
+    fontSize: 16
   }
 })
 

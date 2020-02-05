@@ -43,13 +43,8 @@ export const fetchBooking = () => {
 }
 
 export const addToBooking = (
-    id,
-    categoryIds,
     title,
-    imageUri,
     timeTitle,
-    timeSteps,
-    roomDisableStatus,
     timeUserSelected,
     roomBookedItems,
 

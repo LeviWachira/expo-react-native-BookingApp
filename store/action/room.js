@@ -97,18 +97,23 @@ export const createRoom = (
     }
 };
 
-
-export const updateStatusRoom = (roomId, roomUpdateStatus) => {
+export const updateStatusRoom = (roomId, roomTimeShowValue, roomTimeShowUpdateStatus, roomSelected) => {
     return async (dispatch, getState) => {
+
+        const selectedTimeShowIndex = roomSelected.findIndex(time => time.number === roomTimeShowValue);
+        const updateRoomTimeShowStatus = roomSelected;
+        updateRoomTimeShowStatus[selectedTimeShowIndex].status = roomTimeShowUpdateStatus;
+        console.log(`LV *6 = ${JSON.stringify(updateRoomTimeShowStatus)}`);
+
         const token = getState().auth.token;
-        console.log(`ENABLE-TOKEN = ${JSON.stringify(token)}`);
+        // console.log(`ENABLE-TOKEN = ${JSON.stringify(token)}`);
         const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms/${roomId}.json?auth=${token}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                roomUpdateStatus,
+                timeSteps: updateRoomTimeShowStatus,
             })
         });
 

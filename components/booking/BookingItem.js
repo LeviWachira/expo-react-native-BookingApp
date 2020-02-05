@@ -5,9 +5,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     Alert,
-    Platform,
     ActivityIndicator,
-    FlatList
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,17 +22,6 @@ const BookingItem = props => {
     // console.log(`checktime = ${checkTimeHours}`);
     // console.log(`BOOKING_START = ${JSON.stringify(props.selectRooms)}`);
 
-    const seletedUserId = useSelector(state => state.auth.userId);
-    // console.log(`USER-ID = ${seletedUserId}`);
-    // console.log(`JASON-USER-ID = ${JSON.stringify(seletedUserId)}`);
-
-    const selectedBooked = useSelector(state => state.booking.booking);
-
-
-
-
-    // console.log(`USER_BOOKED = ${JSON.stringify(selectedBooked)}`);
-
     useEffect(() => {
         if (checkTimeHours >= props.timeShowValues) {
             setDisabledButton(true);
@@ -46,39 +33,53 @@ const BookingItem = props => {
         }
     })
 
-    /*Handler user press booking*/
-    const onBookingHandler = () => {
+
+
+    console.log(`LV *4.1 IndexTimeShow = ${JSON.stringify(props.selectRooms)}`);
+    // console.log(`LV *4.2 IndexTimeShow = ${JSON.stringify(selectedTimeShowIndex)}`);
+
+    /*
+     * handler user press booking
+     */
+    const onBookingHandler = (timeShowIndex) => {
         Alert.alert('Are you sure?', `Do you really want to booking a room ${props.title} at ${props.timeShowValues}.00 am ?`, [
             { text: 'No', style: 'destructive' },
             {
                 text: 'Yes',
                 style: 'default',
                 onPress: async () => {
+                    setIsLoading(true);
                     await dispatch(bookingActions.addToBooking(
-                        props.id,
-                        props.categoryIds,
                         props.title,
-                        props.imageUri,
                         props.timeTitle,
-                        props.timeSteps,
-                        props.roomDisableStatus,
                         props.timeShowValues,
                         props.selectRooms
                     ));
                     await dispatch(roomActons.updateStatusRoom(
                         props.id,
-                    ))
+                        props.timeShowValues,
+                        false,
+                        props.selectRooms
+                    ));
+                    setIsLoading(false);
                     await props.navigation.popToTop();
                 }
             }
         ]);
     };
-    // timeShowValues
-    // timeShowStatus
+
+    if (isLoading) {
+        <View style={styles.centered}>
+            <ActivityIndicator color={Colors.primary} size='large' />
+        </View>
+    }
+
     console.log(` LV *4 = ${JSON.stringify(props.timeShowValues)}`);
     console.log(` LV *5 = ${JSON.stringify(props.timeShowStatus)}`);
 
-
+    /*
+    * this component is children of BookingDetailScreen.
+    */
     return (
         <TouchableOpacity
             onPress={onBookingHandler}
@@ -96,6 +97,10 @@ const BookingItem = props => {
 }
 
 const styles = StyleSheet.create({
+    centered: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     button: {
         justifyContent: 'center',
         alignItems: 'center',

@@ -46,6 +46,9 @@ const BookingDetailScreen = props => {
 
     console.log(` LV *3 = ${JSON.stringify(selectRooms.timeSteps)}`);
 
+    /*
+    *this is parent component of BookingItems component. 
+     */
     return (
         <View style={styles.screen}>
             <ImageBackground style={styles.Image} source={{ uri: selectRooms.imageUri }} >
@@ -64,8 +67,8 @@ const BookingDetailScreen = props => {
                         horizontal={true}
                         renderItem={itemData => (
                             <BookingItem
+                                selectRooms={selectRooms.timeSteps}
                                 timeShowId={itemData.item.id}
-                                navigation={props.navigation}
                                 id={selectRooms.id}
                                 categoryIds={selectRooms.categoryIds}
                                 title={selectRooms.title}
@@ -74,6 +77,7 @@ const BookingDetailScreen = props => {
                                 timeShowValues={itemData.item.number}
                                 timeShowStatus={itemData.item.status}
                                 roomDisableStatus={selectRooms.roomDisableStatus}
+                                navigation={props.navigation}
                             />
                         )}
                     />
