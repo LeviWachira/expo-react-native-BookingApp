@@ -9,17 +9,21 @@ import * as bookingActions from '../../store/action/booking';
 import Colors from '../../constants/Colors';
 
 const BookingRoomScreen = props => {
+
+    const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
     const catId = props.navigation.getParam('categoryId');
-    const availableBooking = useSelector(state => state.booking.booking);
     const availableRooms = useSelector(state => state.rooms.rooms);
     const displayedRooms = availableRooms.filter(room => room.categoryIds.indexOf(catId) >= 0);
-    const dispatch = useDispatch();
 
-    // console.log(`CHECK LV-1 availableRooms = ${JSON.stringify(availableRooms)}`);
-    // console.log(`CHECK LV-2 displayedRooms = ${JSON.stringify(displayedRooms)}`);
-
+    const selectedUserId = useSelector(state => state.auth.userId);
+    const selectedBooked = useSelector(state => state.booking.booking);
+    const filterUserBookedExisting = selectedBooked.filter(booked => booked.userId === selectedUserId);
+    // console.log(`CHECK LV**1 BOOKED = ${JSON.stringify(filterUserBookedExisting)}`);
+    const filterUserBookedStatus = filterUserBookedExisting.filter(booked =>
+        booked.userBookingStatus === "...Waiting" || booked.userBookingStatus === "APPROVED");
+    // console.log(`CHECK LV**2 BOOKED = ${JSON.stringify(filterUserBookedStatus)}`);
 
     const loadRooms = useCallback(async () => {
         setError(null);
@@ -78,6 +82,8 @@ const BookingRoomScreen = props => {
         <RoomList
             listData={displayedRooms}
             navigation={props.navigation}
+            resultSelectedRoom={availableRooms}
+            resultSelectedUserBookedStatus={filterUserBookedStatus}
         />
     )
 };

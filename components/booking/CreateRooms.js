@@ -131,7 +131,10 @@ const styles = StyleSheet.create({
         padding: 10,
         overflow: 'hidden',
         borderColor: '#ccc',
-        borderWidth: 1
+        borderWidth: 1,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.2
     },
     roomStatusContainer: {
         alignItems: 'center',

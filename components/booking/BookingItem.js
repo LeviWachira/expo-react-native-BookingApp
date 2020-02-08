@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,7 +7,7 @@ import {
     Alert,
     ActivityIndicator,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import * as bookingActions from '../../store/action/booking';
 import * as roomActons from '../../store/action/room';
@@ -19,10 +19,12 @@ const BookingItem = props => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const checkTimeHours = new Date().getHours();
+    const [isUserBookedStatus, setIsUserBookedStatus] = useState(false);
+
     // console.log(`checktime = ${checkTimeHours}`);
     // console.log(`BOOKING_START = ${JSON.stringify(props.selectRooms)}`);
 
-    useEffect(() => {
+    const checkRenderTime = () => {
         if (checkTimeHours >= props.timeShowValues) {
             setDisabledButton(true);
             console.log(`เลยเวลาแล้ว`);
@@ -31,17 +33,36 @@ const BookingItem = props => {
             setDisabledButton(false);
             console.log(`ยังไมถึงเวลาโว้ย`);
         }
-    })
+    };
 
+    const { resultUserBookedStatus } = props;
+    console.log(` LV *CHECK 0 = ${JSON.stringify(resultUserBookedStatus.length)}`);
 
+    const checkRenderBooked = () => {
+        if (resultUserBookedStatus.length === 0) {
+            setIsUserBookedStatus(false);
+        }
+        else if (resultUserBookedStatus) {
+            setIsUserBookedStatus(true);
+        }
+    };
 
-    console.log(`LV *4.1 IndexTimeShow = ${JSON.stringify(props.selectRooms)}`);
+    useEffect(() => {
+        const resultRender = async () => {
+            await checkRenderTime();
+            await checkRenderBooked();
+        }
+
+        resultRender();
+    }, [checkTimeHours, resultUserBookedStatus])
+
+    // console.log(`LV *4.1 IndexTimeShow = ${JSON.stringify(props.selectRooms)}`);
     // console.log(`LV *4.2 IndexTimeShow = ${JSON.stringify(selectedTimeShowIndex)}`);
 
     /*
      * handler user press booking
      */
-    const onBookingHandler = (timeShowIndex) => {
+    const onBookingHandler = () => {
         Alert.alert('Are you sure?', `Do you really want to booking a room ${props.title} at ${props.timeShowValues}.00 am ?`, [
             { text: 'No', style: 'destructive' },
             {
@@ -74,27 +95,51 @@ const BookingItem = props => {
         </View>
     }
 
-    console.log(` LV *4 = ${JSON.stringify(props.timeShowValues)}`);
-    console.log(` LV *5 = ${JSON.stringify(props.timeShowStatus)}`);
+    console.log(` LV *CHECK = ${JSON.stringify(isUserBookedStatus)}`);
+    // console.log(` LV *5 = ${JSON.stringify(props.timeShowStatus)}`);
+
+    let handlerBookedRoom;
+
+    if (isUserBookedStatus) {
+        handlerBookedRoom = (
+            <TouchableOpacity
+                onPress={onBookingHandler}
+                disabled={isUserBookedStatus}
+            >
+                <View style={{ ...styles.button, ...{ backgroundColor: Colors.textSecondary } }}>
+                    <Text style={styles.font} >
+                        {`${props.timeShowValues}.00`}
+                    </Text>
+                </View>
+            </TouchableOpacity >
+        )
+    };
+
+    if (!isUserBookedStatus) {
+        handlerBookedRoom = (
+            <TouchableOpacity
+                onPress={onBookingHandler}
+                disabled={disabledButton}
+            >
+                <View style={{ ...styles.button, ...{ backgroundColor: !disabledButton || !props.timeShowStatus ? Colors.primary : Colors.textSecondary } }}>
+                    <Text style={styles.font} >
+                        {`${props.timeShowValues}.00`}
+                    </Text>
+                </View>
+            </TouchableOpacity >
+        )
+    };
+
 
     /*
     * this component is children of BookingDetailScreen.
     */
     return (
-        <TouchableOpacity
-            onPress={onBookingHandler}
-            disabled={disabledButton}
-        >
-            <View style={{ ...styles.button, ...{ backgroundColor: !disabledButton || !props.timeShowStatus ? Colors.primary : Colors.textSecondary } }}>
-                <Text
-                    style={styles.font}
-                >
-                    {`${props.timeShowValues}.00`}
-                </Text>
-            </View>
-        </TouchableOpacity >
+        <View>
+            {handlerBookedRoom}
+        </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     centered: {

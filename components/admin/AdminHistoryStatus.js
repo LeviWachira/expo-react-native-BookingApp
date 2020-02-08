@@ -12,6 +12,8 @@ const AdminHistoryStatus = props => {
         selectedColorStatus = Colors.primary;
     } else if (props.roomHistoryApprovalStatus === "DENIDE!!") {
         selectedColorStatus = Colors.danger;
+    } else if (props.roomHistoryApprovalStatus === "USER CANCEL") {
+        selectedColorStatus = Colors.gold;
     }
 
 
@@ -53,7 +55,6 @@ const AdminHistoryStatus = props => {
 const styles = StyleSheet.create({
     centered: {
         flex: 1,
-
     },
     centeredText: {
         justifyContent: 'center',
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     cardContainer: {
         marginVertical: 5,
         marginHorizontal: 5,
-        marginTop: 15
+        marginTop: 6
     },
     container: {
         flexDirection: 'row',

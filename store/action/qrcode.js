@@ -73,12 +73,24 @@ export const cancelBooked = (roomId) => {
         const token = getState().auth.token;
         // const userId = getState().auth.userId;
         try {
-            await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${roomId}.json?auth=${token}`, {
-                method: 'DELETE',
+            const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/bookings/${roomId}.json?auth=${token}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userBookingStatus: "USER CANCEL",
+                })
             });
+
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+            const resData = await response.json();
+            console.log(`QR2 FECTH_QRCODE_BOOKING = ${JSON.stringify(resData)}`);
 
         } catch (err) {
             throw err;
         }
-    }
+    };
 };

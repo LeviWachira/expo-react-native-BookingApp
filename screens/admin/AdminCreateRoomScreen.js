@@ -172,7 +172,7 @@ const AdminCreateRoom = props => {
                     ...{ backgroundColor: Colors.primary, flexDirection: 'row', borderRadius: 5, paddingLeft: 10, marginVertical: 5 }
                 }}>
 
-                    <View style={{}}>
+                    <View style={styles.createButton}>
                         <Text style={{ color: 'white', fontSize: 15 }}>
                             Create
                         </Text>
@@ -256,6 +256,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         height: 50,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.2
     },
     studyRoomButton: {
         height: 40,
@@ -272,7 +275,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.primary,
         paddingVertical: 10,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+
     },
     theartorRoomButton: {
         height: 40,
@@ -288,7 +292,10 @@ const styles = StyleSheet.create({
         fontWeight: '400'
     },
     createButton: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.2
     }
 })
 

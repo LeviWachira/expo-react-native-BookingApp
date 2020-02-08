@@ -227,6 +227,9 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'white',
         paddingHorizontal: 20,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2
     },
     switchText: {
         fontSize: 18

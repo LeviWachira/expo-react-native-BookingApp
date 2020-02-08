@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import {
     View,
     Text,
@@ -21,9 +21,11 @@ const BookingDetailScreen = props => {
     /* Handler Category Room */
     const roomId = props.navigation.getParam('roomId');
     const roomTitle = props.navigation.getParam('roomTitle');
+    const userBookedStatus = props.navigation.getParam('userBookedStatus');
+    console.log(`CHECK LV**3 BOOKED = ${JSON.stringify(userBookedStatus)}`);
+
     const availableRoom = useSelector(state => state.rooms.rooms);
     const selectRooms = availableRoom.find(room => room.id === roomId);
-
 
     /* Handler Favourite Room */
     const currentRoomsFavourite = useSelector(state =>
@@ -38,13 +40,11 @@ const BookingDetailScreen = props => {
         props.navigation.setParams({ toggleFav: toggleFavouriteHandle })
     }, [toggleFavouriteHandle]);
 
-    useEffect(() => {
-        props.navigation.setParams({ isFav: currentRoomsFavourite })
+    useMemo(() => {
+        props.navigation.setParams({ isFav: currentRoomsFavourite });
     }, [currentRoomsFavourite]);
 
-
-
-    console.log(` LV *3 = ${JSON.stringify(selectRooms.timeSteps)}`);
+    // console.log(` LV *3 = ${JSON.stringify(selectRooms.timeSteps)}`);
 
     /*
     *this is parent component of BookingItems component. 
@@ -78,6 +78,8 @@ const BookingDetailScreen = props => {
                                 timeShowStatus={itemData.item.status}
                                 roomDisableStatus={selectRooms.roomDisableStatus}
                                 navigation={props.navigation}
+
+                                resultUserBookedStatus={userBookedStatus}
                             />
                         )}
                     />

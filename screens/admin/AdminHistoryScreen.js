@@ -87,6 +87,7 @@ const AdminHistoryScreen = props => {
             <FlatList
                 data={selectedHistoryItems}
                 keyExtractor={item => item.roomHistoryId}
+                style={{ backgroundColor: 'white' }}
                 renderItem={itemData => (
                     <AdminHistoryStatus
                         historyItems={historyItems}
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     screen: {
-        flex: 1
+        flex: 1,
     }
 })
 export default AdminHistoryScreen;
