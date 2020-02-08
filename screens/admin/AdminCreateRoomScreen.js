@@ -23,8 +23,8 @@ import * as roomActions from '../../store/action/room';
 const AdminCreateRoom = props => {
 
     const [selectedButton, setSelectedButton] = useState('');
-    const availableRooms = useSelector(state => state.rooms.rooms);
-    const selectCategoryRooms = availableRooms.filter(room => room.categoryIds === selectedButton);
+    const resultAvailableRooms = useSelector(state => state.rooms.rooms);
+    const selectCategoryRooms = resultAvailableRooms.filter(room => room.categoryIds === selectedButton);
     const dispatch = useDispatch();
 
     const [activeStudyRoomButton, setActiveStudyRoomButton] = useState(false);
@@ -33,7 +33,7 @@ const AdminCreateRoom = props => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    console.log(selectedButton);
+    console.log(` ROOM STATUS *****0 = ${JSON.stringify(selectCategoryRooms)}`);
 
     const loadedRooms = useCallback(async () => {
         setIsLoading(true);
@@ -204,6 +204,8 @@ const AdminCreateRoom = props => {
                         rid={itemData.item.id}
                         title={itemData.item.title}
                         imageUri={itemData.item.imageUri}
+                        roomStatus={itemData.item.roomDisableStatus}
+
                         loadedRooms={loadedRooms}
                     />
                 )}

@@ -75,11 +75,17 @@ const AdminApproveMode = props => {
     };
 
 
-    const { loadedBooking, isAutoApprove } = props;
-
     /*
     * this function callback When admin toggle switch for Auto Approve Mode
     */
+    const { loadedBooking, isAutoApprove } = props;
+    useEffect(() => {
+        if (isAutoApprove) {
+            console.log(`is Auto Approve Mode`);
+            adminAutoApproved();
+        };
+    }, [isAutoApprove])
+    
     const adminAutoApproved = useCallback(async () => {
         setIsLoading(true);
         await dispatch(qrcodeActions.setQrcode(
@@ -97,14 +103,6 @@ const AdminApproveMode = props => {
         </View >
     }
 
-    if (props.isAutoApprove) {
-        console.log(`is Auto Approve Mode`);
-        adminAutoApproved();
-    };
-
-    if (!props.isAutoApprove) {
-        console.log(`is Manual Approve Mode`);
-    };
 
     /* 
     *this is children component of AdminApproveScreen.

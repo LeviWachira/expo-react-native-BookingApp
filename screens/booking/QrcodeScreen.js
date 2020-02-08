@@ -23,7 +23,6 @@ const QrcodeScreen = props => {
     const selectedShowQrcode = useSelector(state => state.qrcode.qrcode.filter(selectQr => selectQr.userId === selectedUserId));
     const resultSelectedShowQrcode = selectedShowQrcode.filter(qrcode => qrcode.userBookingStatus === "APPROVED");
 
-    const resultSelectedCheckEmptyQrcode = selectedShowQrcode.filter(qrcode => qrcode.userBookingStatus !== "APPROVED");
 
     console.log(`QRCODE **LV1 = ${JSON.stringify(selectedShowQrcode)}`);
     console.log(`QRCODE **LV2 = ${JSON.stringify(resultSelectedShowQrcode)}`);
@@ -103,15 +102,6 @@ const QrcodeScreen = props => {
             </View>
         )
     };
-
-    // if (resultSelectedCheckEmptyQrcode) {
-    //     return (
-    //         <View style={styles.centered}>
-    //             <Text >Please booking a new room.</Text>
-    //         </View>
-    //     )
-    // };
-
 
     return (
         <View style={styles.screen}>

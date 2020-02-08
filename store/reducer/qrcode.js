@@ -8,9 +8,13 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case FETCH_QRCODE:
+
+            const filterQrcodeApprovedStatus = action.qrcodes.filter(qrcode => qrcode.userBookingStatus === "APPROVED");
+            console.log(`FILTER QRCODE *2 = ${JSON.stringify(filterQrcodeApprovedStatus)}`);
+
             return {
                 ...state,
-                qrcode: action.qrcodes
+                qrcode: filterQrcodeApprovedStatus
             }
 
         // case SET_QRCODE:

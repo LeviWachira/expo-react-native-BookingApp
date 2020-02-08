@@ -22,6 +22,7 @@ const BookingCommit = props => {
 
     const [isAutoApprove, setIsAutoApprove] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsfreshing] = useState(false);
     const [error, setError] = useState();
     const dispatch = useDispatch();
 
@@ -30,14 +31,14 @@ const BookingCommit = props => {
     */
     const loadedBooking = useCallback(async () => {
         setError(null);
-        setIsLoading(true);
+        setIsfreshing(true);
         try {
             await dispatch(bookingActions.fetchBooking());
             await dispatch(roomActions.fetchRooms());
         } catch (err) {
             setError(err.message)
         }
-        setIsLoading(false);
+        setIsfreshing(false);
     }, [dispatch, setError, setIsLoading, loadedBooking])
 
     useEffect(() => {
@@ -49,8 +50,11 @@ const BookingCommit = props => {
     }, [loadedBooking])
 
     useEffect(() => {
-        loadedBooking();
-    }, [dispatch]);
+        setIsLoading(true);
+        loadedBooking().then(() => {
+            setIsLoading(false);
+        });
+    }, [dispatch, loadedBooking]);
 
     /* selectedRoom for handler update admin denided timeShow status */
     const selectedRoom = useSelector(state => state.rooms.rooms);
@@ -76,7 +80,7 @@ const BookingCommit = props => {
         return tranformedBookingItems.filter(booking => booking.roomUserBookingStatus === "...Waiting")
             .sort((a, b) => a.roomDate < b.roomDate ? 1 : -1);
     })
-    console.log(`SELECTING_BOOKING = ${JSON.stringify(selectedBooking)}`);
+    // console.log(`SELECTING_BOOKING = ${JSON.stringify(selectedBooking)}`);
     // console.log(`ADMINBOOKING = ${JSON.stringify(bookingItems)}`);
 
     if (error) {
@@ -183,6 +187,8 @@ const BookingCommit = props => {
                 />
             </View>
             <FlatList
+                onRefresh={loadedBooking}
+                refreshing={isRefreshing}
                 data={bookingItems}
                 keyExtractor={item => item.roomId}
                 renderItem={renderBookingItems}

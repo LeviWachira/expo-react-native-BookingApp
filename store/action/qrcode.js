@@ -13,7 +13,7 @@ export const fetchQrcode = () => {
                 throw new Error('Something went wrong');
             }
             const resData = await response.json();
-            console.log(`QRCODE_FETCH = ${JSON.stringify(resData)}`);
+            // console.log(`QRCODE_FETCH = ${JSON.stringify(resData)}`);
             const loadedQrcode = [];
             for (const key in resData) {
                 loadedQrcode.push(
@@ -41,7 +41,7 @@ export const fetchQrcode = () => {
 
 export const setQrcode = (roomUserId, roomId, roomUserQrcode) => {
     return async (dispatch, getState) => {
-        console.log(`QR0 FECTH_QRCODE_BOOKING = ${JSON.stringify(roomId)}`);
+        // console.log(`QR0 FECTH_QRCODE_BOOKING = ${JSON.stringify(roomId)}`);
         const token = getState().auth.token;
         // const userId = getState().auth.userId;
         try {
@@ -60,7 +60,7 @@ export const setQrcode = (roomUserId, roomId, roomUserQrcode) => {
                 throw new Error('Something went wrong');
             }
             const resData = await response.json();
-            console.log(`QR2 FECTH_QRCODE_BOOKING = ${JSON.stringify(resData)}`);
+            // console.log(`QR2 FECTH_QRCODE_BOOKING = ${JSON.stringify(resData)}`);
 
         } catch (err) {
             throw err;
@@ -87,7 +87,7 @@ export const cancelBooked = (roomId) => {
                 throw new Error('Something went wrong');
             }
             const resData = await response.json();
-            console.log(`QR2 FECTH_QRCODE_BOOKING = ${JSON.stringify(resData)}`);
+            // console.log(`QR2 FECTH_QRCODE_BOOKING = ${JSON.stringify(resData)}`);
 
         } catch (err) {
             throw err;

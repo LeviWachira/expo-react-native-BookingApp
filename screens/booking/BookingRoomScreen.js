@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, View, Text, ActivityIndicator, Button, FlatList } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, Button } from 'react-native';
 
 import { CATEGORYROOM } from '../../data/dummy-data';
 import RoomList from '../../components/booking/RoomList';
@@ -12,6 +12,7 @@ const BookingRoomScreen = props => {
 
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState();
     const catId = props.navigation.getParam('categoryId');
     const availableRooms = useSelector(state => state.rooms.rooms);
@@ -27,14 +28,14 @@ const BookingRoomScreen = props => {
 
     const loadRooms = useCallback(async () => {
         setError(null);
-        setIsLoading(true);
+        setIsRefreshing(true);
         try {
             await dispatch(roomActions.fetchRooms());
             await dispatch(bookingActions.fetchBooking());
         } catch (err) {
             setError(err.message);
         }
-        setIsLoading(false)
+        setIsRefreshing(false);
     }, [dispatch, setIsLoading, setError]);
 
     useEffect(() => {
@@ -46,8 +47,11 @@ const BookingRoomScreen = props => {
     }, [loadRooms]);
 
     useEffect(() => {
-        loadRooms();
-    }, [dispatch]);
+        setIsLoading(true);
+        loadRooms().then(() => {
+            setIsLoading(false);
+        })
+    }, [dispatch, loadRooms]);
 
     if (error) {
         return (
@@ -84,6 +88,8 @@ const BookingRoomScreen = props => {
             navigation={props.navigation}
             resultSelectedRoom={availableRooms}
             resultSelectedUserBookedStatus={filterUserBookedStatus}
+            loadRooms={loadRooms}
+            isRefreshing={isRefreshing}
         />
     )
 };

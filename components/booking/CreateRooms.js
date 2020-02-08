@@ -56,6 +56,8 @@ const CreateRooms = props => {
         ]);
     }
 
+    console.log(`STATUS ROOM *****1 ${JSON.stringify(props.roomStatus)}`);
+
 
     return (
         <View style={styles.list}>
@@ -85,8 +87,7 @@ const CreateRooms = props => {
                 />
 
                 <View style={styles.roomStatusContainer}>
-                    <Text>Status :
-                    </Text>
+                    <Text style={{ ...styles.textStatus, ...{ color: props.roomStatus === false ? Colors.primary : Colors.danger } }}>{props.roomStatus === false ? 'Open' : 'Close'}</Text>
                 </View>
 
                 <View style={styles.buttonContainer}>
@@ -139,6 +140,9 @@ const styles = StyleSheet.create({
     roomStatusContainer: {
         alignItems: 'center',
         marginVertical: 8
+    },
+    textStatus: {
+        fontSize: 16
     },
     image: {
         height: 200,

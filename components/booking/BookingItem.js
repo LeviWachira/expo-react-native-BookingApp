@@ -25,11 +25,11 @@ const BookingItem = props => {
     // console.log(`BOOKING_START = ${JSON.stringify(props.selectRooms)}`);
 
     const checkRenderTime = () => {
-        if (checkTimeHours >= props.timeShowValues) {
+        if (checkTimeHours >= props.timeShowValues || !props.timeShowStatus) {
             setDisabledButton(true);
             console.log(`เลยเวลาแล้ว`);
         }
-        else if (checkTimeHours < props.timeShowValues) {
+        else if (checkTimeHours < props.timeShowValues || props.timeShowStatus) {
             setDisabledButton(false);
             console.log(`ยังไมถึงเวลาโว้ย`);
         }
@@ -121,7 +121,7 @@ const BookingItem = props => {
                 onPress={onBookingHandler}
                 disabled={disabledButton}
             >
-                <View style={{ ...styles.button, ...{ backgroundColor: !disabledButton || !props.timeShowStatus ? Colors.primary : Colors.textSecondary } }}>
+                <View style={{ ...styles.button, ...{ backgroundColor: !props.timeShowStatus ? Colors.textSecondary : Colors.primary } }}>
                     <Text style={styles.font} >
                         {`${props.timeShowValues}.00`}
                     </Text>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         height: 40,
         width: 70,
-        marginHorizontal: 15,
+        marginHorizontal: 12,
         paddingVertical: 4,
         paddingHorizontal: 7,
         shadowColor: 'black',

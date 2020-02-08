@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { useSelector } from 'react-redux';
 
@@ -8,12 +8,12 @@ import Colors from '../../constants/Colors';
 
 const RoomList = props => {
 
-  // const resultSelectedRoom = useSelector(state => state.rooms.rooms);
+  const resultSelectedRoom = useSelector(state => state.rooms.favouriteRooms);
   // const selectedBooking = useSelector(state => state.booking.booking);
 
   const renderRoomItem = itemData => {
     //isFavourite return true || false .
-    const isFavourite = props.resultSelectedRoom.some(room => room.id === itemData.item.id);
+    const isFavourite = resultSelectedRoom.some(room => room.id === itemData.item.id);
     const isTimeShow = props.resultSelectedRoom.find(room => room.id === itemData.item.id)
     console.log(`LV *2.1 = ${JSON.stringify(props.resultSelectedUserBookedStatus)}`);
     // const isUserBookedStatus = props.resultSelectedUserBookedStatus;
@@ -32,7 +32,7 @@ const RoomList = props => {
               roomId: itemData.item.id,
               roomTitle: itemData.item.title,
               isFav: isFavourite,
-              userBookedStatus: props.resultSelectedUserBookedStatus
+              userBookedStatus: props.resultSelectedUserBookedStatus,
             }
           });
         }} >
@@ -69,6 +69,8 @@ const RoomList = props => {
       * parent of renderRoomItem function
       */}
       <FlatList
+        onRefresh={props.loadRooms}
+        refreshing={props.isRefreshing}
         data={props.listData}
         keyExtractor={(item, index) => item.id}
         listKey={(item) => 'A' + (index + item.id).toString()}

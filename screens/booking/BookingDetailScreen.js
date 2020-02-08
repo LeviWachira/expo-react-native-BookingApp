@@ -1,14 +1,14 @@
-import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import {
     View,
     Text,
-    ScrollView,
     StyleSheet,
     ImageBackground,
     FlatList
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { Ionicons } from '@expo/vector-icons';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import BookingItem from '../../components/booking/BookingItem';
@@ -57,9 +57,16 @@ const BookingDetailScreen = props => {
                 </View>
             </ImageBackground>
             <View>
+
                 <View style={styles.headerTitle}>
-                    <Text style={styles.headerTitleText}>{roomTitle}</Text>
+                    <Ionicons
+                        name='ios-time'
+                        size={27}
+                        color='white'
+                    />
+                    <Text style={styles.headerTitleText}>   {roomTitle}</Text>
                 </View>
+
                 <View style={styles.roomDetail}>
                     <FlatList
                         data={selectRooms.timeSteps}
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch'
     },
     Image: {
-        height: 200,
+        height: 250,
         justifyContent: 'flex-end',
     },
     timeTitleContainer: {
@@ -137,17 +144,18 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     headerTitle: {
+        flexDirection: 'row',
         borderBottomWidth: 1,
         borderTopWidth: 1,
         padding: 10,
-        borderColor: '#D3D3D3',
-        backgroundColor: '#D3D3D3',
+        borderColor: Colors.primary,
+        backgroundColor: Colors.primary,
         height: 50
     },
     headerTitleText: {
         fontSize: 19,
         fontWeight: '600',
-        color: '#4169E1'
+        color: 'white'
     },
     roomDetail: {
         flexDirection: 'row',
