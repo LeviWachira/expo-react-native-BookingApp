@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text } from 'react-native';
 
 import Colors from '../../constants/Colors';
@@ -8,7 +8,7 @@ const TimeShow = props => {
     const [isTimeShow, setIsTimeShow] = useState(true);
     const checkTimeHours = new Date().getHours();
 
-    useEffect(() => {
+    useMemo(() => {
         if (checkTimeHours >= props.timeShowValues) {
             setIsTimeShow(false);
             console.log(`เลยเวลาแล้ว`);
@@ -17,7 +17,7 @@ const TimeShow = props => {
             setIsTimeShow(true);
             console.log(`ยังไมถึงเวลาโว้ย`);
         }
-    })
+    }, [checkTimeHours])
 
     return (
         <View>
