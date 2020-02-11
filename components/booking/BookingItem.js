@@ -24,20 +24,22 @@ const BookingItem = props => {
     // console.log(`checktime = ${checkTimeHours}`);
     // console.log(`BOOKING_START = ${JSON.stringify(props.selectRooms)}`);
 
+    /*
+     *  this function is handler about check time hour and render.
+    */
+
     const checkRenderTime = () => {
         if (checkTimeHours >= props.timeShowValues || !props.timeShowStatus) {
             setDisabledButton(true);
-            console.log(`เลยเวลาแล้ว`);
+            // console.log(`เลยเวลาแล้ว`);
         }
         else if (checkTimeHours < props.timeShowValues || props.timeShowStatus) {
             setDisabledButton(false);
-            console.log(`ยังไมถึงเวลาโว้ย`);
+            // console.log(`ยังไมถึงเวลาโว้ย`);
         }
     };
-
     const { resultUserBookedStatus } = props;
     console.log(` LV *CHECK 0 = ${JSON.stringify(resultUserBookedStatus.length)}`);
-
     const checkRenderBooked = () => {
         if (resultUserBookedStatus.length === 0) {
             setIsUserBookedStatus(false);
@@ -54,7 +56,7 @@ const BookingItem = props => {
         }
 
         resultRender();
-    }, [checkTimeHours, resultUserBookedStatus])
+    }, [checkTimeHours, resultUserBookedStatus]);
 
     // console.log(`LV *4.1 IndexTimeShow = ${JSON.stringify(props.selectRooms)}`);
     // console.log(`LV *4.2 IndexTimeShow = ${JSON.stringify(selectedTimeShowIndex)}`);
@@ -89,17 +91,22 @@ const BookingItem = props => {
         ]);
     };
 
+    /*
+     * this working When is loading
+     */
     if (isLoading) {
         <View style={styles.centered}>
             <ActivityIndicator color={Colors.primary} size='large' />
         </View>
     }
 
-    console.log(` LV *CHECK = ${JSON.stringify(isUserBookedStatus)}`);
+    // console.log(` LV *CHECK = ${JSON.stringify(isUserBookedStatus)}`);
     // console.log(` LV *5 = ${JSON.stringify(props.timeShowStatus)}`);
 
+    /*
+     * this handler render time button 
+     */
     let handlerBookedRoom;
-
     if (isUserBookedStatus) {
         handlerBookedRoom = (
             <TouchableOpacity
@@ -121,7 +128,7 @@ const BookingItem = props => {
                 onPress={onBookingHandler}
                 disabled={disabledButton}
             >
-                <View style={{ ...styles.button, ...{ backgroundColor: !props.timeShowStatus ? Colors.textSecondary : Colors.primary } }}>
+                <View style={{ ...styles.button, ...{ backgroundColor: disabledButton ? Colors.textSecondary : Colors.primary } }}>
                     <Text style={styles.font} >
                         {`${props.timeShowValues}.00`}
                     </Text>

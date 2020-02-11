@@ -16,7 +16,7 @@ export const fetchBooking = () => {
             }
 
             const resData = await response.json();
-            console.log(`FETCH_BOOKING!! = ${JSON.stringify(resData)}`);
+            // console.log(`FETCH_BOOKING!! = ${JSON.stringify(resData)}`);
             const loadedBooking = [];
             for (const key in resData) {
                 loadedBooking.push(
@@ -61,7 +61,7 @@ export const addToBooking = (
         // this.approvalStatus = approvalStatus;
         // timeUserSelected
         // this.date = date;
-        console.log(`USER-GETSTATE = ${JSON.stringify(getState())}`);
+        // console.log(`USER-GETSTATE = ${JSON.stringify(getState())}`);
 
         const token = getState().auth.token;
         const userId = getState().auth.userId;

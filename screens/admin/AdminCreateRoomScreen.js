@@ -33,7 +33,7 @@ const AdminCreateRoom = props => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    console.log(` ROOM STATUS *****0 = ${JSON.stringify(selectCategoryRooms)}`);
+    // console.log(` ROOM STATUS *****0 = ${JSON.stringify(selectCategoryRooms)}`);
 
     const loadedRooms = useCallback(async () => {
         setIsLoading(true);

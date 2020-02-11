@@ -5,7 +5,6 @@ import {
     Modal,
     Alert,
     StyleSheet,
-    TextInput,
     ScrollView,
     KeyboardAvoidingView
 } from 'react-native';
@@ -60,7 +59,6 @@ const ModalCreate = props => {
     });
 
     const submitHandler = useCallback(async () => {
-
         if (!formState.formIsValid) {
             Alert.alert('Wrong input!', 'Please check the errors in the form.', [
                 { text: 'Okay' }

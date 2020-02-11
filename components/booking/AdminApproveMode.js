@@ -27,8 +27,8 @@ const AdminApproveMode = props => {
     const dispatch = useDispatch();
 
     /*
- * this function handler admin is commit booking from user .
- */
+     * this function handler admin is commit booking from user .
+     */
     const onAdminCommitHandler = () => {
         Alert.alert('Are you sure?', 'Do you really want to commit this booking?', [
             { text: 'No', style: 'destructive' },
@@ -76,7 +76,7 @@ const AdminApproveMode = props => {
 
 
     /*
-    * this function callback When admin toggle switch for Auto Approve Mode
+    * this function callback. When admin toggle switch for Auto Approve Mode
     */
     const { loadedBooking, isAutoApprove } = props;
     useEffect(() => {
@@ -85,7 +85,7 @@ const AdminApproveMode = props => {
             adminAutoApproved();
         };
     }, [isAutoApprove])
-    
+
     const adminAutoApproved = useCallback(async () => {
         setIsLoading(true);
         await dispatch(qrcodeActions.setQrcode(

@@ -10,9 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
 
+import * as userActions from '../../store/action/user';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import BookingItem from '../../components/booking/BookingItem';
-import { toggleFavourite } from '../../store/action/room';
 import Colors from '../../constants/Colors';
 
 const BookingDetailScreen = props => {
@@ -22,27 +22,42 @@ const BookingDetailScreen = props => {
     const roomId = props.navigation.getParam('roomId');
     const roomTitle = props.navigation.getParam('roomTitle');
     const userBookedStatus = props.navigation.getParam('userBookedStatus');
-    console.log(`CHECK LV**3 BOOKED = ${JSON.stringify(userBookedStatus)}`);
+    // console.log(`CHECK LV**3 BOOKED = ${JSON.stringify(userBookedStatus)}`);
 
     const availableRoom = useSelector(state => state.rooms.rooms);
     const selectRooms = availableRoom.find(room => room.id === roomId);
 
     /* Handler Favourite Room */
-    const currentRoomsFavourite = useSelector(state =>
-        state.rooms.favouriteRooms.some(room => room.id === roomId)
-    );
+    // const currentRoomsFavourite = useSelector(state =>
+    //     state.rooms.favouriteRooms.some(room => room.id === roomId)
+    // );
+
+    // const selectedUserId = useSelector(state => state.id)
+    const selectedUserId = useSelector(state => state.auth.userId);
+    console.log(`CHECK LV**0 USER ID = ${JSON.stringify(selectedUserId)}`);
+
+    const selectedUserData = useSelector(state => state.user.user)
+    const viceSelectedUserData = selectedUserData.filter(data => data.id === selectedUserId);
+    console.log(`CHECK LV**1 USER ID = ${JSON.stringify(selectedUserData)}`);
+    console.log(`CHECK LV**1 USER ID = ${JSON.stringify(viceSelectedUserData)}`);
+
+
+    console.log(`CHECK LV**1.1 USER ID = ${JSON.stringify(selectedUserData.id)}`);
+    console.log(`CHECK LV**2 USER ID = ${JSON.stringify(selectedUserData.favouriteRoomId)}`);
+
 
     const toggleFavouriteHandle = useCallback(() => {
-        dispatch(toggleFavourite(roomId));
-    }, [dispatch, roomId]);
+        dispatch(userActions.toggleFavourite(selectedUserData.id, roomId, selectedUserData.favouriteRoomId))
+        // dispatch(toggleFavourite(roomId));
+    }, [dispatch, roomId, selectedUserData.id, selectedUserData.favouriteRoomId]);
 
     useEffect(() => {
         props.navigation.setParams({ toggleFav: toggleFavouriteHandle })
     }, [toggleFavouriteHandle]);
 
-    useMemo(() => {
-        props.navigation.setParams({ isFav: currentRoomsFavourite });
-    }, [currentRoomsFavourite]);
+    // useMemo(() => {
+    //     props.navigation.setParams({ isFav: currentRoomsFavourite });
+    // }, [currentRoomsFavourite]);
 
     // console.log(` LV *3 = ${JSON.stringify(selectRooms.timeSteps)}`);
 

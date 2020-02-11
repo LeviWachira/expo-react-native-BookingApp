@@ -7,14 +7,14 @@ const initialState = {
     favouriteRooms: []
 }
 
-const roomsReducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case SET_ROOMS:
             return {
                 ...state,
                 rooms: action.rooms
             };
-            
+
         case CREATE_ROOM:
             const newRoom = new Room(
                 action.roomData.id,
@@ -96,5 +96,3 @@ const roomsReducer = (state = initialState, action) => {
             return state;
     }
 }
-
-export default roomsReducer;

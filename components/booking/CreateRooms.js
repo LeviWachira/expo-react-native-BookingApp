@@ -25,8 +25,7 @@ const CreateRooms = props => {
                 }
             }
         ]);
-
-    }
+    };
 
     const toggleHandlerEnableRoomStatus = (rid, isEnableRoom = false) => {
         Alert.alert('Are you sure?', 'Do you really want to enable this room?', [
@@ -40,7 +39,7 @@ const CreateRooms = props => {
                 }
             }
         ]);
-    }
+    };
 
     const toggleHandleronDeleteRoom = (rid) => {
         Alert.alert('Warning!!', 'Do you really want to Delete this room?', [
@@ -54,10 +53,9 @@ const CreateRooms = props => {
                 }
             }
         ]);
-    }
+    };
 
     console.log(`STATUS ROOM *****1 ${JSON.stringify(props.roomStatus)}`);
-
 
     return (
         <View style={styles.list}>
@@ -86,28 +84,24 @@ const CreateRooms = props => {
                     source={{ uri: props.imageUri }}
                 />
 
+
                 <View style={styles.roomStatusContainer}>
-                    <Text style={{ ...styles.textStatus, ...{ color: props.roomStatus === false ? Colors.primary : Colors.danger } }}>{props.roomStatus === false ? 'Open' : 'Close'}</Text>
+                    <Text style={{ fontSize : 15}}>Status : 
+                        <Text style={{ ...styles.textStatus, ...{ color: props.roomStatus === false ? Colors.primary : Colors.danger } }}> {props.roomStatus === false ? 'open' : 'close'}</Text></Text>
                 </View>
 
                 <View style={styles.buttonContainer}>
                     <Button
-                        style={{ backgroundColor: Colors.textSecondary }}
+                        style={{ backgroundColor: props.roomStatus ? Colors.primary : Colors.textSecondary }}
                         onSelect={() => {
-                            toggleHandlerDisableRoomStatus(props.rid);
+                            if (props.roomStatus === false) {
+                                toggleHandlerDisableRoomStatus(props.rid);
+                            } else {
+                                toggleHandlerEnableRoomStatus(props.rid);
+                            }
                         }}
                     >
-                        <Text style={styles.buttonText}>Disable</Text>
-                    </Button>
-
-
-                    <Button
-                        style={{ backgroundColor: Colors.primary }}
-                        onSelect={() => {
-                            toggleHandlerEnableRoomStatus(props.rid);
-                        }}
-                    >
-                        <Text style={styles.buttonText}>Enable</Text>
+                        <Text style={styles.buttonText}>{props.roomStatus ? 'Enable Room' : 'Disable Room'}</Text>
                     </Button>
 
                 </View>

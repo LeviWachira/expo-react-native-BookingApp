@@ -8,6 +8,7 @@ import roomsReducer from './store/reducer/rooms';
 import bookingReducer from './store/reducer/booking';
 import qrcodeReducer from './store/reducer/qrcode';
 import authReducer from './store/reducer/auth';
+import userReducer from './store/reducer/user';
 // import historyReducer from './store/reducer/history';
 
 
@@ -17,7 +18,8 @@ export default function App() {
     rooms: roomsReducer,
     booking: bookingReducer,
     qrcode: qrcodeReducer,
-    auth: authReducer
+    auth: authReducer,
+    user: userReducer
     // history: historyReducer
   });
 

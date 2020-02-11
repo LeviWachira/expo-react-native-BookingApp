@@ -8,12 +8,12 @@ import Colors from '../../constants/Colors';
 
 const RoomList = props => {
 
-  const resultSelectedRoom = useSelector(state => state.rooms.favouriteRooms);
+  // const resultSelectedRoom = useSelector(state => state.rooms.favouriteRooms);
   // const selectedBooking = useSelector(state => state.booking.booking);
 
   const renderRoomItem = itemData => {
     //isFavourite return true || false .
-    const isFavourite = resultSelectedRoom.some(room => room.id === itemData.item.id);
+    // const isFavourite = resultSelectedRoom.some(room => room.id === itemData.item.id);
     const isTimeShow = props.resultSelectedRoom.find(room => room.id === itemData.item.id)
     console.log(`LV *2.1 = ${JSON.stringify(props.resultSelectedUserBookedStatus)}`);
     // const isUserBookedStatus = props.resultSelectedUserBookedStatus;
@@ -31,7 +31,7 @@ const RoomList = props => {
             params: {
               roomId: itemData.item.id,
               roomTitle: itemData.item.title,
-              isFav: isFavourite,
+              // isFav: isFavourite,
               userBookedStatus: props.resultSelectedUserBookedStatus,
             }
           });

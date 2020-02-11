@@ -14,6 +14,7 @@ import Input from '../../components/UI/Input';
 import Card from '../../components/UI/Card';
 import Colors from '../../constants/Colors';
 import * as authActions from '../../store/action/auth';
+import * as userActions from '../../store/action/user';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -64,6 +65,7 @@ const AuthScreen = props => {
         }
     }, [error]);
 
+
     const authHandler = async () => {
         let action;
         if (isSignup) {
@@ -81,6 +83,14 @@ const AuthScreen = props => {
         setIsLoading(true);
         try {
             await dispatch(action);
+            await dispatch(userActions.fecthUserData());
+
+            if (isSignup) {
+                await dispatch(userActions.signUpUserData());
+            } else if (!isSignup) {
+                await dispatch(userActions.updateUserData());
+            }
+            
             props.navigation.navigate('Booking');
         } catch (err) {
             setError(err.message);

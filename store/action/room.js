@@ -52,11 +52,6 @@ export const createRoom = (
     timeTitle,
     timeSteps,
 ) => {
-    // console.log(`categoryIds = ${categoryIds}`);
-    // console.log(`title = ${title}`);
-    // console.log(`imageUri = ${imageUri}`);
-    // console.log(`timeTitle = ${timeTitle}`);
-    // console.log(`timeSteps = ${timeSteps}`);
     return async (dispatch, getState) => {
 
         console.log(`GET-STATE = ${JSON.stringify(getState())}`);
@@ -103,7 +98,7 @@ export const updateStatusRoom = (roomId, roomTimeShowValue, roomTimeShowUpdateSt
         const selectedTimeShowIndex = roomSelected.findIndex(time => time.number === roomTimeShowValue);
         const updateRoomTimeShowStatus = roomSelected;
         updateRoomTimeShowStatus[selectedTimeShowIndex].status = roomTimeShowUpdateStatus;
-        console.log(`LV *6 = ${JSON.stringify(updateRoomTimeShowStatus)}`);
+        // console.log(`LV *6 = ${JSON.stringify(updateRoomTimeShowStatus)}`);
 
         const token = getState().auth.token;
         // console.log(`ENABLE-TOKEN = ${JSON.stringify(token)}`);
@@ -130,7 +125,7 @@ export const enableRoom = (roomId, roomStatus) => {
 
     return async (dispatch, getState) => {
         const token = getState().auth.token;
-        console.log(`ENABLE-TOKEN = ${JSON.stringify(token)}`);
+        // console.log(`ENABLE-TOKEN = ${JSON.stringify(token)}`);
         const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms/${roomId}.json?auth=${token}`, {
             method: 'PATCH',
             headers: {
@@ -163,7 +158,7 @@ export const disableRoom = (roomId, roomStatus) => {
     return async (dispatch, getState) => {
 
         const token = getState().auth.token;
-        console.log(`DISABLE-TOKEN = ${JSON.stringify(token)}`);
+        // console.log(`DISABLE-TOKEN = ${JSON.stringify(token)}`);
         const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/rooms/${roomId}.json?auth=${token}`, {
             method: 'PATCH',
             headers: {
@@ -192,7 +187,7 @@ export const disableRoom = (roomId, roomStatus) => {
 
 
 export const deleteRoom = (roomId) => {
-    console.log(`delete roomId = ${JSON.stringify(roomId)}`);
+    // console.log(`delete roomId = ${JSON.stringify(roomId)}`);
     return async (dispatch, getState) => {
         const token = getState().auth.token;
         const response = await fetch(
@@ -211,6 +206,6 @@ export const deleteRoom = (roomId) => {
 
 
 
-export const toggleFavourite = (id) => {
-    return { type: TOGGLE_FAVOURITE, roomId: id }
-};
+// export const toggleFavourite = (id) => {
+//     return { type: TOGGLE_FAVOURITE, roomId: id }
+// };

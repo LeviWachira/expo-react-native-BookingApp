@@ -18,7 +18,7 @@ export const signup = (email, password) => {
     return async dispatch => {
 
         const response = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=',
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAJubw01urhP3H6Kc8jPgJwdT4ZvjwOMVY',
             {
                 method: 'POST',
                 headers: {
@@ -61,7 +61,7 @@ export const login = (email, password) => {
     return async dispatch => {
 
         const response = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=',
+            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAJubw01urhP3H6Kc8jPgJwdT4ZvjwOMVY',
             {
                 method: 'POST',
                 headers: {
@@ -107,9 +107,31 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-    clearLogoutTimer();
-    AsyncStorage.removeItem('userData')
-    return { type: LOGOUT };
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const userId = getState().auth.userId;
+
+        const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/users/${userId}/${userId}.json?auth=${token}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userOnlineStatus: false
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Something went wrong!');
+        }
+        const resData = await response.json();
+        console.log(`LOG OUT **1 = ${JSON.stringify(resData)}`);
+
+        clearLogoutTimer();
+        AsyncStorage.removeItem('userData')
+        dispatch({ type: LOGOUT });
+    }
+
 };
 
 const clearLogoutTimer = () => {

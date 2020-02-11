@@ -1,11 +1,11 @@
 import React from 'react';
-import { Platform, Button, SafeAreaView, View } from 'react-native';
+import { Platform, Button, SafeAreaView, View, FlatList } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import BookingOverviewScreen from '../screens/booking/BookingOverviewScreen';
@@ -208,7 +208,7 @@ const BookingTabNavigator = createBottomTabNavigator(tabScreenConfig, {
     tabBarOptions: {
         activeTintColor: '#4169E1',
         // showLabel: false,
-    
+
     }
 });
 
@@ -230,6 +230,12 @@ const MainNavigator = createDrawerNavigator(
         },
         contentComponent: props => {
             const dispatch = useDispatch();
+            // const selectedUserData = useSelector(state => state.user.user);
+            // const resultSelected = selectedUserData.find(user => user.id);
+            // console.log(`DRAWER LOGOUT DATA*1 = ${JSON.stringify(selectedUserData)}`);
+            // console.log(`DRAWER LOGOUT RESULT*2 = ${JSON.stringify(resultSelected)}`);
+
+
             return (
                 <View style={{ flex: 1, paddingTop: 20 }}>
                     <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
