@@ -19,7 +19,7 @@ import Colors from '../../constants/Colors';
 const BookingOverviewScreen = props => {
     // let selectedAdmin
     const dispatch = useDispatch();
-    const selectedCheckAdmin = useSelector(state => state.auth.userId === "no1kvaHVbLeK3sg63De7S3uTSym2")
+    const selectedCheckAdmin = useSelector(state => state.auth.userId === "")
     useEffect(() => {
         props.navigation.setParams({ isAdmin: selectedCheckAdmin })
     }, [selectedCheckAdmin])

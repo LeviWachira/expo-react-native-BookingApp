@@ -68,8 +68,6 @@ export const updateUserData = () => {
         const token = getState().auth.token;
         const userId = getState().auth.userId;
 
-        // console.log(`LOGIN 4 = ${JSON.stringify(selectedUserIdLogin)}`);
-
         const response = await fetch(`https://rn-bookingapp-guide.firebaseio.com/users/${userId}/${userId}.json?auth=${token}`, {
             method: 'PATCH',
             headers: {
@@ -90,7 +88,7 @@ export const updateUserData = () => {
     }
 };
 
-export const toggleFavourite = (selectedUserId, favouriteRoomId, resultFavouriteRoomId) => {
+export const toggleFavourite = (favouriteRoomId, resultFavouriteRoomId) => {
     return async (dispatch, getState) => {
 
         // console.log(`TOGGLEFAV ROOM **0 favRoomId = ${JSON.stringify(favouriteRoomId)}`);
